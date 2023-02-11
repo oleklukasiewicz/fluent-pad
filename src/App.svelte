@@ -26,22 +26,6 @@
 </main>
 
 <style type="text/scss">
-	:global(body) {
-		background-color: var(--fds-solid-background-base);
-		color: var(--fds-text-primary);
-		padding: 0;
-	}
-	:global(::selection) {
-		background-color: var(--fds-accent-default);
-		color: var(--fds-text-on-accent-primary);
-	}
-	:global(.icon-button.disabled) {
-		border-color: var(--control-stroke-default) !important;
-		background-color: var(--control-fill-disabled) !important;
-		color: var(--text-disabled) !important;
-		opacity: 0.3;
-		pointer-events: none;
-	}
 	:global(html, body) {
 		position: relative;
 		width: 100%;
@@ -105,5 +89,21 @@
 
 	:global(button:focus) {
 		border-color: #666;
+	}
+	:global(body) {
+		background-color: var(--fds-solid-background-base);
+		color: var(--fds-text-primary);
+		padding: 0;
+	}
+	:global(::selection) {
+		background-color: var(--fds-accent-default);
+		color: var(--fds-text-on-accent-primary);
+	}
+	:global(.icon-button.disabled) {
+		border-color: var(--control-stroke-default) !important;
+		background-color: var(--control-fill-disabled) !important;
+		color: var(--text-disabled) !important;
+		opacity: 0.3;
+		pointer-events: none;
 	}
 </style>
