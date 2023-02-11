@@ -22,9 +22,10 @@
     } from "fluent-svelte";
 
     import GroupList from "../components/GroupList/GroupList.svelte";
+    import type { Group } from "../data/Data";
 
-    let onSelect = (event) => control.select(event.detail.group);
-    let onGroupAdd = (event) => control.add(event.detail.group);
+    let onSelect = (event) => control.select(event.detail.group as Group);
+    let onGroupAdd = (event) => control.add(event.detail.group as Group);
 
     let isMenuClosed = false;
 </script>

@@ -5,7 +5,7 @@
 
 	import GroupListView from "./views/GroupListView.svelte";
 	import GroupView from "./views/GroupView.svelte";
-	import { isUserLogged } from "./models/UserModel";
+	import { isUserLogged } from "./models/User";
 	import Settings from "./views/Settings.svelte";
 	import Login from "./views/Login.svelte";
 

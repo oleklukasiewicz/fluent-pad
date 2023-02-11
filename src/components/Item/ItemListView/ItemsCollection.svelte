@@ -1,15 +1,16 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
+    import type { Item } from "../../../data/Data";
     
     import ListItem from "./ListItem.svelte";
 
     const dispatch = createEventDispatcher();
 
-    export let items: any[] = [];
-    export let selectedItem: any;
+    export let items: Item[] = [];
+    export let selectedItem: Item = {} as Item;
     export let isCompact: boolean = false;
 
-    let onSelect = (item: any) =>
+    let onSelect = (item: Item) =>
         item.id != selectedItem.id ? dispatch("select", { item }) : "";
 </script>
 

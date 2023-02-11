@@ -1,3 +1,3 @@
-import { writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
-export const isListHidden = writable(false);
+export const isListHidden: Writable<boolean> = writable(false);

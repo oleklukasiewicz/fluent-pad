@@ -1,15 +1,13 @@
-import { derived, get, writable, type Writable } from 'svelte/store';
+import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
 import { Group, Item } from '../data/Data';
 import {
     addGroupToFirestore, addItemToFirestore, GenerateGroupId, GenerateItemId, removeGroupInFirestore, removeItemInFirestore, updateGroupInFirestore, updateItemInFirestore, loadGroupsFromFirestore,
     loadItemsFromFirestore
 } from '../backend/firebase';
-import { isUserLogged } from './UserModel';
+import { isUserLogged } from './User';
 
 let _defaultGroup = new Group("default_group", "All items");
-let _blankGroup = new Group("blank_group", "No group");
-let _blankItem = new Item("blank_item", "No item");
 
 const _resolveGroupId = (group: any) => typeof (group) === "object" ? group.id : group;
 const _resolveItemId = (item: any) => typeof (item) === "object" ? item.id : item;
@@ -19,11 +17,11 @@ const _resolveGroup = (group: any) => typeof (group) === "object" ? group : _fin
 
 const _findItemById = function (item: any, group = _defaultGroup): Item {
     let id = _resolveItemId(item);
-    return group.items.find((groupItem) => groupItem.id === id) || _blankItem;
+    return group.items.find((groupItem) => groupItem.id === id) || {} as Item;
 }
 const _findGroupById = function (group: any): Group {
     let id = _resolveGroupId(group);
-    return get(storage).find((storageGroup: Group) => storageGroup.id === id) || _blankGroup;
+    return get(storage).find((storageGroup: Group) => storageGroup.id === id) || {} as Group;
 }
 
 const _findItemIndexById = function (item: any, group = _defaultGroup): number {
@@ -40,8 +38,8 @@ get(storage).push(_defaultGroup);
 
 export const selectedGroupIndex: Writable<number> = writable(-1);
 
-export const selectedGroup: Writable<any> = writableDerived(selectedGroupIndex,
-    ((s) => get(storage)[s] || {}),
+export const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
+    ((s) => get(storage)[s] || {} as Group),
     (value: Group) => {
         let index: any = get(selectedGroupIndex);
         let _old: Group = get(selectedGroup);
@@ -60,7 +58,7 @@ export const selectedGroup: Writable<any> = writableDerived(selectedGroupIndex,
         return index;
     });
 
-export const selectedGroupIsDefault: any = derived(selectedGroup, ($group: any) => $group.id === _defaultGroup.id);
+export const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
 export const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
     (group: any) => group.items?.map((item: Item, index: number) => { item.groupIndex = index; return item; }),
     (reflecting: any, object: any) => {
@@ -70,13 +68,18 @@ export const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGrou
 
 export const selectedIndex: Writable<number> = writable(-1);
 
-export const selectedItem: Writable<any> = writableDerived(selectedIndex,
-    (s) => _defaultGroup.items[s] || {},
+const timeForSave = 300;
+let saveTimeout = null;
+
+export const selectedItem: Writable<Item> = writableDerived(selectedIndex,
+    (s) => _defaultGroup.items[s] || {} as Item,
     (value: Item) => {
         if (!value.id)
             return -1;
-        if (value.id === _defaultGroup.items[get(selectedIndex)]?.id)
-            item.update(value);
+        if (value.id === _defaultGroup.items[get(selectedIndex)]?.id) {
+            clearTimeout(saveTimeout);
+            saveTimeout = setTimeout(() => item.update(value), timeForSave);
+        }
         return _findItemIndexById(value.id);
     });
 
@@ -89,7 +92,7 @@ selectedGroup.subscribe((group: Group) => {
 
         selectedItem.set(group.items[index !== -1 ? index : 0]);
     } else
-        selectedItem.set({});
+        selectedItem.set({} as Item);
 });
 selectedItem.subscribe((value: Item) => {
     if (!value.id)
@@ -116,7 +119,7 @@ const _updateSelectedItemGroups = (item: Item) => {
     })
 }
 
-export let group =
+export const group =
 {
     load: function (group: Group) {
         storage.update(_storage => {
@@ -129,7 +132,7 @@ export let group =
             await loadGroupsFromFirestore()
         ).forEach((_item) => group.load(_item)),
     add: async function (_group: Group) {
-        _group.id = GenerateGroupId();
+        _group.id = helpers.GenerateGroupId();
 
         group.load(_group);
         group.select(_group);
@@ -169,7 +172,7 @@ export let group =
             removeGroupInFirestore(_group);
         }
     },
-    select: function (group: Group) {
+    select: function (group: any) {
         const groupIndex: number = _findGroupIndexById(group);
         selectedGroupIndex.set(groupIndex);
         //event
@@ -213,7 +216,7 @@ export let group =
         updateItemInFirestore(_item);
     }
 }
-export let item =
+export const item =
 {
     load: function (item: Item) {
         _defaultGroup.items.push(item);
@@ -225,7 +228,7 @@ export let item =
             await loadItemsFromFirestore()
         ).forEach((_item: Item) => item.load(_item)),
     add: async function (newItem: Item) {
-        newItem.id = GenerateItemId();
+        newItem.id = helpers.GenerateItemId();
         _defaultGroup.items.push(newItem);
 
         if (get(selectedGroupIndex) != 0) {
@@ -244,8 +247,8 @@ export let item =
 
     },
     update: function (item: Item) {
-        if (get(selectedItem).id === item)
-            selectedItem.set(item);
+        let _item: Item = _findItemById(item.id) || {} as Item;
+        _item = item;
         updateItemInFirestore(item);
     },
     remove: function (rItem: any) {
@@ -276,11 +279,16 @@ export let item =
     },
     get: (itemId: string, group: Group) => _findItemById(itemId, group)
 }
-export let loadAllDataFromFirebase = async () => {
+export const helpers =
+{
+    GenerateGroupId: (): string => GenerateGroupId(),
+    GenerateItemId: (): string => GenerateItemId(),
+}
+export const loadAllDataFromFirebase = async () => {
     await group.loadAllFromFirebase();
     await item.loadAllFromFirebase();
 }
-export let clearAllData = () => {
+export const clearAllData = () => {
     storage.set([_defaultGroup]);
     _defaultGroup.items = [];
 }

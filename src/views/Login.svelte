@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Button } from "fluent-svelte";
-    import { user } from "../models/UserModel";
+    import { user } from "../models/User";
 
     function Login() {
         user.login();

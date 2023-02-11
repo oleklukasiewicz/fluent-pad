@@ -2,6 +2,7 @@ import { initializeApp } from "firebase/app";
 import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
 import type { Group, Item } from "../data/Data";
+import { User } from "../data/User";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -30,20 +31,12 @@ const pathToUsers = "users/";
 const pathToItems = "items";
 const pathToGroups = "groups";
 
-export let userAuth = async function () {
-    return await signInWithPopup(auth, provider)
-        .then((result) => {
-            // The signed-in user info.
-            let user = result.user;
-            userDB = pathToUsers + user.uid;
-            return user;
-        }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message;
+export let userAuth = async function (): Promise<User> {
+    const user: any = await (await signInWithPopup(auth, provider)).user;
+    if (user.uid)
+        userDB = pathToUsers + user.uid;
 
-            console.error(errorCode, errorMessage);
-        });
+    return new User(user.uid, user.displayName, user.photoURL) || {} as User;
 }
 
 export let userLogOut = async function () {

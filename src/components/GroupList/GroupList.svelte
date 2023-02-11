@@ -24,7 +24,7 @@
             });
         }
     };
-    let onGroupAdd = (_group) => {
+    let onGroupAdd = (_group: Group) => {
         if (isNewGroupDialogOpen)
             dispatch("addgroup", {
                 group: _group,

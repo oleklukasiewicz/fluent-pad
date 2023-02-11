@@ -3,11 +3,12 @@
     import { IconButton, Button, ContentDialog, TextBox } from "fluent-svelte";
     
     import Separator from "../../Other/Separator.svelte";
+    import type { Group } from "../../../data/Data";
 
     const dispatch = createEventDispatcher();
 
     export let title: string = "";
-    export let group: any;
+    export let group: Group = {} as Group;
     export let disableEditGroup: boolean = true;
 
     let onAdd = () => dispatch("add");

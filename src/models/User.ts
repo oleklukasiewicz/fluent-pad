@@ -1,15 +1,15 @@
-import { writable } from "svelte/store";
+import { writable, type Writable } from "svelte/store";
 import { userAuth, userLogOut } from "../backend/firebase";
 import type { User } from "../data/User";
 
-export const isUserLogged = writable(false);
-export const userName = writable(null);
-export const userPicture = writable(null);
+export const isUserLogged: Writable<boolean> = writable(false);
+export const userName: Writable<string> = writable(null);
+export const userPicture: Writable<string> = writable(null);
 
 export const user =
 {
     login: async function () {
-        const _user: any = await userAuth();
+        const _user: User = await userAuth();
 
         if (_user.uid === null)
             return false;
