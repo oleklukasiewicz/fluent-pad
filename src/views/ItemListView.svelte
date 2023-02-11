@@ -57,6 +57,7 @@
 <style>
     #item-list-grid {
         height: 100vh;
+        min-width: 250px;
         display: flex;
         flex-direction: column;
         padding: 8px 8px 0px;
