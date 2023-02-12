@@ -4,7 +4,7 @@ import { Group, Item } from '../types/Data';
 import { isUserLogged } from './User';
 import type IBackend from '../types/Backend';
 import { firebaseBackend } from '../backend/firebase';
-import type { IGroupModel, IItemModel } from '../types/Storage';
+import type { IGroupModel, IItemModel, IStorageModel } from '../types/Storage';
 
 let loadedBackend: IBackend = firebaseBackend;
 
@@ -34,12 +34,12 @@ const _findGroupIndexById = function (group: any): number {
     return get(storage).findIndex((storageGroup) => storageGroup.id === id);
 }
 
-export const storage: Writable<Group[]> = writable([]);
+const storage: Writable<Group[]> = writable([]);
 get(storage).push(_defaultGroup);
 
-export const selectedGroupIndex: Writable<number> = writable(-1);
+const selectedGroupIndex: Writable<number> = writable(-1);
 
-export const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
+const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     ((s) => get(storage)[s] || {} as Group),
     (value: Group) => {
         let index: any = get(selectedGroupIndex);
@@ -59,20 +59,20 @@ export const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex
         return index;
     });
 
-export const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
-export const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
+const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
+const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
     (group: any) => group.items?.map((item: Item, index: number) => { item.groupIndex = index; return item; }),
     (reflecting: any, object: any) => {
         object.items = reflecting;
         return object;
     });
 
-export const selectedIndex: Writable<number> = writable(-1);
+const selectedIndex: Writable<number> = writable(-1);
 
 const timeForSave = 300;
 let saveTimeout = null;
 
-export const selectedItem: Writable<Item> = writableDerived(selectedIndex,
+const selectedItem: Writable<Item> = writableDerived(selectedIndex,
     (s) => _defaultGroup.items[s] || {} as Item,
     (value: Item) => {
         if (!value.id)
@@ -120,7 +120,7 @@ const _updateSelectedItemGroups = (item: Item) => {
     })
 }
 
-export const group: IGroupModel =
+const group: IGroupModel =
 {
     load: async function (group: Group) {
         storage.update(_storage => {
@@ -216,9 +216,13 @@ export const group: IGroupModel =
         _updateSelectedItemGroups(_item);
 
         loadedBackend.updateItem(_item);
-    }
+    },
+    selectedGroup: selectedGroup,
+    selectedGroupIndex: selectedGroupIndex,
+    selectedGroupItems: selectedGroupItems,
+    selectedGroupIsDefault: selectedGroupIsDefault,
 }
-export const item: IItemModel =
+const item: IItemModel =
 {
     load: async function (item: Item) {
         _defaultGroup.items.push(item);
@@ -281,18 +285,21 @@ export const item: IItemModel =
     unSelect: function () {
         selectedIndex.set(-1);
     },
-    get: (itemId: string, group: Group) => _findItemById(itemId, group)
+    get: (itemId: string, group: Group) => _findItemById(itemId, group),
+
+    selectedItem: selectedItem,
+    selectedIndex: selectedIndex,
 }
-export const helpers =
+const helpers =
 {
     GenerateGroupId: (): string => loadedBackend.generateGroupId(),
     GenerateItemId: (): string => loadedBackend.generateItemId(),
 }
-export const loadAllData = async () => {
+const loadAllData = async () => {
     await group.loadAll();
     await item.loadAll();
 }
-export const clearAllData = () => {
+const clearAllData = async () => {
     storage.set([_defaultGroup]);
     _defaultGroup.items = [];
 }
@@ -305,3 +312,15 @@ isUserLogged.subscribe(async (isLogged: boolean) => {
         clearAllData();
     }
 });
+
+export let Storage: IStorageModel = {
+    group: group,
+    item: item,
+
+    storage: storage,
+
+    loadAllData: loadAllData,
+    clearAllData: clearAllData,
+
+    helpers: helpers
+}

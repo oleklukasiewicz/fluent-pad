@@ -5,7 +5,6 @@
     import Separator from "../../Other/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton.svelte";
     import CheckBoxListItem from "../../Other/CheckBoxListItem.svelte";
-    import { group } from "../../../models/Storage";
 
     const dispatch = createEventDispatcher();
 

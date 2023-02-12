@@ -1,3 +1,4 @@
+import type { Readable, Writable } from "svelte/store";
 import type { Group, Item } from "./Data";
 
 export interface IGroupModel {
@@ -18,6 +19,11 @@ export interface IGroupModel {
     itemIndexInGroup(itemId: string, groupId: string): number;
     addItem(group: any, item: any): void;
     removeItem(group: any, item: any): void;
+
+    selectedGroupIndex: Writable<number>;
+    selectedGroup: Writable<Group>;
+    selectedGroupItems: Writable<Item[]>;
+    selectedGroupIsDefault: Readable<boolean>;
 }
 
 export interface IItemModel {
@@ -32,4 +38,20 @@ export interface IItemModel {
     unSelect(): void;
 
     get(itemId: string, groupId: Group): Item;
+
+    selectedIndex: Writable<number>;
+    selectedItem: Writable<Item>;
+}
+
+export interface IStorageModel {
+
+    storage: Writable<Group[]>;
+
+    group: IGroupModel;
+    item: IItemModel;
+
+    clearAllData(): Promise<void>;
+    loadAllData(): Promise<void>;
+
+    helpers: object;
 }

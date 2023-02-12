@@ -1,6 +1,3 @@
-import { storage } from "./models/Storage";
-import { get } from "svelte/store";
-
 export const GENERATE_ID = function (type = TYPE.item) {
     return type + new Date().getTime();
 }

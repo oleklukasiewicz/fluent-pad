@@ -9,3 +9,8 @@ export class User {
         this.photoURL = photoURL;
     }
 }
+export interface IUserModel {
+
+    login(): Promise<boolean>;
+    logout(): Promise<boolean>;
+}
