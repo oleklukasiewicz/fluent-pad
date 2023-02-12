@@ -5,6 +5,7 @@
     import Separator from "../../Other/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton.svelte";
     import CheckBoxListItem from "../../Other/CheckBoxListItem.svelte";
+    import { group } from "../../../models/Storage";
 
     const dispatch = createEventDispatcher();
 
@@ -117,12 +118,12 @@
         title={"Edit groups of " + (item.title || "item")}
         bind:open={isGroupsDialogOpen}
     >
-        {#each groups as group}
+        {#each groups as groupEntry}
             <CheckBoxListItem
-                checked={group.isItemInGroup}
-                on:select={() => onAddToGroup(item, group)}
-                on:unselect={() => onRemoveFromGroup(item, group)}
-                >{group.title}</CheckBoxListItem
+                checked={groupEntry.isItemInGroup}
+                on:select={() => onAddToGroup(item, groupEntry.group)}
+                on:unselect={() => onRemoveFromGroup(item, groupEntry.group)}
+                >{groupEntry.group.title}</CheckBoxListItem
             >
         {/each}
         <svelte:fragment slot="footer">

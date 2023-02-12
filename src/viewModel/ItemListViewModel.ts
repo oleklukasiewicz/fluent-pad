@@ -4,9 +4,10 @@ import { writableDerived, propertyStore } from "svelte-writable-derived";
 import * as storage from '../models/Storage';
 import * as groupViewModel from './GroupViewModel';
 
-import type { Group, Item } from '../data/Data';
+import type { Group, Item } from '../types/Data';
+import type { IItemModel } from '../types/Storage';
 
-export const control: object = storage.item;
+export const control: IItemModel = storage.item;
 
 export const group: Writable<Group> = writableDerived(storage.selectedGroup, (s) => s, (s) => s);
 export const title: Writable<string> = propertyStore(storage.selectedGroup, "title");

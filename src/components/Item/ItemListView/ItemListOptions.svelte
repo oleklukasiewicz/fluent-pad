@@ -3,7 +3,7 @@
     import { IconButton, Button, ContentDialog, TextBox } from "fluent-svelte";
     
     import Separator from "../../Other/Separator.svelte";
-    import type { Group } from "../../../data/Data";
+    import type { Group } from "../../../types/Data";
 
     const dispatch = createEventDispatcher();
 

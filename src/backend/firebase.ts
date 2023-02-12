@@ -1,8 +1,9 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, getRedirectResult, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
-import type { Group, Item } from "../data/Data";
-import { User } from "../data/User";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import type { Group, Item } from "../types/Data";
+import { User } from "../types/User";
+import type IBackend from "../types/Backend";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -31,25 +32,6 @@ const pathToUsers = "users/";
 const pathToItems = "items";
 const pathToGroups = "groups";
 
-export let userAuth = async function (): Promise<User> {
-    const user: any = await (await signInWithPopup(auth, provider)).user;
-    if (user.uid)
-        userDB = pathToUsers + user.uid;
-
-    return new User(user.uid, user.displayName, user.photoURL) || {} as User;
-}
-
-export let userLogOut = async function () {
-    return await signOut(auth).then(() => {
-        // Sign-out successful.
-        userDB = "";
-        return true;
-    }).catch((error) => {
-        return false;
-        // An error happened.
-    });
-}
-
 const ItemConvertToFirebase = (item: Item) => {
     const fireItem = (({ groupIndex, ...o }) => o)(item);
     return fireItem;
@@ -69,55 +51,98 @@ const GroupConvertToApp = (item: any) => {
     item.modifyDate = item.modifyDate.toDate();
     return item;
 }
-export const GenerateItemId = () => doc(collection(db, userDB, pathToItems)).id
-export const GenerateGroupId = () => doc(collection(db, userDB, pathToGroups)).id
 
-export let addItemToFirestore = async function (item: Item, id = GenerateItemId()) {
-    try {
-        await setDoc(doc(db, userDB, pathToItems, id),
-            ItemConvertToFirebase(item));
-    } catch (e) {
-        console.error("Error adding document: ", e);
+export const firebaseBackend: IBackend =
+{
+    generateItemId:() => doc(collection(db, userDB, pathToItems)).id,
+    generateGroupId:() => doc(collection(db, userDB, pathToGroups)).id,
+    loadItems: async function () {
+        const querySnapshot = await getDocs(collection(db, userDB, pathToItems));
+        let items: any[] = [];
+        querySnapshot.forEach((doc) => {
+            let _item = doc.data();
+            items.push(ItemConvertToApp(_item) as Item);
+        });
+        return items;
+    },
+    loadItem: async function (id: string) {
+        const docRef = doc(db, userDB, pathToItems, id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return ItemConvertToApp(docSnap.data()) as Item;
+        } else {
+            return {} as Item;
+        }
+    },
+    addItem: async function (item: Item) {
+        try {
+            await addDoc(collection(db, userDB, pathToItems,item.id),
+                ItemConvertToFirebase(item));
+            return item;
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            return {} as Item;
+        }
+    },
+    updateItem: async function (item: Item) {
+        await updateDoc(doc(db, userDB, pathToItems, item.id), ItemConvertToFirebase(item));
+        return item;
+    },
+    removeItem: async function (item: Item) {
+        await deleteDoc(doc(db, userDB, pathToItems, item.id));
+    },
+
+    loadGroups: async function () {
+        const querySnapshot = await getDocs(collection(db, userDB, pathToGroups));
+        let items: any[] = [];
+        querySnapshot.forEach((doc) => {
+            let _item = doc.data();
+            items.push(GroupConvertToApp(_item) as Group);
+        });
+        return items;
+    },
+    loadGroup: async function (id: string) {    
+        const docRef = doc(db, userDB, pathToGroups, id);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            return GroupConvertToApp(docSnap.data()) as Group;
+        } else {
+            return {} as Group;
+        }
+    },
+    addGroup: async function (group: Group) {
+        try {
+            await addDoc(collection(db, userDB, pathToGroups,group.id),
+                GroupConvertToFirebase(group));
+            return group;
+        } catch (e) {
+            console.error("Error adding document: ", e);
+            return {} as Group;
+        }
+    },
+    updateGroup: async function (group: Group) {
+        await updateDoc(doc(db, userDB, pathToGroups, group.id), GroupConvertToFirebase(group));
+        return group;
+    },
+    removeGroup: async function (group: Group) {
+        await deleteDoc(doc(db, userDB, pathToGroups, group.id));
+    },
+    loadUser: async function (): Promise<User> {
+        const user: any = await (await signInWithPopup(auth, provider)).user;
+        if (user.uid)
+            userDB = pathToUsers + user.uid;
+    
+        return new User(user.uid, user.displayName, user.photoURL) || {} as User;
+    },
+    logoutUser: async function () {
+        return await signOut(auth).then(() => {
+            // Sign-out successful.
+            userDB = "";
+            return true;
+        }).catch((error) => {
+            return false;
+            // An error happened.
+        });
     }
-}
-export let updateItemInFirestore = async function (item: Item) {
-    await updateDoc(doc(db, userDB, pathToItems, item.id), ItemConvertToFirebase(item));
-}
-export let removeItemInFirestore = async function (item: Item) {
-    await deleteDoc(doc(db, userDB, pathToItems, item.id));
-}
-export let loadItemsFromFirestore = async function () {
-
-    const querySnapshot = await getDocs(collection(db, userDB, pathToItems));
-    let items: any[] = [];
-    querySnapshot.forEach((doc) => {
-        let _item = doc.data();
-        items.push(ItemConvertToApp(_item));
-    });
-    return items;
-}
-
-export let addGroupToFirestore = async function (group: Group, id = GenerateGroupId()) {
-    try {
-        await setDoc(doc(db, userDB, pathToGroups, id),
-            GroupConvertToFirebase(group));
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
-export let updateGroupInFirestore = async function (group: Group) {
-    await updateDoc(doc(db, userDB, pathToGroups, group.id), GroupConvertToFirebase(group));
-}
-export let removeGroupInFirestore = async function (group: Group) {
-    await deleteDoc(doc(db, userDB, pathToGroups, group.id));
-}
-export let loadGroupsFromFirestore = async function () {
-
-    const querySnapshot = await getDocs(collection(db, userDB, pathToGroups));
-    let items: any[] = [];
-    querySnapshot.forEach((doc) => {
-        let _item = doc.data();
-        items.push(GroupConvertToApp(_item));
-    });
-    return items;
+        
 }

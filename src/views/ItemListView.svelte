@@ -12,7 +12,7 @@
     import ItemListOptions from "../components/Item/ItemListView/ItemListOptions.svelte";
     import ItemsCollection from "../components/Item/ItemListView/ItemsCollection.svelte";
 
-    import {Item} from "../data/Data";
+    import {Item} from "../types/Data";
 
     let onSelect = (event) => control.select(event.detail.item);
 

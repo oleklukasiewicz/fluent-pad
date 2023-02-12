@@ -1,12 +1,13 @@
 import { writableDerived, propertyStore } from "svelte-writable-derived";
 import { derived, get, type Readable, type Writable } from "svelte/store";
-import type { Group, Item } from "../data/Data";
+import type { Group, Item } from "../types/Data";
 
 import * as storage from "../models/Storage";
+import type { IGroupModel, IItemModel } from "../types/Storage";
 import { isListHidden } from "./GroupViewModel";
 
-export const control: object = storage.item;
-export const groupControl: object = storage.group;
+export const control: IItemModel = storage.item;
+export const groupControl: IGroupModel = storage.group;
 
 export const group: Writable<Group> = writableDerived(storage.selectedGroup, (s) => s, (s: Group) => s);
 export const item: Writable<Item> = writableDerived(storage.selectedItem, (s) => s, (s: Item) => s);

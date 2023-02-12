@@ -1,7 +1,7 @@
 <script lang="ts">
     import { ListItem } from "fluent-svelte";
 
-    import type { BaseItem } from "../../../data/Data";
+    import type { BaseItem } from "../../../types/Data";
     import { DATE_FORMAT } from "../../../helpers";
 
     export let item: BaseItem;

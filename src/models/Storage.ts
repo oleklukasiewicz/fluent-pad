@@ -1,11 +1,12 @@
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
-import { Group, Item } from '../data/Data';
-import {
-    addGroupToFirestore, addItemToFirestore, GenerateGroupId, GenerateItemId, removeGroupInFirestore, removeItemInFirestore, updateGroupInFirestore, updateItemInFirestore, loadGroupsFromFirestore,
-    loadItemsFromFirestore
-} from '../backend/firebase';
+import { Group, Item } from '../types/Data';
 import { isUserLogged } from './User';
+import type IBackend from '../types/Backend';
+import { firebaseBackend } from '../backend/firebase';
+import type { IGroupModel, IItemModel } from '../types/Storage';
+
+let loadedBackend: IBackend = firebaseBackend;
 
 let _defaultGroup = new Group("default_group", "All items");
 
@@ -119,32 +120,33 @@ const _updateSelectedItemGroups = (item: Item) => {
     })
 }
 
-export const group =
+export const group: IGroupModel =
 {
-    load: function (group: Group) {
+    load: async function (group: Group) {
         storage.update(_storage => {
             _storage.push(group);
             return _storage;
         });
+        return group;
     },
-    loadAllFromFirebase: async () =>
+    loadAll: async () =>
         await (
-            await loadGroupsFromFirestore()
+            await loadedBackend.loadGroups()
         ).forEach((_item) => group.load(_item)),
     add: async function (_group: Group) {
-        _group.id = helpers.GenerateGroupId();
+        _group.id = loadedBackend.generateGroupId();
 
         group.load(_group);
         group.select(_group);
 
-        addGroupToFirestore(_group, _group.id);
+        return await loadedBackend.addGroup(_group);
     },
-    update: function (group: Group) {
+    update: async function (group: Group) {
         if (get(selectedGroup).id === group.id)
             selectedGroup.set(group);
-        updateGroupInFirestore(group);
+        return await loadedBackend.updateGroup(group);
     },
-    remove: function (__group: string) {
+    remove: async function (__group: any) {
         const _groupIndex: number = _findGroupIndexById(__group);
 
         if (_groupIndex > 0) {
@@ -161,15 +163,14 @@ export const group =
                 if (get(selectedItem).id === _item.id)
                     _updateSelectedItemGroups(_item);
 
-                updateItemInFirestore(_item);
+                loadedBackend.updateItem(_item);
             });
             storage.set(_storage);
 
             if (get(selectedGroupIndex) === _groupIndex)
                 group.selectDefault();
 
-            //event
-            removeGroupInFirestore(_group);
+            return await loadedBackend.removeGroup(_group);
         }
     },
     select: function (group: any) {
@@ -213,19 +214,20 @@ export const group =
 
         _updateSelectedItemGroups(_item);
 
-        updateItemInFirestore(_item);
+        loadedBackend.updateItem(_item);
     }
 }
-export const item =
+export const item: IItemModel =
 {
-    load: function (item: Item) {
+    load:async function (item: Item) {
         _defaultGroup.items.push(item);
         item.groups.forEach((groupId) => _findGroupById(groupId)?.items.push(item));
-        //event
+        
+        return item;
     },
-    loadAllFromFirebase: async () =>
+    loadAll: async () =>
         await (
-            await loadItemsFromFirestore()
+            await loadedBackend.loadItems()
         ).forEach((_item: Item) => item.load(_item)),
     add: async function (newItem: Item) {
         newItem.id = helpers.GenerateItemId();
@@ -243,15 +245,15 @@ export const item =
 
         selectedItem.set(newItem);
         //event
-        addItemToFirestore(newItem, newItem.id);
+        return await loadedBackend.addItem(newItem);
 
     },
-    update: function (item: Item) {
+    update:async function (item: Item) {
         let _item: Item = _findItemById(item.id) || {} as Item;
         _item = item;
-        updateItemInFirestore(item);
+        return await loadedBackend.updateItem(item);
     },
-    remove: function (rItem: any) {
+    remove:async function (rItem: any) {
         const _index: number = _findItemIndexById(rItem);
         const _item: Item = _defaultGroup.items[_index];
 
@@ -266,7 +268,7 @@ export const item =
             item.unSelect();
 
         //event
-        removeItemInFirestore(_item);
+        return await loadedBackend.removeItem(_item);
     },
     select: function (item: Item) {
         selectedItem.set(item);
@@ -281,20 +283,21 @@ export const item =
 }
 export const helpers =
 {
-    GenerateGroupId: (): string => GenerateGroupId(),
-    GenerateItemId: (): string => GenerateItemId(),
+    GenerateGroupId: (): string => loadedBackend.generateGroupId(),
+    GenerateItemId: (): string => loadedBackend.generateItemId(),
 }
-export const loadAllDataFromFirebase = async () => {
-    await group.loadAllFromFirebase();
-    await item.loadAllFromFirebase();
+export const loadAllData = async () => {
+    await group.loadAll();
+    await item.loadAll();
 }
 export const clearAllData = () => {
     storage.set([_defaultGroup]);
     _defaultGroup.items = [];
 }
+
 isUserLogged.subscribe(async (isLogged: boolean) => {
     if (isLogged) {
-        await loadAllDataFromFirebase();
+        await loadAllData();
         group.selectDefault();
     } else {
         clearAllData();

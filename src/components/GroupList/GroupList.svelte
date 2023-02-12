@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, ContentDialog, TextBox } from "fluent-svelte";
     import { createEventDispatcher } from "svelte";
-    import { Group } from "../../data/Data";
+    import { Group } from "../../types/Data";
 
     import ListItem from "../Item/ItemListView/ListItem.svelte";
     import Separator from "../Other/Separator.svelte";

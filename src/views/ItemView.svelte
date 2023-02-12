@@ -19,11 +19,11 @@
     let isGroupsDialogOpen = false;
 
     function setGroupList() {
-        groupList = groupControl.getAll().map((_group) => {
-            isItemInGroup: groupControl.itemIndexInGroup($item, _group.id) !=
-                -1,
-                _group;
-        });
+        groupList = groupControl.getAll().map((_group) => ({
+            isItemInGroup:
+                groupControl.itemIndexInGroup($item, _group.id) != -1,
+            group: _group
+        }));
     }
 
     function expandToggle(event) {
