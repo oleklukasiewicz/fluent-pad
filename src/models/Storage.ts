@@ -142,6 +142,7 @@ export const group: IGroupModel =
         return await loadedBackend.addGroup(_group);
     },
     update: async function (group: Group) {
+        group.modifyDate = new Date();
         if (get(selectedGroup).id === group.id)
             selectedGroup.set(group);
         return await loadedBackend.updateGroup(group);
@@ -219,10 +220,10 @@ export const group: IGroupModel =
 }
 export const item: IItemModel =
 {
-    load:async function (item: Item) {
+    load: async function (item: Item) {
         _defaultGroup.items.push(item);
         item.groups.forEach((groupId) => _findGroupById(groupId)?.items.push(item));
-        
+
         return item;
     },
     loadAll: async () =>
@@ -248,12 +249,13 @@ export const item: IItemModel =
         return await loadedBackend.addItem(newItem);
 
     },
-    update:async function (item: Item) {
+    update: async function (item: Item) {
+        item.modifyDate = new Date();
         let _item: Item = _findItemById(item.id) || {} as Item;
         _item = item;
         return await loadedBackend.updateItem(item);
     },
-    remove:async function (rItem: any) {
+    remove: async function (rItem: any) {
         const _index: number = _findItemIndexById(rItem);
         const _item: Item = _defaultGroup.items[_index];
 

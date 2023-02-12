@@ -11,9 +11,9 @@
         groupControl,
     } from "../viewModel/ItemViewModel";
 
-    import ListViewOptions from "../components/Item/ItemView/ItemViewOptions.svelte";
-    import Placeholder from "../components/Item/ItemView/Placeholder.svelte";
-    import Bange from "../components/Other/Bange.svelte";
+    import ListViewOptions from "../lib/Item/ItemView/ItemViewOptions.svelte";
+    import Placeholder from "../lib/Item/ItemView/Placeholder.svelte";
+    import Bange from "../lib/Other/Bange.svelte";
 
     let groupList = [];
     let isGroupsDialogOpen = false;

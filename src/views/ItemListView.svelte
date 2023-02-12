@@ -9,8 +9,8 @@
     } from "../viewModel/ItemListViewModel";
     import { groupControl } from "../viewModel/ItemViewModel";
 
-    import ItemListOptions from "../components/Item/ItemListView/ItemListOptions.svelte";
-    import ItemsCollection from "../components/Item/ItemListView/ItemsCollection.svelte";
+    import ItemListOptions from "../lib/Item/ItemListView/ItemListOptions.svelte";
+    import ItemsCollection from "../lib/Item/ItemListView/ItemsCollection.svelte";
 
     import {Item} from "../types/Data";
 
