@@ -1,0 +1,21 @@
+#group-view {
+    display: flex;
+    flex-direction: row;
+    flex: 1;
+}
+
+#item-list-grid {
+    flex: 1;
+    max-width: 400px;
+    min-width: 200px;
+    height: 100vh;
+    min-width: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 8px 8px 0px;
+    box-sizing: border-box;
+}
+
+#item-container {
+    flex: 2;
+}

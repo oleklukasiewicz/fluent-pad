@@ -1,0 +1,15 @@
+:global(.icon-button.accent) {
+    background-color: var(--fds-accent-default) !important;
+    border-bottom-color: var(
+        --fds-control-stroke-on-accent-secondary
+    ) !important;
+    color: var(--fds-text-on-accent-primary) !important;
+    transition: var(--fds-control-faster-duration) ease border-color !important;
+}
+:global(.icon-button.accent:hover) {
+    background-color: var(--fds-accent-secondary) !important;
+}
+:global(.icon-button.accent:active) {
+    background-color: var(--fds-accent-tertiary) !important;
+    color: var(--fds-text-on-accent-secondary) !important;
+}

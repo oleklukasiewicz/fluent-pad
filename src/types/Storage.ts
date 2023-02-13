@@ -16,7 +16,7 @@ export interface IGroupModel {
     getDefault(): Group;
     get(groupId: string): Group;
 
-    itemIndexInGroup(itemId: string, groupId: string): number;
+    itemIndexInGroup(itemId: any, groupId: any): number;
     addItem(group: any, item: any): void;
     removeItem(group: any, item: any): void;
 
@@ -38,6 +38,7 @@ export interface IItemModel {
     unSelect(): void;
 
     get(itemId: string, groupId: Group): Item;
+    getAll(): Item[];
 
     selectedIndex: Writable<number>;
     selectedItem: Writable<Item>;

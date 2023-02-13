@@ -1,10 +1,12 @@
 <script lang="ts">
     import { Button, ContentDialog, TextBox } from "fluent-svelte";
     import { createEventDispatcher } from "svelte";
-    import { Group } from "../../types/Data";
+    import { Group } from "../../../types/Data";
 
-    import ListItem from "../Item/ItemListView/ListItem.svelte";
-    import Separator from "../Other/Separator.svelte";
+    import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
+
+    import ListItem from "../../Other/ListItem/ListItem.svelte";
+    import Separator from "../../Other/Separator/Separator.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -70,17 +72,7 @@
         />
     {/each}
     <Button id="add-group-button" variant="accent" on:click={addNewGroupDialog}>
-        <svg
-            width="16"
-            height="16"
-            viewBox="0 0 16 16"
-            xmlns="http://www.w3.org/2000/svg"
-        >
-            <path
-                d="M8 2.5C8 2.22386 7.77614 2 7.5 2C7.22386 2 7 2.22386 7 2.5V7H2.5C2.22386 7 2 7.22386 2 7.5C2 7.77614 2.22386 8 2.5 8H7V12.5C7 12.7761 7.22386 13 7.5 13C7.77614 13 8 12.7761 8 12.5V8H12.5C12.7761 8 13 7.77614 13 7.5C13 7.22386 12.7761 7 12.5 7H8V2.5Z"
-                fill="currentColor"
-            />
-        </svg>
+        {@html AddIcon}
         &nbsp; Create group</Button
     >
     <ContentDialog title="Add new group" bind:open={isNewGroupDialogOpen}>
@@ -96,12 +88,6 @@
     </ContentDialog>
 </div>
 
-<style>
-    div {
-        flex: 1;
-    }
-    :global(#add-group-button) {
-        width: calc(100% - 12px);
-        margin: 6px;
-    }
+<style lang="scss">
+    @use "GroupList.scss";
 </style>

@@ -1,0 +1,32 @@
+#item-view {
+    padding: 8px 8px 8px 16px;
+    box-sizing: border-box;
+    background-color: var(--fds-solid-background-tertiary);
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+textarea,
+input {
+    resize: none;
+    width: 100%;
+    background-color: transparent;
+    color: var(--fds-text-primary);
+    border: none;
+    outline: none;
+    padding: 0;
+    margin: 0;
+}
+#item-title {
+    font-size: var(--fds-title-large-font-size);
+    height: 60px;
+}
+#item-content {
+    flex: 1;
+}
+#groups {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin: 8px 0px 16px;
+}

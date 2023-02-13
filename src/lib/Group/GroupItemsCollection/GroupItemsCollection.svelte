@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
     import type { Item } from "../../../types/Data";
     
-    import ListItem from "./ListItem.svelte";
+    import ListItem from "../../Other/ListItem/ListItem.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -14,7 +14,7 @@
         item.id != selectedItem.id ? dispatch("select", { item }) : "";
 </script>
 
-<div class="item-list-view">
+<div class="group-items-collection">
     {#each items as item (item.id)}
         <ListItem
             {item}
@@ -25,10 +25,6 @@
     {/each}
 </div>
 
-<style>
-    .item-list-view {
-        overflow-y: auto;
-        height: 100%;
-        overflow-x: hidden;
-    }
+<style lang="scss">
+   @use "GroupItemsCollection.scss"
 </style>

@@ -9,11 +9,11 @@
         group as selectedGroup,
         isItemExpanded,
         groupControl,
-    } from "../viewModel/ItemViewModel";
+    } from "../../viewModel/ItemViewModel";
 
-    import ListViewOptions from "../lib/Item/ItemView/ItemViewOptions.svelte";
-    import Placeholder from "../lib/Item/ItemView/Placeholder.svelte";
-    import Bange from "../lib/Other/Bange.svelte";
+    import ListViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
+    import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
+    import Bange from "../../lib/Other/Bange/Bange.svelte";
 
     let groupList = [];
     let isGroupsDialogOpen = false;
@@ -22,7 +22,7 @@
         groupList = groupControl.getAll().map((_group) => ({
             isItemInGroup:
                 groupControl.itemIndexInGroup($item, _group.id) != -1,
-            group: _group
+            group: _group,
         }));
     }
 
@@ -38,18 +38,15 @@
     }
 
     function onRemoveFromGroup(event) {
-        if (
-            $id == event.detail.item.id &&
-            $selectedGroup.id == event.detail.group.id
-        )
-            isGroupsDialogOpen = false;
+        if(event.detail.group.id == $selectedGroup.id)
+            groupControl.selectDefault();
         groupControl.removeItem(event.detail.group, event.detail.item);
     }
     function onAddToGroup(event) {
         groupControl.addItem(event.detail.group, event.detail.item);
     }
 
-    $: isGroupsDialogOpen && $groups ? setGroupList() : "";
+    $: $id ? setGroupList() : "";
 </script>
 
 <div id="item-view">
@@ -86,37 +83,6 @@
     {/if}
 </div>
 
-<style>
-    #item-view {
-        padding: 8px 8px 8px 16px;
-        box-sizing: border-box;
-        background-color: var(--fds-solid-background-tertiary);
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    textarea,
-    input {
-        resize: none;
-        width: 100%;
-        background-color: transparent;
-        color: var(--fds-text-primary);
-        border: none;
-        outline: none;
-        padding: 0;
-        margin: 0;
-    }
-    #item-title {
-        font-size: var(--fds-title-large-font-size);
-        height: 60px;
-    }
-    #item-content {
-        flex: 1;
-    }
-    #groups {
-        display: flex;
-        flex-direction: row;
-        gap: 4px;
-        margin: 8px 0px 16px;
-    }
+<style lang="scss">
+    @use "ItemView.scss";
 </style>

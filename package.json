@@ -20,11 +20,13 @@
     "vite": "^4.1.0"
   },
   "dependencies": {
+    "@fluentui/svg-icons": "^1.1.194",
     "@rollup/plugin-replace": "^5.0.2",
     "dotenv": "^16.0.3",
     "firebase": "^9.17.1",
     "fluent-svelte": "^1.6.0",
     "path": "^0.12.7",
+    "rollup-plugin-svelte-svg": "^1.0.0-beta.6",
     "svelte-preprocess": "^5.0.1",
     "svelte-spa-router": "^3.3.0",
     "svelte-writable-derived": "^3.0.1"

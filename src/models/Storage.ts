@@ -286,6 +286,7 @@ const item: IItemModel =
         selectedIndex.set(-1);
     },
     get: (itemId: string, group: Group) => _findItemById(itemId, group),
+    getAll: () => _defaultGroup.items,
 
     selectedItem: selectedItem,
     selectedIndex: selectedIndex,

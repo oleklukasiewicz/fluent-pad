@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, TextBlock } from "fluent-svelte";
-    import Card from "../lib/Other/Card.svelte";
-    import { user } from "../models/User";
+    import Card from "../../lib/Other/Card/Card.svelte";
+    import { user } from "../../models/User";
 
     function Login() {
         user.login();
@@ -30,32 +30,5 @@
 </div>
 
 <style lang="scss">
-    #main-img {
-        display: block;
-        margin: 8px auto;
-        width: 50%;
-        flex: 1;
-    }
-    #outer {
-        position: relative;
-        width: 100vw;
-        height: 100vh;
-    }
-    #outer > div {
-        vertical-align: middle;
-        text-align: center;
-        margin: 0;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -ms-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        min-width: 300px;
-    }
-    #options-list {
-        display: grid;
-        grid-template-columns: 50% 50%;
-        gap: 8px;
-        min-width: 650px;
-    }
+   @use "LoginView.scss"
 </style>

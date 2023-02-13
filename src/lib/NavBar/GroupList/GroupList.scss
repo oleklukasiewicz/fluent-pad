@@ -1,0 +1,7 @@
+div {
+    flex: 1;
+}
+:global(#add-group-button) {
+    width: calc(100% - 12px);
+    margin: 6px;
+}
