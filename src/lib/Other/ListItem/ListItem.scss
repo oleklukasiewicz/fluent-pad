@@ -1,16 +1,19 @@
-:global(.list-item.extended) {
+:global(.multi-select-list-item.extended) {
     height: auto !important;
     max-width: 100%;
     margin: 6px auto;
     padding-right: 0px;
 }
-:global(.list-item.extended > *) {
+:global(.multi-select-list-item.extended > *) {
     height: auto;
     margin: 10px !important;
     box-sizing: border-box;
 }
-:global(.list-item > *) {
+:global(.multi-select-list-item > *) {
     width: calc(100% - 20px);
+}
+:global(.multi-select-list-item .checkbox-container ) {
+    max-width: fit-content;
 }
 .item-data {
     display: grid;

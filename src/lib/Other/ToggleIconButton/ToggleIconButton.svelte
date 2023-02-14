@@ -2,9 +2,10 @@
     import { IconButton } from "fluent-svelte";
 
     export let variant = "standard";
+    export let id="";
 </script>
 
-<IconButton class={variant} on:click>
+<IconButton class={variant} on:click id>
     <slot />
 </IconButton>
 

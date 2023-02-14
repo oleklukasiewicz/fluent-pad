@@ -37,6 +37,11 @@
     let onGroupRemove = function () {
         groupControl.remove($group);
     };
+
+    let isEditItemsEnabled = false;
+    let onEditItems = function (event) {
+        isEditItemsEnabled = event.detail.enabled;
+    };
 </script>
 
 <div id="group-view">
@@ -44,6 +49,7 @@
         <div id="item-list-grid">
             <GroupOptions
                 on:add={onAdd}
+                on:editmultipleitems={onEditItems}
                 on:groupedit={onGroupEdit}
                 on:removegroup={onGroupRemove}
                 group={$group}
@@ -51,6 +57,9 @@
             />
             <GroupItemsCollection
                 on:select={onSelect}
+                on:multiselect={()=>console.log("multiselect")}
+                on:unselect={()=>console.log("unselect")}
+                isMultiselect={isEditItemsEnabled}
                 isCompact={false}
                 selectedItem={$selectedItem}
                 items={$items}
@@ -60,7 +69,6 @@
     <div id="item-container">
         <ItemView />
     </div>
-    
 </div>
 
 <style lang="scss">

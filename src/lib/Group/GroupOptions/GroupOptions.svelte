@@ -1,6 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
     import { IconButton, Button, ContentDialog, TextBox } from "fluent-svelte";
+    import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import Separator from "../../Other/Separator/Separator.svelte";
     import type { Group } from "../../../types/Data";
@@ -20,6 +21,8 @@
     let onSort = () => dispatch("sort");
     let onFilter = () => dispatch("filter");
     let onGroupEdit = () => dispatch("groupedit", { title: editedGroupTitle });
+    let onEditMultipleItems = () =>
+        dispatch("editmultipleitems", { enabled: isMultipleItemsEnabled });
     let onRemoveGroup = () => {
         if (!isRemoveDialogOpen) return;
         isRemoveDialogOpen = false;
@@ -28,7 +31,7 @@
 
     let isSorterDialogOpen = false;
     let isEditGroupDialogOpen = false;
-    let isMultipleItemsDialogOpen = false;
+    let isMultipleItemsEnabled = false;
 
     function showSorterDialog() {
         isSorterDialogOpen = true;
@@ -57,14 +60,9 @@
         isRemoveDialogOpen = false;
     }
 
-    function showMultipleItemsDialog() {
-        isMultipleItemsDialogOpen = true;
-    }
-    function addMultipleItems() {
-        isMultipleItemsDialogOpen = false;
-    }
-    function cancelMultipleItemsDialog() {
-        isMultipleItemsDialogOpen = false;
+    function editMultipleItems() {
+        isMultipleItemsEnabled = !isMultipleItemsEnabled;
+        onEditMultipleItems();
     }
 
     $: isEditGroupButtonDisabled = editedGroupTitle.trim() == "";
@@ -82,12 +80,13 @@
             {@html AddIcon}
             &nbsp; Add
         </Button>
-        <IconButton
+        <ToggleIconButton
             id="select-multiple-items-button"
-            on:click={showMultipleItemsDialog}
+            variant={isMultipleItemsEnabled ? "accent" : "standard"}
+            on:click={editMultipleItems}
         >
             {@html SelectAllIcon}
-        </IconButton>
+        </ToggleIconButton>
         <IconButton id="sort-button" on:click={showSorterDialog}>
             {@html SortIcon}
         </IconButton>
@@ -142,11 +141,6 @@
             </Button>
         </svelte:fragment>
     </ContentDialog>
-
-    <ContentDialog
-        title={"Add multiple items to " + (group.title || "this group") + " ?"}
-        bind:open={isMultipleItemsDialogOpen}
-    />
 </div>
 
 <style lang="scss">
