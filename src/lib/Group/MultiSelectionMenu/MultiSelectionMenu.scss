@@ -1,0 +1,18 @@
+.selection-menu
+{
+	box-sizing: border-box;
+	margin: 3px 5px;
+    display: flex;
+    height: 54px;
+	padding: 12px;
+	border-radius: var(--fds-control-corner-radius);
+	outline: none;
+	background-color: var(--fds-subtle-fill-secondary);
+	color: var(--text-primary);
+	text-decoration: none;
+}
+:global(#selected-items-count)
+{
+margin: 4px;
+flex: 1;
+}

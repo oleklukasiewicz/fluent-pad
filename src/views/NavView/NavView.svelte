@@ -20,8 +20,8 @@
         IconButton,
     } from "fluent-svelte";
 
-    import SettingsIcon from "@fluentui/svg-icons/icons/settings_16_regular.svg?raw";
-    import NavigationIcon from "@fluentui/svg-icons/icons/navigation_16_regular.svg?raw";
+    import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
+    import NavigationIcon from "@fluentui/svg-icons/icons/navigation_20_regular.svg?raw";
 
     import GroupList from "../../lib/NavBar/GroupList/GroupList.svelte";
 
@@ -57,9 +57,9 @@
                 <span id="user-label">{$userName || "Logging in"}</span>
                 <!-- <InfoBadge id="user-info" /> -->
             </ListItem>
-            <ListItem href="#/settings" selected={$location === "/settings"}>
+            <ListItem href="#/settings" id="settings-button" selected={$location === "/settings"}>
                 {@html SettingsIcon}
-                Settings</ListItem
+                &nbsp; Settings</ListItem
             >
         </div>
         <slot />

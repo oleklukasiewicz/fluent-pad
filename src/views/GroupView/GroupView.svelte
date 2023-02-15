@@ -15,6 +15,7 @@
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
 
     import ItemView from "../ItemView/ItemView.svelte";
+    import MultiSelectionMenu from "../../lib/Group/MultiSelectionMenu/MultiSelectionMenu.svelte";
 
     let onSelect = (event) => control.select(event.detail.item);
 
@@ -41,6 +42,19 @@
     let isEditItemsEnabled = false;
     let onEditItems = function (event) {
         isEditItemsEnabled = event.detail.enabled;
+        if (!isEditItemsEnabled) selectedItems = [];
+    };
+
+    let selectedItems = [];
+    let onMultiSelect = function (event) {
+        let item = event.detail.item;
+        selectedItems.splice(item.groupIndex, 0, item);
+        selectedItems = selectedItems;
+    };
+    let onMultiUnSelect = function (event) {
+        selectedItems = selectedItems.filter(
+            (item) => item.id !== event.detail.item.id
+        );
     };
 </script>
 
@@ -55,10 +69,13 @@
                 group={$group}
                 disableEditGroup={$isDefaultGroup}
             />
+            {#if isEditItemsEnabled}
+                <MultiSelectionMenu items={$items} {selectedItems} />
+            {/if}
             <GroupItemsCollection
                 on:select={onSelect}
-                on:multiselect={()=>console.log("multiselect")}
-                on:unselect={()=>console.log("unselect")}
+                on:multiselect={onMultiSelect}
+                on:multiunselect={onMultiUnSelect}
                 isMultiselect={isEditItemsEnabled}
                 isCompact={false}
                 selectedItem={$selectedItem}

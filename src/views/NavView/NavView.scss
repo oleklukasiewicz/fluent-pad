@@ -54,3 +54,7 @@
     left: 4px;
     z-index: 10;
 }
+:global(#settings-button svg)
+{
+    vertical-align: bottom;
+}

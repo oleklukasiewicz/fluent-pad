@@ -6,9 +6,9 @@
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
     import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
 
-    import DeleteIcon from "@fluentui/svg-icons/icons/delete_16_regular.svg?raw";
-    import GroupEditIcon from "@fluentui/svg-icons/icons/glance_horizontal_16_regular.svg?raw";
-    import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_16_regular.svg?raw";
+    import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
+    import GroupEditIcon from "@fluentui/svg-icons/icons/glance_horizontal_20_regular.svg?raw";
+    import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
 
     const dispatch = createEventDispatcher();
 

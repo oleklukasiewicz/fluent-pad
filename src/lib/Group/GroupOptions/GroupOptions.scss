@@ -8,6 +8,7 @@
 }
 .group-options {
     display: flex;
+    flex-direction: column;
     justify-content: right;
     gap: 8px;
 }
@@ -15,4 +16,16 @@
 {
     display: flex;
     gap:8px;
+}
+.group-list-options
+{
+    display: flex;
+    gap:8px;
+}
+#items-count
+{
+    flex: 1;
+    font-size: var(--fds-body-font-size);
+    color:var(--fds-text-secondary);
+    margin: 6px;
 }

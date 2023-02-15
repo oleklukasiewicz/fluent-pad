@@ -17,7 +17,7 @@
                 ? dispatch("select", { item })
                 : ""
             : "";
-    let onUnSelect = (item: Item) =>isMultiselect? dispatch("unselect", { item }):"";
+    let onMultiUnSelect = (item: Item) =>isMultiselect? dispatch("multiunselect", { item }):"";
     let onMultiSelect = (item: Item) =>isMultiselect? dispatch("multiselect", { item }):"";
 </script>
 
@@ -30,7 +30,7 @@
             selected={!isMultiselect ? selectedItem.id == item.id : false}
             on:click={() => onSelect(item)}
             on:select={() => onMultiSelect(item)}
-            on:unselect={() => onUnSelect(item)}
+            on:unselect={() => onMultiUnSelect(item)}
         />
     {/each}
 </div>

@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc } from "firebase/firestore";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
 import type { Group, Item } from "../types/Data";
 import { User } from "../types/User";
 import type IBackend from "../types/Backend";
@@ -76,7 +76,7 @@ export const firebaseBackend: IBackend =
     },
     addItem: async function (item: Item) {
         try {
-            await addDoc(collection(db, userDB, pathToItems,item.id),
+            await setDoc(doc(db, userDB, pathToItems,item.id),
                 ItemConvertToFirebase(item));
             return item;
         } catch (e) {
@@ -112,7 +112,7 @@ export const firebaseBackend: IBackend =
     },
     addGroup: async function (group: Group) {
         try {
-            await addDoc(collection(db, userDB, pathToGroups,group.id),
+            await setDoc(doc(db, userDB, pathToGroups,group.id),
                 GroupConvertToFirebase(group));
             return group;
         } catch (e) {
