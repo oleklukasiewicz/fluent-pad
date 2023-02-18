@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { BaseItem } from "../../../types/Data";
+    import type { BaseItem } from "../../../types/data";
     import { DATE_FORMAT } from "../../../helpers";
     import MultiSelectListItem from "../MultiSelectListItem/MultiSelectListItem.svelte";
 

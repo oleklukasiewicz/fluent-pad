@@ -1,5 +1,5 @@
 import type { Readable, Writable } from "svelte/store";
-import type { Group, Item } from "./Data";
+import type { Group, Item } from "./data";
 
 export interface IGroupModel {
     loadAll(): Promise<void>;

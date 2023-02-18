@@ -9,7 +9,7 @@
         isListHidden,
     } from "../../viewModel/GroupViewModel";
 
-    import { Item } from "../../types/Data";
+    import { Item } from "../../types/data";
 
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
@@ -68,10 +68,8 @@
                 on:removegroup={onGroupRemove}
                 group={$group}
                 disableEditGroup={$isDefaultGroup}
+                selectedItems={selectedItems}
             />
-            {#if isEditItemsEnabled}
-                <MultiSelectionMenu items={$items} {selectedItems} />
-            {/if}
             <GroupItemsCollection
                 on:select={onSelect}
                 on:multiselect={onMultiSelect}

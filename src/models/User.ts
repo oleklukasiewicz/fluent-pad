@@ -1,6 +1,6 @@
 import { writable, type Writable } from "svelte/store";
 import { firebaseBackend } from "../backend/firebase";
-import type { IUserModel, User } from "../types/User";
+import type { IUserModel, User } from "../types/user";
 
 export const isUserLogged: Writable<boolean> = writable(false);
 export const userName: Writable<string> = writable(null);

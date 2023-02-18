@@ -1,11 +1,8 @@
 <script lang="ts">
+    import { login } from "../../viewModel/LoginViewModel";
+
     import { Button, TextBlock } from "fluent-svelte";
     import Card from "../../lib/Other/Card/Card.svelte";
-    import { user } from "../../models/User";
-
-    function Login() {
-        user.login();
-    }
 </script>
 
 <div id="outer">
@@ -18,17 +15,17 @@
             <Card>
                 <TextBlock variant="subtitle">Login via Google</TextBlock>
                 <img id="main-img" src="/vite.svg" alt="Logo" />
-                <Button variant={"accent"} on:click={Login}>Login</Button>
+                <Button variant={"accent"} on:click={login}>Login</Button>
             </Card>
             <Card>
                 <TextBlock variant="subtitle">Continue as Guest</TextBlock>
-                <div style="flex:1;"></div>
+                <div style="flex:1;" />
                 <Button disabled>Continue</Button>
-                </Card>
+            </Card>
         </div>
     </div>
 </div>
 
 <style lang="scss">
-   @use "LoginView.scss"
+    @use "LoginView.scss";
 </style>

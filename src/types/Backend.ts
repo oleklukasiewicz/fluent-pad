@@ -1,5 +1,5 @@
-import type { Group, Item } from "./Data"
-import type { User } from "./User";
+import type { Group, Item } from "./data"
+import type { User } from "./user";
 
 export default interface IBackend {
     generateItemId(): string;

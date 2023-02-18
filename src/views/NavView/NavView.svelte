@@ -11,12 +11,10 @@
         isMobileView,
     } from "../../viewModel/NavBarViewModel";
 
-    import type { Group } from "../../types/Data";
+    import type { Group } from "../../types/data";
 
     import {
         ListItem,
-        PersonPicture,
-        InfoBadge,
         IconButton,
     } from "fluent-svelte";
 
@@ -24,6 +22,7 @@
     import NavigationIcon from "@fluentui/svg-icons/icons/navigation_20_regular.svg?raw";
 
     import GroupList from "../../lib/NavBar/GroupList/GroupList.svelte";
+    import UserButton from "../../lib/NavBar/UserButton/UserButton.svelte";
 
     let onSelect = (event) => control.select(event.detail.group as Group);
     let onGroupAdd = (event) => control.add(event.detail.group as Group);
@@ -52,12 +51,16 @@
                 on:select={onSelect}
                 on:addgroup={onGroupAdd}
             />
-            <ListItem id="user-button" on:click={() => logout()}>
-                <PersonPicture size={20} src={$userPicture} alt={$userName} />
-                <span id="user-label">{$userName || "Logging in"}</span>
-                <!-- <InfoBadge id="user-info" /> -->
-            </ListItem>
-            <ListItem href="#/settings" id="settings-button" selected={$location === "/settings"}>
+            <UserButton
+                name={$userName}
+                picture={$userPicture}
+                on:click={logout}
+            />
+            <ListItem
+                href="#/settings"
+                id="settings-button"
+                selected={$location === "/settings"}
+            >
                 {@html SettingsIcon}
                 &nbsp; Settings</ListItem
             >
