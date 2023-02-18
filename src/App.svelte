@@ -8,7 +8,7 @@
 	import Settings from "./views/SettingsView/Settings.svelte";
 	import Login from "./views/LoginView/LoginView.svelte";
 
-	import { isUserLogged } from "./models/User";
+	import { isLogged } from "./viewModel/AppViewModel";
 
 	const routes = {
 		"/": GroupView,
@@ -17,7 +17,7 @@
 </script>
 
 <main>
-	{#if !$isUserLogged}
+	{#if !$isLogged}
 		<Login />
 	{:else}
 		<GroupListView>

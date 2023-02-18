@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { Item } from "../../../types/Data";
+    import type { Item } from "../../../types/data";
 
     import ListItem from "../../Other/ListItem/ListItem.svelte";
 
