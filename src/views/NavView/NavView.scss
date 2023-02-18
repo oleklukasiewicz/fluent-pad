@@ -25,29 +25,6 @@
     background-color: var(--fds-solid-background-secondary);
     z-index: 5;
 }
-:global(#user-button > *) {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    width: 100%;
-}
-:global(#user-button .person-picture) {
-    margin-top: 2px;
-}
-:global(#user-button > * > *) {
-    display: inline-block;
-}
-#user-label {
-    margin: 2px 8px;
-    vertical-align: middle;
-    text-overflow: ellipsis;
-    overflow: hidden;
-    white-space: nowrap;
-}
-:global(#user-info) {
-    height: 16px;
-    margin-top: 4px;
-    text-align: center;
-}
 :global(#groups-toggle-button) {
     position: fixed;
     top: 4px;
