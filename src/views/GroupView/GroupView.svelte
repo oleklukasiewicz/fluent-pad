@@ -23,6 +23,7 @@
 
     import ItemView from "../ItemView/ItemView.svelte";
     import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
+    import { isItemExpanded } from "../../viewModel/ItemViewModel";
 
     let onSelect = (event) => {
         if (!isMultipleSelectionEnabled) control.select(event.detail.item);
@@ -79,8 +80,7 @@
     };
     const updateItemSelection = (item: Item, value: boolean) => {
         itemsWithSelection.update((items) => {
-            let index = items.findIndex((i) => i.item.id === item.id);
-            if (index !== -1) items[index].selected = value;
+            if (items[item.groupIndex]) items[item.groupIndex].selected = value;
             return items;
         });
     };
