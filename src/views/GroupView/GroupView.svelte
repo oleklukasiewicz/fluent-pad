@@ -22,10 +22,10 @@
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
 
     import ItemView from "../ItemView/ItemView.svelte";
-    import MultiSelectionMenu from "../../lib/Group/MultiSelectionMenu/MultiSelectionMenu.svelte";
+    import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
 
     let onSelect = (event) => {
-        if (!isEditItemsEnabled) control.select(event.detail.item);
+        if (!isMultipleSelectionEnabled) control.select(event.detail.item);
     };
 
     let onAdd = () => {
@@ -85,10 +85,10 @@
         });
     };
 
-    let isEditItemsEnabled = false;
+    let isMultipleSelectionEnabled = false;
     let onEditItems = function (event) {
-        isEditItemsEnabled = event.detail.enabled;
-        if (!isEditItemsEnabled) {
+        isMultipleSelectionEnabled = event.detail.enabled;
+        if (!isMultipleSelectionEnabled) {
             setAllItemsToValue(false);
             updateItemSelection($selectedItem, true);
         }
@@ -103,9 +103,6 @@
     let onMultiSelectAll = function () {
         setAllItemsToValue(true);
     };
-    let onMultiUnSelectAll = function () {
-        setAllItemsToValue(false);
-    };
 </script>
 
 <div id="group-view">
@@ -116,21 +113,21 @@
                 on:editmultipleitems={onEditItems}
                 on:groupedit={onGroupEdit}
                 on:removegroup={onGroupRemove}
+                bind:isMultipleItemsEnabled={isMultipleSelectionEnabled}
                 group={$group}
                 disableEditGroup={$isDefaultGroup}
             >
-                <MultiSelectionMenu
+                <MultiSelectionOptions
                     selectedItems={$selectedItems}
                     items={$items}
                     on:selectall={onMultiSelectAll}
-                    on:unselectall={onMultiUnSelectAll}
                 />
             </GroupOptions>
             <GroupItemsCollection
                 on:select={onSelect}
                 on:multiselect={onMultiSelect}
                 on:multiunselect={onMultiUnSelect}
-                isMultiselect={isEditItemsEnabled}
+                isMultiselect={isMultipleSelectionEnabled}
                 isCompact={false}
                 items={$itemsWithSelection}
             />

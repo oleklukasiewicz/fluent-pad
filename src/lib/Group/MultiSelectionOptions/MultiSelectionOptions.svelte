@@ -16,7 +16,6 @@
     export let selectedItems: Item[] = [];
 
     let onSelectAll = () => dispatch("selectall");
-    let onUnSelectAll = () => dispatch("unselectall");
 
     let onRemoveItems = () => dispatch("removeitems", { items: selectedItems });
     let onGroupEdit = () => dispatch("groupedit", { items: selectedItems });
@@ -32,9 +31,6 @@
     >
         {@html SelectAllOn}
     </IconButton>
-    <IconButton disabled={selectedItems.length === 0} on:click={onUnSelectAll}>
-        {@html SelectAllOff}
-    </IconButton>
     <Separator />
     <IconButton disabled={selectedItems.length === 0} on:click={onGroupEdit}>
         {@html EditGroups}
@@ -46,5 +42,5 @@
 </div>
 
 <style lang="scss">
-    @use "MultiSelectionMenu.scss";
+    @use "MultiSelectionOptions.scss";
 </style>

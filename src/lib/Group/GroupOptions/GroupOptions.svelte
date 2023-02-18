@@ -5,7 +5,6 @@
         Button,
         ContentDialog,
         TextBox,
-        TextBlock,
     } from "fluent-svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
@@ -22,6 +21,7 @@
 
     export let group: Group = {} as Group;
     export let disableEditGroup: boolean = true;
+    export let isMultipleItemsEnabled: boolean = false;
 
     let onAdd = () => dispatch("add");
     let onSort = () => dispatch("sort");
@@ -37,7 +37,6 @@
 
     let isSorterDialogOpen = false;
     let isEditGroupDialogOpen = false;
-    let isMultipleItemsEnabled = false;
 
     function showSorterDialog() {
         isSorterDialogOpen = true;
