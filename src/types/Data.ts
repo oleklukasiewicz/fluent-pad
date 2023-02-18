@@ -34,3 +34,12 @@ export class Item extends BaseItem {
         this.groups = groups || [];
     }
 }
+export class SelectionItem {
+    selected: boolean;
+    item: Item;
+
+    constructor(item : Item, selected?: boolean) {
+        this.item = item;
+        this.selected = selected || false;
+    }
+}

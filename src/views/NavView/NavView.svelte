@@ -11,7 +11,7 @@
         isMobileView,
     } from "../../viewModel/NavBarViewModel";
 
-    import type { Group } from "../../types/data";
+    import type { Group } from "../../types/Data";
 
     import {
         ListItem,

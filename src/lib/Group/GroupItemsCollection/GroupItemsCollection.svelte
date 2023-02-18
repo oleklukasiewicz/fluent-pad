@@ -1,44 +1,33 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { Item } from "../../../types/data";
+    import type { Item, SelectionItem } from "../../../types/Data";
 
     import ListItem from "../../Other/ListItem/ListItem.svelte";
 
     const dispatch = createEventDispatcher();
 
-    export let items: any[] = [];
-    export let selectedItem: Item = {} as Item;
+    export let items: SelectionItem[] = [];
     export let isCompact: boolean = false;
     export let isMultiselect: boolean = false;
 
-    let selectedItems = [];
-    
-    $: selectedItems = items.map((item: any) => (item.selected = false));
-
-    let onSelect = (item: Item) =>
-        !isMultiselect
-            ? item.id != selectedItem.id
-                ? dispatch("select", { item })
-                : ""
-            : "";
-    let onMultiUnSelect = (item: Item) =>
-        isMultiselect ? dispatch("multiunselect", { item }) : "";
-    let onMultiSelect = (item: Item) =>
-        isMultiselect ? dispatch("multiselect", { item }) : "";
+    let onSelect = (sitem: SelectionItem) =>
+        dispatch("select", { item: sitem.item });
+    let onMultiUnSelect = (sitem: SelectionItem) =>
+        isMultiselect ? dispatch("multiunselect", { item: sitem.item }) : "";
+    let onMultiSelect = (sitem: SelectionItem) =>
+        isMultiselect ? dispatch("multiselect", { item: sitem.item }) : "";
 </script>
 
 <div class="group-items-collection">
-    {#each items as item (item.id)}
+    {#each items as sitem (sitem.item.id)}
         <ListItem
-            {item}
+            item={sitem.item}
             multiselect={isMultiselect}
             {isCompact}
-            selected={!isMultiselect
-                ? selectedItem.id == item.id
-                : item.selected}
-            on:click={() => onSelect(item)}
-            on:select={() => onMultiSelect(item)}
-            on:unselect={() => onMultiUnSelect(item)}
+            selected={!sitem.selected ? false : true}
+            on:click={() => onSelect(sitem)}
+            on:select={() => onMultiSelect(sitem)}
+            on:unselect={() => onMultiUnSelect(sitem)}
         />
     {/each}
 </div>

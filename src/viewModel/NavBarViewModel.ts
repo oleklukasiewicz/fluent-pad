@@ -1,11 +1,11 @@
 import { writableDerived } from "svelte-writable-derived";
 import { derived, type Readable, type Writable } from "svelte/store";
 
-import * as user from "../models/user";
-import * as ui from "../models/ui";
-import { Storage } from "../models/storage";
-import type { Group } from "../types/data";
-import type { IGroupModel, IItemModel } from "../types/storage";
+import * as user from "../models/User";
+import * as ui from "../models/UI";
+import { Storage } from "../models/Storage";
+import type { Group } from "../types/Data";
+import type { IGroupModel, IItemModel } from "../types/Storage";
 
 export const control: IGroupModel = Storage.group;
 export const itemControl: IItemModel = Storage.item;

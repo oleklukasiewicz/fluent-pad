@@ -1,6 +1,6 @@
 <script lang="ts">
     import { IconButton, TextBlock } from "fluent-svelte";
-    import type { Item } from "../../../types/data";
+    import type { Item } from "../../../types/Data";
     import Separator from "../../Other/Separator/Separator.svelte";
 
     import SelectAllOn from "@fluentui/svg-icons/icons/select_all_on_20_regular.svg?raw";

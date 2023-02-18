@@ -10,20 +10,18 @@
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import Separator from "../../Other/Separator/Separator.svelte";
-    import type { Group, Item } from "../../../types/data";
+    import type { Group } from "../../../types/Data";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
     import SelectAllIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
-    import MultiSelectionMenu from "../MultiSelectionMenu/MultiSelectionMenu.svelte";
 
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
     export let disableEditGroup: boolean = true;
-    export let selectedItems: Item[] = [];
 
     let onAdd = () => dispatch("add");
     let onSort = () => dispatch("sort");
@@ -116,7 +114,7 @@
             <Separator />
         {:else}
             <div id="right-options">
-                <MultiSelectionMenu {items} {selectedItems} />
+               <slot/>
             </div>
         {/if}
         <ToggleIconButton

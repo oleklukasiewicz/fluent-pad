@@ -9,7 +9,14 @@
         isListHidden,
     } from "../../viewModel/GroupViewModel";
 
-    import { Item } from "../../types/data";
+    import {
+        derived,
+        writable,
+        type Readable,
+        type Writable,
+    } from "svelte/store";
+
+    import { Item, SelectionItem } from "../../types/Data";
 
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
@@ -17,7 +24,9 @@
     import ItemView from "../ItemView/ItemView.svelte";
     import MultiSelectionMenu from "../../lib/Group/MultiSelectionMenu/MultiSelectionMenu.svelte";
 
-    let onSelect = (event) => control.select(event.detail.item);
+    let onSelect = (event) => {
+        if (!isEditItemsEnabled) control.select(event.detail.item);
+    };
 
     let onAdd = () => {
         let item = new Item(
@@ -38,23 +47,64 @@
     let onGroupRemove = function () {
         groupControl.remove($group);
     };
+    const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
+    const selectedItems: Readable<Item[]> = derived(
+        itemsWithSelection,
+        ($itemsWithSelection) =>
+            $itemsWithSelection
+                .filter((item) => item.selected)
+                .map((item) => item.item)
+    );
+
+    items.subscribe((items) => {
+        itemsWithSelection.set(
+            items.map(
+                (item) => new SelectionItem(item, item.id === $selectedItem?.id)
+            )
+        );
+    });
+    selectedItem.subscribe((item) => {
+        itemsWithSelection.update((items) => {
+            let index = items.findIndex((i) => i.item.id === item?.id);
+            if (index !== -1) items[index].selected = true;
+            return items;
+        });
+    });
+
+    const setAllItemsToValue = (value: boolean) => {
+        itemsWithSelection.update((items) => {
+            items.forEach((item) => (item.selected = value));
+            return items;
+        });
+    };
+    const updateItemSelection = (item: Item, value: boolean) => {
+        itemsWithSelection.update((items) => {
+            let index = items.findIndex((i) => i.item.id === item.id);
+            if (index !== -1) items[index].selected = value;
+            return items;
+        });
+    };
 
     let isEditItemsEnabled = false;
     let onEditItems = function (event) {
         isEditItemsEnabled = event.detail.enabled;
-        if (!isEditItemsEnabled) selectedItems = [];
+        if (!isEditItemsEnabled) {
+            setAllItemsToValue(false);
+            updateItemSelection($selectedItem, true);
+        }
     };
 
-    let selectedItems = [];
     let onMultiSelect = function (event) {
-        let item = event.detail.item;
-        selectedItems.splice(item.groupIndex, 0, item);
-        selectedItems = selectedItems;
+        updateItemSelection(event.detail.item, true);
     };
     let onMultiUnSelect = function (event) {
-        selectedItems = selectedItems.filter(
-            (item) => item.id !== event.detail.item.id
-        );
+        updateItemSelection(event.detail.item, false);
+    };
+    let onMultiSelectAll = function () {
+        setAllItemsToValue(true);
+    };
+    let onMultiUnSelectAll = function () {
+        setAllItemsToValue(false);
     };
 </script>
 
@@ -68,16 +118,21 @@
                 on:removegroup={onGroupRemove}
                 group={$group}
                 disableEditGroup={$isDefaultGroup}
-                selectedItems={selectedItems}
-            />
+            >
+                <MultiSelectionMenu
+                    selectedItems={$selectedItems}
+                    items={$items}
+                    on:selectall={onMultiSelectAll}
+                    on:unselectall={onMultiUnSelectAll}
+                />
+            </GroupOptions>
             <GroupItemsCollection
                 on:select={onSelect}
                 on:multiselect={onMultiSelect}
                 on:multiunselect={onMultiUnSelect}
                 isMultiselect={isEditItemsEnabled}
                 isCompact={false}
-                selectedItem={$selectedItem}
-                items={$items}
+                items={$itemsWithSelection}
             />
         </div>
     {/if}

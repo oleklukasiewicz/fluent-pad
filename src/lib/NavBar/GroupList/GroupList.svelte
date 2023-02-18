@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Button, ContentDialog, TextBox } from "fluent-svelte";
     import { createEventDispatcher } from "svelte";
-    import { Group } from "../../../types/data";
+    import { Group } from "../../../types/Data";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
