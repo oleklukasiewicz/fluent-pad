@@ -16,7 +16,7 @@
         type Writable,
     } from "svelte/store";
 
-    import { Item, SelectionItem } from "../../types/Data";
+    import { Item, SelectionItem } from "../../types/data";
 
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";

@@ -10,7 +10,7 @@
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import Separator from "../../Other/Separator/Separator.svelte";
-    import type { Group } from "../../../types/Data";
+    import type { Group } from "../../../types/data";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
     import SelectAllIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";

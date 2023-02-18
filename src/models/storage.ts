@@ -1,10 +1,10 @@
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
-import { Group, Item } from '../types/Data';
+import { Group, Item } from '../types/data';
 import { isUserLogged } from './User';
-import type IBackend from '../types/Backend';
+import type IBackend from '../types/backend';
 import { firebaseBackend } from '../backend/firebase';
-import type { IGroupModel, IItemModel, IStorageModel } from '../types/Storage';
+import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
 
 let loadedBackend: IBackend = firebaseBackend;
 

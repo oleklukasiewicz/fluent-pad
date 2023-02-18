@@ -1,9 +1,9 @@
 import { initializeApp } from "firebase/app";
 import { getAuth, GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import { getFirestore, collection, updateDoc, deleteDoc, getDocs, getDoc, doc, setDoc } from "firebase/firestore";
-import type { Group, Item } from "../types/Data";
-import { User } from "../types/User";
-import type IBackend from "../types/Backend";
+import type { Group, Item } from "../types/data";
+import { User } from "../types/user";
+import type IBackend from "../types/backend";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 

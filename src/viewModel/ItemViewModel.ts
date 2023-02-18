@@ -1,9 +1,9 @@
 import { writableDerived, propertyStore } from "svelte-writable-derived";
 import { derived, get, type Readable, type Writable } from "svelte/store";
-import type { Group, Item } from "../types/Data";
+import type { Group, Item } from "../types/data";
 
-import { Storage } from "../models/Storage";
-import type { IGroupModel, IItemModel } from "../types/Storage";
+import { Storage } from "../models/storage";
+import type { IGroupModel, IItemModel } from "../types/storage";
 import { isListHidden } from "./GroupViewModel";
 
 export const control: IItemModel = Storage.item;
