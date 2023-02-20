@@ -10,6 +10,8 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import GroupEditIcon from "@fluentui/svg-icons/icons/glance_horizontal_20_regular.svg?raw";
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
+    import EditItemGroupsDialog from "../../Other/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+    import RemoveItemDialog from "../../Other/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -35,28 +37,25 @@
     };
 
     let onRemove = () => {
-        if (!isRemoveDialogOpen) return;
-        isRemoveDialogOpen = false;
         dispatch("remove");
     };
-    //let onGroupsEdit = () => dispatch("groupedit");
 
-    let onRemoveFromGroup = (item, group) =>
-        dispatch("removefromgroup", { item: item, group: group });
-    let onAddToGroup = (item, group) =>
-        dispatch("addtogroup", { item: item, group: group });
+    let onRemoveFromGroup = (event) =>
+        dispatch("removefromgroup", {
+            item: event.detail.item,
+            group: event.detail.group,
+        });
+    let onAddToGroup = (event) =>
+        dispatch("addtogroup", {
+            item: event.detail.item,
+            group: event.detail.group,
+        });
 
     function showRemoveDialog() {
         isRemoveDialogOpen = true;
     }
-    function cancelRemoveItem() {
-        isRemoveDialogOpen = false;
-    }
     function showGroupsDialog() {
         isGroupsDialogOpen = true;
-    }
-    function closeGroupsDialog() {
-        isGroupsDialogOpen = false;
     }
 </script>
 
@@ -75,35 +74,14 @@
         {@html ExpandIcon}
     </ToggleIconButton>
     <!-- Content Dialogs -->
-    <ContentDialog
-        title={"Do you want to delete " + (item.title || "this item") + " ?"}
-        bind:open={isRemoveDialogOpen}
-    >
-        <svelte:fragment slot="footer">
-            <Button variant="accent" on:click={cancelRemoveItem}>
-                No, don't remove
-            </Button>
-            <Button variant="standard" on:click={onRemove}>
-                Yes, remove item
-            </Button>
-        </svelte:fragment>
-    </ContentDialog>
-    <ContentDialog
-        title={"Edit groups of " + (item.title || "item")}
+    <RemoveItemDialog bind:open={isRemoveDialogOpen} on:remove={onRemove} />
+    <EditItemGroupsDialog
         bind:open={isGroupsDialogOpen}
-    >
-        {#each groups as groupEntry}
-            <CheckBoxListItem
-                checked={groupEntry.isItemInGroup}
-                on:select={() => onAddToGroup(item, groupEntry.group)}
-                on:unselect={() => onRemoveFromGroup(item, groupEntry.group)}
-                >{groupEntry.group.title}</CheckBoxListItem
-            >
-        {/each}
-        <svelte:fragment slot="footer">
-            <Button variant="accent" on:click={closeGroupsDialog}>Close</Button>
-        </svelte:fragment>
-    </ContentDialog>
+        {groups}
+        {item}
+        on:removefromgroup={onRemoveFromGroup}
+        on:addtogroup={onAddToGroup}
+    />
 </div>
 
 <style lang="scss">

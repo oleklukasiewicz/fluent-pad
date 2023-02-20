@@ -1,41 +1,44 @@
 {
-    "nav":
-    {
-        "settings":"Settings",
-        "all_items":"All Items",
-        "create_group":"Create Group",
-        "logging":"Logging in"
+    "nav": {
+        "settings": "Settings",
+        "all_items": "All Items",
+        "create_group": "Create Group",
+        "logging": "Logging in"
     },
-    "operations":
-    {
-        "add":"Add",
-        "edit":"Edit",
-        "delete":"Delete",
-        "save":"Save",
-        "cancel":"Cancel",
-        "close":"Close"
+    "operations": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "save": "Save",
+        "cancel": "Cancel",
+        "close": "Close"
     },
-    "dialogs":
-    {
-        "remove_item":
-        {
-
-        },
-        "remove_group":
-        {
-            "title":"Do you want to delete this group ?",
-            "remove":"Yes, remove group",
+    "dialogs": {
+        "remove_item": {
+            "title":"Do you want to delete this item ?",
+            "remove":"Yes, remove item",
             "cancel":"No, don't remove"
         },
-        "edit_group":
-        {
-            "title":"Edit group",
-            "edit":"Edit group",
-            "cancel":"Cancel"
+        "remove_group": {
+            "title": "Do you want to delete this group ?",
+            "remove": "Yes, remove group",
+            "cancel": "No, don't remove"
         },
-        "edit_groups_of_item":
-        {
-
+        "edit_group": {
+            "title": "Edit group",
+            "title_placeholder":"Group name",
+            "edit": "Edit group",
+            "cancel": "Cancel"
+        },
+        "create_group": {
+            "title": "Create group",
+            "title_placeholder":"Group name",
+            "create": "Create group",
+            "cancel": "Cancel"
+        },
+        "edit_groups_of_item": {
+            "title": "Edit groups of item",
+           "close":"Close"
         }
     }
 }

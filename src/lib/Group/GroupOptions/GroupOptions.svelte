@@ -12,6 +12,8 @@
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
+    import EditGroupDialog from "../../Other/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
+    import RemoveGroupDialog from "../../Other/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -22,12 +24,12 @@
     let onAdd = () => dispatch("add");
     let onSort = () => dispatch("sort");
     let onFilter = () => dispatch("filter");
-    let onGroupEdit = () => dispatch("groupedit", { title: editedGroupTitle });
+    
+    let onGroupEdit = (event) =>
+        dispatch("groupedit", { title: event.detail.title });
     let onEditMultipleItems = () =>
         dispatch("editmultipleitems", { enabled: isMultipleItemsEnabled });
     let onRemoveGroup = () => {
-        if (!isRemoveDialogOpen) return;
-        isRemoveDialogOpen = false;
         dispatch("removegroup", { group: group });
     };
 
@@ -38,36 +40,21 @@
         isSorterDialogOpen = true;
     }
 
-    let isEditGroupButtonDisabled = false;
     let isRemoveDialogOpen = false;
-    let editedGroupTitle = "";
     let items = group?.items;
 
     function showEditGroupDialog() {
         isEditGroupDialogOpen = true;
-        editedGroupTitle = group.title || "";
-    }
-    function editGroup() {
-        onGroupEdit();
-        isEditGroupDialogOpen = false;
-    }
-    function cancelEditGroup() {
-        isEditGroupDialogOpen = false;
     }
 
     function showRemoveGroupDialog() {
         isRemoveDialogOpen = true;
-    }
-    function cancelRemoveGroup() {
-        isRemoveDialogOpen = false;
     }
 
     function editMultipleItems() {
         isMultipleItemsEnabled = !isMultipleItemsEnabled;
         onEditMultipleItems();
     }
-
-    $: isEditGroupButtonDisabled = editedGroupTitle.trim() == "";
 
     $: items = group?.items;
 </script>
@@ -128,37 +115,12 @@
             >
         </svelte:fragment>
     </ContentDialog>
-    <ContentDialog
+    <EditGroupDialog
         bind:open={isEditGroupDialogOpen}
-        title={$_("dialogs.edit_group.title")}
-    >
-        <TextBox placeholder="Name of group" bind:value={editedGroupTitle} />
-        <svelte:fragment slot="footer">
-            <Button
-                variant="accent"
-                disabled={isEditGroupButtonDisabled}
-                on:click={editGroup}
-            >
-                {$_("dialogs.edit_group.edit")}
-            </Button>
-            <Button on:click={cancelEditGroup}>
-                {$_("dialogs.edit_group.cancel")}</Button
-            >
-        </svelte:fragment>
-    </ContentDialog>
-    <ContentDialog
-        title={$_("dialogs.remove_group.title")}
-        bind:open={isRemoveDialogOpen}
-    >
-        <svelte:fragment slot="footer">
-            <Button variant="accent" on:click={cancelRemoveGroup}>
-                {$_("dialogs.remove_group.cancel")}
-            </Button>
-            <Button variant="standard" on:click={onRemoveGroup}>
-               {$_("dialogs.remove_group.remove")}
-            </Button>
-        </svelte:fragment>
-    </ContentDialog>
+        on:editgroup={onGroupEdit}
+        {group}
+    />
+    <RemoveGroupDialog bind:open={isRemoveDialogOpen} on:removegroup={onRemoveGroup}/>
 </div>
 
 <style lang="scss">

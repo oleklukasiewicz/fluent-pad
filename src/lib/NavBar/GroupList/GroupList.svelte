@@ -1,13 +1,14 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { Button, ContentDialog, TextBox } from "fluent-svelte";
+    import { Button } from "fluent-svelte";
+    import type { Group } from "../../../types/data";
     import { createEventDispatcher } from "svelte";
-    import { Group } from "../../../types/data";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
     import ListItem from "../../Other/ListItem/ListItem.svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
+    import CreateGroupDialog from "../../Other/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -35,20 +36,12 @@
     };
 
     let isNewGroupDialogOpen = false;
-    let newGroupTitle = "";
-    let isCreateGroupButtonDisabled = true;
 
-    $: isCreateGroupButtonDisabled = newGroupTitle.trim() == "";
-
-    function addNewGroup() {
-        onGroupAdd(new Group(undefined, newGroupTitle));
-        isNewGroupDialogOpen = false;
+    function addNewGroup(event) {
+        onGroupAdd(event.detail.group);
     }
     function addNewGroupDialog() {
         isNewGroupDialogOpen = true;
-    }
-    function closeNewGroupDialog() {
-        isNewGroupDialogOpen = false;
     }
 </script>
 
@@ -76,17 +69,10 @@
         {@html AddIcon}
         &nbsp; {$_("nav.create_group")}</Button
     >
-    <ContentDialog title="Add new group" bind:open={isNewGroupDialogOpen}>
-        <TextBox placeholder="Name of group" bind:value={newGroupTitle} />
-        <svelte:fragment slot="footer">
-            <Button
-                variant="accent"
-                disabled={isCreateGroupButtonDisabled}
-                on:click={addNewGroup}>Create group</Button
-            >
-            <Button on:click={closeNewGroupDialog}>Cancel</Button>
-        </svelte:fragment>
-    </ContentDialog>
+    <CreateGroupDialog
+        bind:open={isNewGroupDialogOpen}
+        on:addgroup={addNewGroup}
+    />
 </div>
 
 <style lang="scss">
