@@ -22,7 +22,7 @@
     }
 </script>
 
-<ContentDialog title={$_("dialogs.edit_groups_of_item.title")} bind:open>
+<ContentDialog title={$_("dialogs.edit_groups_of_item.title")} bind:open on:backdropclick={closeGroupsDialog}>
     {#each groups as groupEntry}
         <CheckBoxListItem
             checked={groupEntry.isItemInGroup}
@@ -32,7 +32,7 @@
         >
     {/each}
     <svelte:fragment slot="footer">
-        <Button variant="accent" on:click={closeGroupsDialog}
+        <Button on:click={closeGroupsDialog}
             >{$_("dialogs.edit_groups_of_item.close")}</Button
         >
     </svelte:fragment>

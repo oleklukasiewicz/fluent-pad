@@ -26,7 +26,7 @@
     }
 </script>
 
-<ContentDialog {open} title={$_("dialogs.edit_group.title")}>
+<ContentDialog {open} title={$_("dialogs.edit_group.title")} on:backdropclick={cancelEditGroup}>
     <TextBox
         placeholder={$_("dialogs.edit_group.title_placeholder")}
         bind:value={groupTitle}

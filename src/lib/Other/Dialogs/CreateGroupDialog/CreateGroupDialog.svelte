@@ -25,7 +25,7 @@
     }
 </script>
 
-<ContentDialog title={$_("dialogs.create_group.title")} bind:open>
+<ContentDialog title={$_("dialogs.create_group.title")} bind:open on:backdropclick={closeNewGroupDialog}>
     <TextBox
         placeholder={$_("dialogs.create_group.title_placeholder")}
         bind:value={newGroupTitle}

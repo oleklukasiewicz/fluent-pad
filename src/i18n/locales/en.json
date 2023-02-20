@@ -1,8 +1,8 @@
 {
     "nav": {
         "settings": "Settings",
-        "all_items": "All Items",
-        "create_group": "Create Group",
+        "all_items": "All items",
+        "create_group": "Create group",
         "logging": "Logging in"
     },
     "operations": {
@@ -27,13 +27,13 @@
         "edit_group": {
             "title": "Edit group",
             "title_placeholder":"Group name",
-            "edit": "Edit group",
+            "edit": "Save",
             "cancel": "Cancel"
         },
         "create_group": {
             "title": "Create group",
             "title_placeholder":"Group name",
-            "create": "Create group",
+            "create": "Create",
             "cancel": "Cancel"
         },
         "edit_groups_of_item": {

@@ -17,7 +17,7 @@
     }
 </script>
 
-<ContentDialog title={$_("dialogs.remove_item.title")} bind:open>
+<ContentDialog title={$_("dialogs.remove_item.title")} bind:open on:backdropclick={cancelRemoveItem}>
     <svelte:fragment slot="footer">
         <Button variant="accent" on:click={cancelRemoveItem}>
             {$_("dialogs.remove_item.cancel")}

@@ -17,7 +17,7 @@
     }
 </script>
 
-<ContentDialog title={$_("dialogs.remove_group.title")} bind:open>
+<ContentDialog title={$_("dialogs.remove_group.title")} bind:open on:backdropclick={cancelRemoveGroup}>
     <svelte:fragment slot="footer">
         <Button variant="accent" on:click={cancelRemoveGroup}>
             {$_("dialogs.remove_group.cancel")}
