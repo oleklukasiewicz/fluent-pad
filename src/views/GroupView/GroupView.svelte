@@ -23,7 +23,6 @@
 
     import ItemView from "../ItemView/ItemView.svelte";
     import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
-    import { isItemExpanded } from "../../viewModel/ItemViewModel";
 
     let onSelect = (event) => {
         if (!isMultipleSelectionEnabled) control.select(event.detail.item);

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { location } from "svelte-spa-router";
+    import {_}from "svelte-i18n";
 
     import {
         control,
@@ -62,7 +63,7 @@
                 selected={$location === "/settings"}
             >
                 {@html SettingsIcon}
-                &nbsp; Settings</ListItem
+                &nbsp; {$_("nav.settings")}</ListItem
             >
         </div>
         <slot />

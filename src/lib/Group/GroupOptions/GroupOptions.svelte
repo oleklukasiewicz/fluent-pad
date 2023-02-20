@@ -1,11 +1,7 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { createEventDispatcher } from "svelte";
-    import {
-        IconButton,
-        Button,
-        ContentDialog,
-        TextBox,
-    } from "fluent-svelte";
+    import { IconButton, Button, ContentDialog, TextBox } from "fluent-svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import Separator from "../../Other/Separator/Separator.svelte";
@@ -104,7 +100,7 @@
                     style="max-height:31px;padding-block:4px;"
                 >
                     {@html AddIcon}
-                    &nbsp; Add
+                    &nbsp; {$_("operations.add")}
                 </Button>
             </div>
             <IconButton id="sort-button" on:click={showSorterDialog}>
@@ -113,7 +109,7 @@
             <Separator />
         {:else}
             <div id="right-options">
-               <slot/>
+                <slot />
             </div>
         {/if}
         <ToggleIconButton
@@ -127,12 +123,14 @@
     <ContentDialog bind:open={isSorterDialogOpen}>
         Sorters
         <svelte:fragment slot="footer">
-            <Button on:click={() => (isSorterDialogOpen = false)}>Close</Button>
+            <Button on:click={() => (isSorterDialogOpen = false)}
+                >{$_("operations.close")}</Button
+            >
         </svelte:fragment>
     </ContentDialog>
     <ContentDialog
         bind:open={isEditGroupDialogOpen}
-        title={"Edit " + (group.title || "group")}
+        title={$_("dialogs.edit_group.title")}
     >
         <TextBox placeholder="Name of group" bind:value={editedGroupTitle} />
         <svelte:fragment slot="footer">
@@ -141,21 +139,23 @@
                 disabled={isEditGroupButtonDisabled}
                 on:click={editGroup}
             >
-                Edit group
+                {$_("dialogs.edit_group.edit")}
             </Button>
-            <Button on:click={cancelEditGroup}>Close</Button>
+            <Button on:click={cancelEditGroup}>
+                {$_("dialogs.edit_group.cancel")}</Button
+            >
         </svelte:fragment>
     </ContentDialog>
     <ContentDialog
-        title={"Do you want to delete " + (group.title || "this group") + " ?"}
+        title={$_("dialogs.remove_group.title")}
         bind:open={isRemoveDialogOpen}
     >
         <svelte:fragment slot="footer">
             <Button variant="accent" on:click={cancelRemoveGroup}>
-                No, don't remove
+                {$_("dialogs.remove_group.cancel")}
             </Button>
             <Button variant="standard" on:click={onRemoveGroup}>
-                Yes, remove group
+               {$_("dialogs.remove_group.remove")}
             </Button>
         </svelte:fragment>
     </ContentDialog>

@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Router from "svelte-spa-router";
+	import "./i18n/i18n.ts";
 
 	import "fluent-svelte/theme.css";
 

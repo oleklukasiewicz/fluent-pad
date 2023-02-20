@@ -5,10 +5,11 @@ import { isUserLogged } from './user';
 import type IBackend from '../types/backend';
 import { firebaseBackend } from '../backend/firebase';
 import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
+import {_} from 'svelte-i18n';
 
 let loadedBackend: IBackend = firebaseBackend;
 
-let _defaultGroup = new Group("default_group", "All items");
+let _defaultGroup = new Group("default_group", get(_)("nav.all_items"));
 
 const _resolveGroupId = (group: any) => typeof (group) === "object" ? group.id : group;
 const _resolveItemId = (item: any) => typeof (item) === "object" ? item.id : item;
@@ -38,7 +39,6 @@ const storage: Writable<Group[]> = writable([]);
 get(storage).push(_defaultGroup);
 
 const selectedGroupIndex: Writable<number> = writable(-1);
-
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     ((s) => get(storage)[s] || {} as Group),
     (value: Group) => {

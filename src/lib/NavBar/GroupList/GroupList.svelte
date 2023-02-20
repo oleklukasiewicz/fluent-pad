@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { _ } from "svelte-i18n";
     import { Button, ContentDialog, TextBox } from "fluent-svelte";
     import { createEventDispatcher } from "svelte";
     import { Group } from "../../../types/data";
@@ -73,7 +74,7 @@
     {/each}
     <Button id="add-group-button" variant="accent" on:click={addNewGroupDialog}>
         {@html AddIcon}
-        &nbsp; Create group</Button
+        &nbsp; {$_("nav.create_group")}</Button
     >
     <ContentDialog title="Add new group" bind:open={isNewGroupDialogOpen}>
         <TextBox placeholder="Name of group" bind:value={newGroupTitle} />
