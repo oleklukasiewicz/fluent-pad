@@ -5,6 +5,7 @@ import type { Group, Item } from "../types/data";
 import { Storage } from "../models/storage";
 import type { IGroupModel, IItemModel } from "../types/storage";
 import { isListHidden } from "./GroupViewModel";
+import { isMobileView as isMobile } from '../models/ui';
 
 export const control: IItemModel = Storage.item;
 export const groupControl: IGroupModel = Storage.group;
@@ -24,3 +25,5 @@ export const groups: Readable<Group[]> = derived(Storage.item.selectedItem, (val
 }) : []);
 
 export const isItemExpanded: Writable<boolean> = writableDerived(isListHidden, (isHidden) => isHidden, (isHidden) => isHidden);
+
+export const isMobileView = derived(isMobile, $S => $S);

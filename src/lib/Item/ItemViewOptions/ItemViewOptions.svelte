@@ -2,10 +2,9 @@
     import { _ } from "svelte-i18n";
     import { createEventDispatcher } from "svelte";
 
-    import { IconButton, Button, ContentDialog } from "fluent-svelte";
+    import { IconButton } from "fluent-svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
-    import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
 
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import GroupEditIcon from "@fluentui/svg-icons/icons/glance_horizontal_20_regular.svg?raw";
@@ -18,6 +17,7 @@
     export let groups = [];
     export let item;
     export let isExpanded = false;
+    export let canExpand = false;
     export let isRemoveDialogOpen = false;
     export let isGroupsDialogOpen = false;
 
@@ -68,6 +68,7 @@
     </IconButton>
     <Separator />
     <ToggleIconButton
+        disabled={!canExpand}
         on:click={onExpandToggle}
         variant={isExpanded ? "accent" : "standard"}
     >

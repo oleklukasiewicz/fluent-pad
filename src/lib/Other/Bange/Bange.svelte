@@ -4,9 +4,9 @@
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
-<span on:click class:accent={variant == "accent"}>
+<button on:click class:accent={variant == "accent"} class="bange">
     {label}
-</span>
+</button>
 
 <style lang="scss">
    @use "Bange.scss"

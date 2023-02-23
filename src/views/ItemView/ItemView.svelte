@@ -9,9 +9,10 @@
         group as selectedGroup,
         isItemExpanded,
         groupControl,
+        isMobileView
     } from "../../viewModel/ItemViewModel";
 
-    import ListViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
+    import ItemViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
     import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
     import Bange from "../../lib/Other/Bange/Bange.svelte";
 
@@ -51,7 +52,8 @@
 
 <div id="item-view">
     {#if $id}
-        <ListViewOptions
+        <ItemViewOptions
+            canExpand={!$isMobileView}
             groups={groupList}
             isExpanded={$isItemExpanded}
             item={$item}

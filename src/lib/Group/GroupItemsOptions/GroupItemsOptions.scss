@@ -6,8 +6,17 @@
     white-space: nowrap;
     margin: 4px 4px;
 }
-.group-options
+.options
 {
     display: flex;
     gap:8px;
+}
+.group-list-options
+{
+    display: flex;
+    gap:8px;
+}
+#right-options
+{
+    flex:1;
 }

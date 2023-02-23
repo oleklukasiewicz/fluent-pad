@@ -8,7 +8,14 @@
 
     export let items: SelectionItem[] = [];
     export let isCompact: boolean = false;
-    export let isMultiselect: boolean = false;
+
+    export let mode: "multiselect" | "click"|"single" = "multiselect";
+
+    let isMultiselect: boolean = mode === "multiselect";
+    let onlyClick = mode === "click";
+
+    $: isMultiselect = mode === "multiselect";
+    $: onlyClick = mode === "click";
 
     let onSelect = (sitem: SelectionItem) =>
         dispatch("select", { item: sitem.item });
@@ -24,7 +31,7 @@
             item={sitem.item}
             multiselect={isMultiselect}
             {isCompact}
-            selected={!sitem.selected ? false : true}
+            selected={onlyClick ? false : !sitem.selected ? false : true}
             on:click={() => onSelect(sitem)}
             on:select={() => onMultiSelect(sitem)}
             on:unselect={() => onMultiUnSelect(sitem)}

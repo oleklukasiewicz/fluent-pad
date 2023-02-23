@@ -7,6 +7,7 @@
         isDefaultGroup,
         groupControl,
         isListHidden,
+        isMobileView,
     } from "../../viewModel/GroupViewModel";
 
     import {
@@ -18,13 +19,20 @@
 
     import { Item, SelectionItem } from "../../types/data";
 
+    import { IconButton } from "fluent-svelte";
+    import GroupItemsOptions from "../../lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
 
     import ItemView from "../ItemView/ItemView.svelte";
     import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
+    import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
+    import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
+
+    let isDetailViewOpened = false;
 
     let onSelect = (event) => {
+        isDetailViewOpened = true;
         if (!isMultipleSelectionEnabled) control.select(event.detail.item);
     };
 
@@ -47,6 +55,7 @@
     let onGroupRemove = function () {
         groupControl.remove($group);
     };
+
     const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
     const selectedItems: Readable<Item[]> = derived(
         itemsWithSelection,
@@ -105,36 +114,54 @@
 </script>
 
 <div id="group-view">
-    {#if !$isListHidden}
-        <div id="item-list-grid">
-            <GroupOptions
-                on:add={onAdd}
-                on:editmultipleitems={onEditItems}
-                on:groupedit={onGroupEdit}
-                on:removegroup={onGroupRemove}
-                bind:isMultipleItemsEnabled={isMultipleSelectionEnabled}
-                group={$group}
-                disableEditGroup={$isDefaultGroup}
-            >
-                <MultiSelectionOptions
-                    selectedItems={$selectedItems}
-                    items={$items}
-                    on:selectall={onMultiSelectAll}
+    <MasterDetail
+        hideMaster={$isMobileView ? false : $isListHidden}
+        mode={$isMobileView ? "stacked" : "sidebyside"}
+        bind:opened={isDetailViewOpened}
+    >
+        <div slot="master">
+            <div id="item-list-grid">
+                <GroupOptions
+                    group={$group}
+                    disableEditGroup={$isDefaultGroup}
+                    on:groupedit={onGroupEdit}
+                    on:removegroup={onGroupRemove}
                 />
-            </GroupOptions>
-            <GroupItemsCollection
-                on:select={onSelect}
-                on:multiselect={onMultiSelect}
-                on:multiunselect={onMultiUnSelect}
-                isMultiselect={isMultipleSelectionEnabled}
-                isCompact={false}
-                items={$itemsWithSelection}
-            />
+                <GroupItemsOptions
+                    on:add={onAdd}
+                    on:editmultipleitems={onEditItems}
+                    bind:isMultipleItemsEnabled={isMultipleSelectionEnabled}
+                    group={$group}
+                >
+                    <MultiSelectionOptions
+                        selectedItems={$selectedItems}
+                        items={$items}
+                        on:selectall={onMultiSelectAll}
+                    />
+                </GroupItemsOptions>
+                <GroupItemsCollection
+                    on:select={onSelect}
+                    on:multiselect={onMultiSelect}
+                    on:multiunselect={onMultiUnSelect}
+                    mode={isMultipleSelectionEnabled
+                        ? "multiselect"
+                        : $isMobileView
+                        ? "click"
+                        : "single"}
+                    isCompact={false}
+                    items={$itemsWithSelection}
+                />
+            </div>
         </div>
-    {/if}
-    <div id="item-container">
-        <ItemView />
-    </div>
+        <div id="item-container" slot="detail">
+            <ItemView />
+        </div>
+        <div slot="stacked-options" class="master-view-stacked-options">
+            <IconButton on:click={() => (isDetailViewOpened = false)}
+                >{@html ArrowLeft}</IconButton
+            >
+        </div>
+    </MasterDetail>
 </div>
 
 <style lang="scss">

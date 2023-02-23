@@ -1,0 +1,37 @@
+.master-detail {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+
+    &.stacked {
+        flex-direction: column;
+
+        &.opened>.master {
+            display: none;
+        }
+
+        &.closed>.detail {
+            display: none;
+        }
+    }
+
+    &>.master {
+        flex: 1;
+        min-width: 300px;
+    }
+
+    &>.detail {
+        flex: 2;
+        position: relative;
+
+        &>.stacked-options {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+        }
+    }
+    &.hide-master>.master {
+        display: none;
+    }
+
+}

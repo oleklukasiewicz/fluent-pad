@@ -1,6 +1,6 @@
 <script lang="ts">
     import { location } from "svelte-spa-router";
-    import {_}from "svelte-i18n";
+    import { _ } from "svelte-i18n";
 
     import {
         control,
@@ -14,10 +14,7 @@
 
     import type { Group } from "../../types/data";
 
-    import {
-        ListItem,
-        IconButton,
-    } from "fluent-svelte";
+    import { ListItem, IconButton } from "fluent-svelte";
 
     import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
     import NavigationIcon from "@fluentui/svg-icons/icons/navigation_20_regular.svg?raw";
@@ -25,7 +22,10 @@
     import GroupList from "../../lib/NavBar/GroupList/GroupList.svelte";
     import UserButton from "../../lib/NavBar/UserButton/UserButton.svelte";
 
-    let onSelect = (event) => control.select(event.detail.group as Group);
+    let onSelect = (event) => {
+        isMenuClosed = true;
+        control.select(event.detail.group as Group);
+    };
     let onGroupAdd = (event) => control.add(event.detail.group as Group);
 
     let isMenuClosed = false;
@@ -61,6 +61,7 @@
                 href="#/settings"
                 id="settings-button"
                 selected={$location === "/settings"}
+                on:click={() => (isMenuClosed = true)}
             >
                 {@html SettingsIcon}
                 &nbsp; {$_("nav.settings")}</ListItem
