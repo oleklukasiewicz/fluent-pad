@@ -9,5 +9,5 @@
 </button>
 
 <style lang="scss">
-   @use "Bange.scss"
+   @use "Bange.scss";
 </style>
