@@ -11,6 +11,7 @@
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import ListGroup from "../../Other/ListGroup/ListGroup.svelte";
     const dispatch = createEventDispatcher();
 
     export let groups = [];
@@ -57,10 +58,10 @@
         <Separator horizontal={true} />
     {/if}
     {#each _groups as group (group.id)}
-        <ListItem
-            item={group}
+        <ListGroup
+            group={group}
             href="#"
-            isCompact={true}
+            isCompact={false}
             selected={group.id == selectedGroup.id}
             on:click={() => onSelect(group)}
         />

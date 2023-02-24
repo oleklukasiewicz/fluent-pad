@@ -5,7 +5,7 @@ import { isUserLogged } from './user';
 import type IBackend from '../types/backend';
 import { firebaseBackend } from '../backend/firebase';
 import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
-import {_} from 'svelte-i18n';
+import { _ } from 'svelte-i18n';
 
 let loadedBackend: IBackend = firebaseBackend;
 
@@ -200,21 +200,29 @@ const group: IGroupModel =
         const _item: Item = _resolveItem(item);
 
         _group.items.push(_item);
+        _group.modifyDate = new Date();
+
         _item.groups.push(_group.id);
 
         _updateSelectedItemGroups(_item);
+        storage.update(_storage => _storage);
+
+        loadedBackend.updateGroup(_group)
     },
     removeItem: function (group: any, item: any) {
         const _group: Group = _resolveGroup(group);
         const _item: Item = _resolveItem(item);
 
         _removeItemFromGroup(_group, _item.id);
+        _group.modifyDate = new Date();
 
-        const _index: number = _item.groups.findIndex((_g) => _g === _group.id)
+        const _index: number = _item.groups.findIndex((_g) => _g === _group.id);
         _item.groups.splice(_index, 1);
 
         _updateSelectedItemGroups(_item);
+        storage.update(_storage => _storage);
 
+        loadedBackend.updateGroup(_group);
         loadedBackend.updateItem(_item);
     },
     selectedGroup: selectedGroup,
@@ -226,7 +234,12 @@ const item: IItemModel =
 {
     load: async function (item: Item) {
         _defaultGroup.items.push(item);
-        item.groups.forEach((groupId) => _findGroupById(groupId)?.items.push(item));
+        item.groups.forEach((groupId) => {
+            storage.update(_storage => {
+                _findGroupById(groupId)?.items.push(item);
+                return _storage;
+            })
+        });
 
         return item;
     },

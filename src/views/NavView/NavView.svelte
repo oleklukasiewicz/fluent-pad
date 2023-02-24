@@ -13,7 +13,7 @@
     import { _ } from "svelte-i18n";
 
     import type { Group } from "../../types/data";
-    
+
     import { ListItem } from "fluent-svelte";
     import GroupList from "../../lib/Nav/GroupList/GroupList.svelte";
     import UserButton from "../../lib/Nav/UserButton/UserButton.svelte";
@@ -58,6 +58,12 @@
         </div>
     </NavigationMenu>
     <slot />
+    <!-- svelte-ignore a11y-click-events-have-key-events -->
+    <div
+        class="navigation-shadow"
+        class:show={isMenuOpened && $isMobileView}
+        on:click={() => (isMenuOpened = false)}
+    />
 </div>
 
 <style lang="scss">

@@ -74,7 +74,11 @@ body {
     opacity: 0.3;
     pointer-events: none;
 }
-.list-item svg
+svg
 {
     fill: var(--fds-text-primary);
+}
+button.style-accent svg
+{
+    fill: var(--fds-text-on-accent-primary);
 }

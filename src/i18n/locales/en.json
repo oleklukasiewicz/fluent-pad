@@ -5,6 +5,19 @@
         "create_group": "Create group",
         "logging": "Logging in"
     },
+    "data_names":
+    {
+        "item":"item",
+        "items":"items",
+        "group":"group",
+        "groups":"groups",
+        "new_group":"New group",
+        "new_item":"New item",
+        "no_item":"No item",
+        "no_group":"No group",
+        "no_items":"No items",
+        "no_groups":"No groups"
+    },
     "operations": {
         "add": "Add",
         "edit": "Edit",

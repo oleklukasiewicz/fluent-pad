@@ -1,0 +1,39 @@
+:global(.list-group.extended) {
+    height: auto !important;
+    max-width: 100%;
+    margin: 6px 0px;
+    padding-right: 0px;
+}
+:global(.list-group > *) {
+    width: 100%;
+}
+.group-data {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    margin: 8px 0px;
+    flex:1;
+}
+.group-content,
+.group-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+    margin-right: 10px;
+}
+.group-title {
+    display: inline-block;
+    grid-row: 1;
+}
+.group-content {
+    color: var(--fds-text-secondary);
+    min-width: 100%;
+    grid-row: 2;
+}
+.group-date {
+    display: inline-table;
+    color: var(--fds-text-tertiary);
+    vertical-align: top;
+    text-align: right;
+    grid-row: 1;
+}
