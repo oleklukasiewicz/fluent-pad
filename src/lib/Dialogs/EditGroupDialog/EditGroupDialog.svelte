@@ -1,12 +1,12 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    
-    import type { Group } from "../../../../types/data";
+
+    import type { Group } from "../../../types/data";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
 
     import { createEventDispatcher } from "svelte";
-    let dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
     export let open = false;
     export let group = {} as Group;
@@ -21,14 +21,18 @@
         dispatch("editgroup", {
             title: groupTitle,
         });
-        open = false;
+        closeDialog();
     }
-    function cancelEditGroup() {
+    function closeDialog() {
         open = false;
     }
 </script>
 
-<ContentDialog {open} title={$_("dialogs.edit_group.title")} on:backdropclick={cancelEditGroup}>
+<ContentDialog
+    {open}
+    title={$_("dialogs.edit_group.title")}
+    on:backdropclick={closeDialog}
+>
     <TextBox
         placeholder={$_("dialogs.edit_group.title_placeholder")}
         bind:value={groupTitle}
@@ -41,8 +45,8 @@
         >
             {$_("dialogs.edit_group.edit")}
         </Button>
-        <Button on:click={cancelEditGroup}>
-            {$_("dialogs.edit_group.cancel")}</Button
-        >
+        <Button on:click={closeDialog}>
+            {$_("dialogs.edit_group.cancel")}
+        </Button>
     </svelte:fragment>
 </ContentDialog>

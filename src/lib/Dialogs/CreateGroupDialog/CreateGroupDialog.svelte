@@ -2,7 +2,7 @@
     import { _ } from "svelte-i18n";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
-    import { Group } from "../../../../types/data";
+    import { Group } from "../../../types/data";
 
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
@@ -10,22 +10,26 @@
     export let open = false;
 
     let newGroupTitle = "";
-    let isCreateGroupButtonDisabled = true;
+    let isCreateGroupButtonDisabled;
 
-    $: isCreateGroupButtonDisabled = newGroupTitle.trim() == "";
+    $: isCreateGroupButtonDisabled = newGroupTitle.trim() === "";
 
     function addNewGroup() {
         dispatch("addgroup", {
             group: new Group(undefined, newGroupTitle),
         });
-        open = false;
+        closeDialog();
     }
-    function closeNewGroupDialog() {
+    function closeDialog() {
         open = false;
     }
 </script>
 
-<ContentDialog title={$_("dialogs.create_group.title")} bind:open on:backdropclick={closeNewGroupDialog}>
+<ContentDialog
+    title={$_("dialogs.create_group.title")}
+    bind:open
+    on:backdropclick={closeDialog}
+>
     <TextBox
         placeholder={$_("dialogs.create_group.title_placeholder")}
         bind:value={newGroupTitle}
@@ -34,10 +38,12 @@
         <Button
             variant="accent"
             disabled={isCreateGroupButtonDisabled}
-            on:click={addNewGroup}>{$_("dialogs.create_group.create")}</Button
+            on:click={addNewGroup}
         >
-        <Button on:click={closeNewGroupDialog}
-            >{$_("dialogs.create_group.cancel")}</Button
-        >
+            {$_("dialogs.create_group.create")}
+        </Button>
+        <Button on:click={closeDialog}>
+            {$_("dialogs.create_group.cancel")}
+        </Button>
     </svelte:fragment>
 </ContentDialog>

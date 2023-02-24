@@ -52,9 +52,9 @@
 <div id="item-view">
     {#if $id}
         <ItemViewOptions
-            canExpand={!$isMobileView}
+            expandable={!$isMobileView}
             groups={groupList}
-            isExpanded={$isItemExpanded}
+            expanded={$isItemExpanded}
             item={$item}
             on:removefromgroup={onRemoveFromGroup}
             on:addtogroup={onAddToGroup}

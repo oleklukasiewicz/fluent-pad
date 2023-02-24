@@ -4,8 +4,8 @@
     import type { Group } from "../../../types/data";
 
     import { IconButton } from "fluent-svelte";
-    import EditGroupDialog from "../../Other/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
-    import RemoveGroupDialog from "../../Other/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
+    import EditGroupDialog from "../../Dialogs/EditGroupDialog/EditGroupDialog.svelte";
+    import RemoveGroupDialog from "../../Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
@@ -14,14 +14,15 @@
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
-    export let disableEditGroup: boolean = true;
+    export let groupeditable: boolean = true;
 
     let isEditGroupDialogOpen = false;
     let isRemoveDialogOpen = false;
 
-    let onGroupEdit = (event) =>
-        dispatch("groupedit", { title: event.detail.title });
-    let onRemoveGroup = () => {
+    let editGroup = function (event) {
+        dispatch("editgroup", { title: event.detail.title });
+    };
+    let removeGroup = function () {
         dispatch("removegroup", { group: group });
     };
 
@@ -38,26 +39,26 @@
     <b class="group-title">{group.title}</b>
     <IconButton
         id="edit-group-button"
-        disabled={disableEditGroup}
+        disabled={groupeditable}
         on:click={showEditGroupDialog}
     >
         {@html EditIcon}
     </IconButton>
     <IconButton
         id="remove-group-button"
-        disabled={disableEditGroup}
+        disabled={groupeditable}
         on:click={showRemoveGroupDialog}
     >
         {@html DeleteIcon}
     </IconButton>
     <EditGroupDialog
         bind:open={isEditGroupDialogOpen}
-        on:editgroup={onGroupEdit}
+        on:editgroup={editGroup}
         {group}
     />
     <RemoveGroupDialog
         bind:open={isRemoveDialogOpen}
-        on:removegroup={onRemoveGroup}
+        on:removegroup={removeGroup}
     />
 </div>
 

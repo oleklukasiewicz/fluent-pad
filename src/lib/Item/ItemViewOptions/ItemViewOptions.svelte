@@ -9,21 +9,21 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import GroupEditIcon from "@fluentui/svg-icons/icons/channel_20_regular.svg?raw";
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
-    import EditItemGroupsDialog from "../../Other/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
-    import RemoveItemDialog from "../../Other/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
+    import EditItemGroupsDialog from "../../Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+    import RemoveItemDialog from "../../Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
     const dispatch = createEventDispatcher();
 
     export let groups = [];
     export let item;
-    export let isExpanded = false;
-    export let canExpand = false;
+    export let expanded = false;
+    export let expandable = false;
     
     let isRemoveDialogOpen = false;
     let isGroupsDialogOpen = false;
 
     let onExpandToggle = () => {
-        if (isExpanded)
+        if (expanded)
             dispatch("collapse", {
                 isExpanded: false,
             });
@@ -31,9 +31,9 @@
             dispatch("expand", {
                 isExpanded: true,
             });
-        isExpanded = !isExpanded;
+       expanded=!expanded;
         dispatch("expandtoggle", {
-            isExpanded: isExpanded,
+            isExpanded: expanded,
         });
     };
 
@@ -69,9 +69,9 @@
     </IconButton>
     <Separator />
     <ToggleIconButton
-        disabled={!canExpand}
+        disabled={!expandable}
         on:click={onExpandToggle}
-        variant={isExpanded ? "accent" : "standard"}
+        variant={expanded ? "accent" : "standard"}
     >
         {@html ExpandIcon}
     </ToggleIconButton>

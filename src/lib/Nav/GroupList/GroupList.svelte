@@ -6,7 +6,7 @@
     import { Button } from "fluent-svelte";
     import ListItem from "../../Other/ListItem/ListItem.svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
-    import CreateGroupDialog from "../../Other/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
+    import CreateGroupDialog from "../../Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 

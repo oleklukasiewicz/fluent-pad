@@ -2,29 +2,33 @@
     import { _ } from "svelte-i18n";
 
     import { ContentDialog, Button } from "fluent-svelte";
-    
+
     import { createEventDispatcher } from "svelte";
-    let dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
     export let open = false;
 
-    function onRemove() {
-        if(!open) return;
+    function removeItem() {
+        if (!open) return;
         dispatch("remove");
-        open = false;
+        closeDialog();
     }
 
-    function cancelRemoveItem() {
+    function closeDialog() {
         open = false;
     }
 </script>
 
-<ContentDialog title={$_("dialogs.remove_item.title")} bind:open on:backdropclick={cancelRemoveItem}>
+<ContentDialog
+    title={$_("dialogs.remove_item.title")}
+    bind:open
+    on:backdropclick={closeDialog}
+>
     <svelte:fragment slot="footer">
-        <Button variant="accent" on:click={cancelRemoveItem}>
+        <Button variant="accent" on:click={closeDialog}>
             {$_("dialogs.remove_item.cancel")}
         </Button>
-        <Button variant="standard" on:click={onRemove}>
+        <Button variant="standard" on:click={removeItem}>
             {$_("dialogs.remove_item.remove")}
         </Button>
     </svelte:fragment>

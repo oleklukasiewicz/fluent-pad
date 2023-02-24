@@ -15,31 +15,30 @@
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
-    export let isMultipleItemsEnabled: boolean = false;
+    export let multiselect: boolean = false;
 
     let isSorterDialogOpen = false;
     let items;
     $: items = group?.items;
 
     let onAdd = () => dispatch("add");
-    
-    let onEditMultipleItems = () =>
-        dispatch("editmultipleitems", { enabled: isMultipleItemsEnabled });
+
+    const setMultiSelect = () =>
+        dispatch("multiselect", { enabled: multiselect });
 
     function showSorterDialog() {
         isSorterDialogOpen = true;
     }
 
     function editMultipleItems() {
-        isMultipleItemsEnabled = !isMultipleItemsEnabled;
-        onEditMultipleItems();
+        multiselect = !multiselect;
+        setMultiSelect();
     }
-
 </script>
 
 <div class="group-items-options">
     <div class="options">
-        {#if !isMultipleItemsEnabled}
+        {#if !multiselect}
             <div id="right-options">
                 <Button
                     id="add-button"
@@ -62,18 +61,17 @@
         {/if}
         <ToggleIconButton
             id="select-multiple-items-button"
-            variant={isMultipleItemsEnabled ? "accent" : "standard"}
+            variant={multiselect ? "accent" : "standard"}
             on:click={editMultipleItems}
         >
             {@html SelectAllIcon}
         </ToggleIconButton>
     </div>
-    <ContentDialog bind:open={isSorterDialogOpen}>
-        Sorters
+    <ContentDialog bind:open={isSorterDialogOpen} title="Sorters">
         <svelte:fragment slot="footer">
-            <Button on:click={() => (isSorterDialogOpen = false)}
-                >{$_("operations.close")}</Button
-            >
+            <Button on:click={() => (isSorterDialogOpen = false)}>
+                {$_("operations.close")}
+            </Button>
         </svelte:fragment>
     </ContentDialog>
 </div>

@@ -20,17 +20,17 @@
     import { Item, SelectionItem } from "../../types/data";
 
     import { IconButton } from "fluent-svelte";
-    
+
     import GroupItemsOptions from "../../lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
-    
+
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
     import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
-    
+
     import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
 
     import ItemView from "../ItemView/ItemView.svelte";
-    
+
     import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
 
     let isDetailViewOpened = false;
@@ -127,14 +127,14 @@
             <div id="item-list-grid">
                 <GroupOptions
                     group={$group}
-                    disableEditGroup={$isDefaultGroup}
-                    on:groupedit={onGroupEdit}
+                    groupeditable={$isDefaultGroup}
+                    on:editgroup={onGroupEdit}
                     on:removegroup={onGroupRemove}
                 />
                 <GroupItemsOptions
                     on:add={onAdd}
                     on:editmultipleitems={onEditItems}
-                    bind:isMultipleItemsEnabled={isMultipleSelectionEnabled}
+                    bind:multiselect={isMultipleSelectionEnabled}
                     group={$group}
                 >
                     <MultiSelectionOptions
@@ -147,12 +147,12 @@
                     on:select={onSelect}
                     on:multiselect={onMultiSelect}
                     on:multiunselect={onMultiUnSelect}
-                    mode={isMultipleSelectionEnabled
-                        ? "multiselect"
+                    selection={isMultipleSelectionEnabled
+                        ? "multi"
                         : $isMobileView
-                        ? "click"
+                        ? "none"
                         : "single"}
-                    isCompact={false}
+                    compact={false}
                     items={$itemsWithSelection}
                 />
             </div>

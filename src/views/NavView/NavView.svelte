@@ -23,11 +23,11 @@
 
     let isMenuOpened = false;
 
-    let onSelect = (event) => {
+    let selectGroup = (event) => {
         isMenuOpened = false;
         groupControl.select(event.detail.group as Group);
     };
-    let onGroupAdd = (event) => groupControl.add(event.detail.group as Group);
+    let addGroup = (event) => groupControl.add(event.detail.group as Group);
 </script>
 
 <div class="nav-view">
@@ -37,8 +37,8 @@
                 groups={$groups}
                 defaultGroup={$groups[0]}
                 selectedGroup={$location === "/" ? $selectedGroup : {}}
-                on:select={onSelect}
-                on:addgroup={onGroupAdd}
+                on:select={selectGroup}
+                on:addgroup={addGroup}
             />
         </div>
         <div slot="footer">

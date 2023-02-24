@@ -16,14 +16,14 @@
 
     let onSelectAll = () => dispatch("selectall");
 
-    let onRemoveItems = () => dispatch("removeitems", { items: selectedItems });
+    let removeItems = () => dispatch("removeitems", { items: selectedItems });
     let onGroupEdit = () => dispatch("groupedit", { items: selectedItems });
 </script>
 
 <div class="selection-menu">
-    <TextBlock variant="body" id="selected-items-count"
-        >{selectedItems.length + " selected"}</TextBlock
-    >
+    <TextBlock variant="body" id="selected-items-count">
+        {selectedItems.length + " selected"}
+    </TextBlock>
     <IconButton
         disabled={items.length === selectedItems.length}
         on:click={onSelectAll}
@@ -35,7 +35,7 @@
         {@html EditGroups}
     </IconButton>
     <Separator />
-    <IconButton disabled={selectedItems.length === 0} on:click={onRemoveItems}>
+    <IconButton disabled={selectedItems.length === 0} on:click={removeItems}>
         {@html DeleteIcon}
     </IconButton>
 </div>
