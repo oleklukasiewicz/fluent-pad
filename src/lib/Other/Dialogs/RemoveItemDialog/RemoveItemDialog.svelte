@@ -1,18 +1,20 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { ContentDialog, Button } from "fluent-svelte";
-    import { createEventDispatcher } from "svelte";
 
+    import { ContentDialog, Button } from "fluent-svelte";
+    
+    import { createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
 
     export let open = false;
 
-    function cancelRemoveItem() {
-        open = false;
-    }
     function onRemove() {
         if(!open) return;
         dispatch("remove");
+        open = false;
+    }
+
+    function cancelRemoveItem() {
         open = false;
     }
 </script>

@@ -7,7 +7,7 @@
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
-    import GroupEditIcon from "@fluentui/svg-icons/icons/glance_horizontal_20_regular.svg?raw";
+    import GroupEditIcon from "@fluentui/svg-icons/icons/channel_20_regular.svg?raw";
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
     import EditItemGroupsDialog from "../../Other/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
     import RemoveItemDialog from "../../Other/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
@@ -18,8 +18,9 @@
     export let item;
     export let isExpanded = false;
     export let canExpand = false;
-    export let isRemoveDialogOpen = false;
-    export let isGroupsDialogOpen = false;
+    
+    let isRemoveDialogOpen = false;
+    let isGroupsDialogOpen = false;
 
     let onExpandToggle = () => {
         if (isExpanded)

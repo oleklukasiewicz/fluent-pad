@@ -20,16 +20,45 @@
     import { Item, SelectionItem } from "../../types/data";
 
     import { IconButton } from "fluent-svelte";
+    
     import GroupItemsOptions from "../../lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
+    
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
+    import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
+    
+    import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
 
     import ItemView from "../ItemView/ItemView.svelte";
-    import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
-    import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
+    
     import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
 
     let isDetailViewOpened = false;
+    let isMultipleSelectionEnabled = false;
+
+    const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
+    const selectedItems: Readable<Item[]> = derived(
+        itemsWithSelection,
+        ($itemsWithSelection) =>
+            $itemsWithSelection
+                .filter((item) => item.selected)
+                .map((item) => item.item)
+    );
+
+    items.subscribe((items) => {
+        itemsWithSelection.set(
+            items.map(
+                (item) => new SelectionItem(item, item.id === $selectedItem?.id)
+            )
+        );
+    });
+    selectedItem.subscribe((item) => {
+        itemsWithSelection.update((items) => {
+            let index = items.findIndex((i) => i.item.id === item?.id);
+            if (index !== -1) items[index].selected = true;
+            return items;
+        });
+    });
 
     let onSelect = (event) => {
         isDetailViewOpened = true;
@@ -56,30 +85,6 @@
         groupControl.remove($group);
     };
 
-    const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
-    const selectedItems: Readable<Item[]> = derived(
-        itemsWithSelection,
-        ($itemsWithSelection) =>
-            $itemsWithSelection
-                .filter((item) => item.selected)
-                .map((item) => item.item)
-    );
-
-    items.subscribe((items) => {
-        itemsWithSelection.set(
-            items.map(
-                (item) => new SelectionItem(item, item.id === $selectedItem?.id)
-            )
-        );
-    });
-    selectedItem.subscribe((item) => {
-        itemsWithSelection.update((items) => {
-            let index = items.findIndex((i) => i.item.id === item?.id);
-            if (index !== -1) items[index].selected = true;
-            return items;
-        });
-    });
-
     const setAllItemsToValue = (value: boolean) => {
         itemsWithSelection.update((items) => {
             items.forEach((item) => (item.selected = value));
@@ -93,7 +98,6 @@
         });
     };
 
-    let isMultipleSelectionEnabled = false;
     let onEditItems = function (event) {
         isMultipleSelectionEnabled = event.detail.enabled;
         if (!isMultipleSelectionEnabled) {

@@ -1,16 +1,15 @@
 <script lang="ts">
-    import { IconButton, TextBlock } from "fluent-svelte";
     import type { Item } from "../../../types/data";
+
+    import { IconButton, TextBlock } from "fluent-svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
 
     import SelectAllOn from "@fluentui/svg-icons/icons/select_all_on_20_regular.svg?raw";
-    import SelectAllOff from "@fluentui/svg-icons/icons/select_all_off_20_regular.svg?raw";
-    import EditGroups from "@fluentui/svg-icons/icons/notepad_edit_20_regular.svg?raw";
+    import EditGroups from "@fluentui/svg-icons/icons/channel_add_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_lines_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-
-    let dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
     export let items: Item[] = [];
     export let selectedItems: Item[] = [];

@@ -7,7 +7,7 @@ import { Storage } from "../models/storage";
 import type { Group } from "../types/data";
 import type { IGroupModel, IItemModel } from "../types/storage";
 
-export const control: IGroupModel = Storage.group;
+export const groupControl: IGroupModel = Storage.group;
 export const itemControl: IItemModel = Storage.item;
 
 export const selectedGroup: Writable<Group> = writableDerived(Storage.group.selectedGroup, (s) => s, (s) => s);

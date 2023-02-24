@@ -17,7 +17,8 @@
     import Bange from "../../lib/Other/Bange/Bange.svelte";
 
     let groupList = [];
-    let isGroupsDialogOpen = false;
+
+    $: $id ? setGroupList() : "";
 
     function setGroupList() {
         groupList = groupControl.getAll().map((_group) => ({
@@ -46,8 +47,6 @@
     function onAddToGroup(event) {
         groupControl.addItem(event.detail.group, event.detail.item);
     }
-
-    $: $id ? setGroupList() : "";
 </script>
 
 <div id="item-view">
@@ -57,7 +56,6 @@
             groups={groupList}
             isExpanded={$isItemExpanded}
             item={$item}
-            bind:isGroupsDialogOpen
             on:removefromgroup={onRemoveFromGroup}
             on:addtogroup={onAddToGroup}
             on:expandtoggle={expandToggle}

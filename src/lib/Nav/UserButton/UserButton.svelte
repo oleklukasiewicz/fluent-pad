@@ -2,6 +2,7 @@
     import { _ } from "svelte-i18n";
 
     import { ListItem, PersonPicture } from "fluent-svelte";
+    
     export let picture = "";
     export let name = "";
 </script>

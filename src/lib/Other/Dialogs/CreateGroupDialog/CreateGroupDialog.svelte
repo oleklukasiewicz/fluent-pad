@@ -1,11 +1,11 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { createEventDispatcher } from "svelte";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
     import { Group } from "../../../../types/data";
 
-    let dispatch = createEventDispatcher();
+    import { createEventDispatcher } from "svelte";
+    const dispatch = createEventDispatcher();
 
     export let open = false;
 

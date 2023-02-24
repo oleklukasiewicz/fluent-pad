@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
-
     import { Checkbox, ListItem } from "fluent-svelte";
 
-    const dispatch = createEventDispatcher();
+    import { createEventDispatcher } from "svelte";
 
+    const dispatch = createEventDispatcher();
     export let checked = false;
 
     let onClick = () => {

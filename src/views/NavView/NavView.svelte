@@ -1,50 +1,38 @@
 <script lang="ts">
-    import { location } from "svelte-spa-router";
-    import { _ } from "svelte-i18n";
-
     import {
-        control,
+        groupControl,
         groups,
         selectedGroup,
         userName,
         userPicture,
         logout,
         isMobileView,
-    } from "../../viewModel/NavBarViewModel";
+    } from "../../viewModel/NavViewModel";
+
+    import { location } from "svelte-spa-router";
+    import { _ } from "svelte-i18n";
 
     import type { Group } from "../../types/data";
-
-    import { ListItem, IconButton } from "fluent-svelte";
+    
+    import { ListItem } from "fluent-svelte";
+    import GroupList from "../../lib/Nav/GroupList/GroupList.svelte";
+    import UserButton from "../../lib/Nav/UserButton/UserButton.svelte";
+    import NavigationMenu from "../../lib/Nav/NavigationMenu/NavigationMenu.svelte";
 
     import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
-    import NavigationIcon from "@fluentui/svg-icons/icons/navigation_20_regular.svg?raw";
 
-    import GroupList from "../../lib/NavBar/GroupList/GroupList.svelte";
-    import UserButton from "../../lib/NavBar/UserButton/UserButton.svelte";
+    let isMenuOpened = false;
 
     let onSelect = (event) => {
-        isMenuClosed = true;
-        control.select(event.detail.group as Group);
+        isMenuOpened = false;
+        groupControl.select(event.detail.group as Group);
     };
-    let onGroupAdd = (event) => control.add(event.detail.group as Group);
-
-    let isMenuClosed = false;
+    let onGroupAdd = (event) => groupControl.add(event.detail.group as Group);
 </script>
 
-<div>
-    {#if $isMobileView}
-        <IconButton
-            id="groups-toggle-button"
-            on:click={() => (isMenuClosed = !isMenuClosed)}
-            >{@html NavigationIcon}</IconButton
-        >
-    {/if}
-    <div id="nav-bar-view">
-        <div
-            id="groups-list"
-            class:closed={$isMobileView && isMenuClosed}
-            class:minimal={$isMobileView}
-        >
+<div class="nav-view">
+    <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
+        <div slot="items">
             <GroupList
                 groups={$groups}
                 defaultGroup={$groups[0]}
@@ -52,6 +40,8 @@
                 on:select={onSelect}
                 on:addgroup={onGroupAdd}
             />
+        </div>
+        <div slot="footer">
             <UserButton
                 name={$userName}
                 picture={$userPicture}
@@ -61,14 +51,13 @@
                 href="#/settings"
                 id="settings-button"
                 selected={$location === "/settings"}
-                on:click={() => (isMenuClosed = true)}
+                on:click={() => (isMenuOpened = false)}
             >
-                {@html SettingsIcon}
-                &nbsp; {$_("nav.settings")}</ListItem
-            >
+                {@html SettingsIcon}&nbsp; {$_("nav.settings")}
+            </ListItem>
         </div>
-        <slot />
-    </div>
+    </NavigationMenu>
+    <slot />
 </div>
 
 <style lang="scss">

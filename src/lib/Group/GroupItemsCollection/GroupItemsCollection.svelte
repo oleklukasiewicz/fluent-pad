@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
-    import type { Item, SelectionItem } from "../../../types/data";
+    import type { SelectionItem } from "../../../types/data";
 
     import ListItem from "../../Other/ListItem/ListItem.svelte";
 
+    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
     export let items: SelectionItem[] = [];

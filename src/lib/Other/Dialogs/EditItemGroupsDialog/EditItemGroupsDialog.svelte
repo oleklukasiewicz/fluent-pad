@@ -1,24 +1,25 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    
     import { ContentDialog, Button } from "fluent-svelte";
     import CheckBoxListItem from "../../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
+    
     import { createEventDispatcher } from "svelte";
-
     let dispatch = createEventDispatcher();
 
     export let open = false;
     export let groups = [];
     export let item;
 
-    function closeGroupsDialog() {
-        open = false;
-    }
-
     function onRemoveFromGroup(item, group) {
         dispatch("removefromgroup", { item: item, group: group });
     }
     function onAddToGroup(item, group) {
         dispatch("addtogroup", { item: item, group: group });
+    }
+
+    function closeGroupsDialog() {
+        open = false;
     }
 </script>
 

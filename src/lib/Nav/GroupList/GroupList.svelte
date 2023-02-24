@@ -1,15 +1,16 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { Button } from "fluent-svelte";
+
     import type { Group } from "../../../types/data";
-    import { createEventDispatcher } from "svelte";
 
-    import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
-
+    import { Button } from "fluent-svelte";
     import ListItem from "../../Other/ListItem/ListItem.svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
     import CreateGroupDialog from "../../Other/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
+    import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
+
+    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
     export let groups = [];
@@ -18,8 +19,9 @@
     export let selectedGroup;
 
     let _groups;
+    let isNewGroupDialogOpen = false;
 
-    $: _groups = groups.slice(1);
+    $: _groups = groups.filter((group) => group.id != defaultGroup.id);
 
     let onSelect = (group) => {
         if (group.id != selectedGroup.id) {
@@ -34,8 +36,6 @@
                 group: _group,
             });
     };
-
-    let isNewGroupDialogOpen = false;
 
     function addNewGroup(event) {
         onGroupAdd(event.detail.group);
@@ -67,8 +67,8 @@
     {/each}
     <Button id="add-group-button" variant="accent" on:click={addNewGroupDialog}>
         {@html AddIcon}
-        &nbsp; {$_("nav.create_group")}</Button
-    >
+        &nbsp; {$_("nav.create_group")}
+    </Button>
     <CreateGroupDialog
         bind:open={isNewGroupDialogOpen}
         on:addgroup={addNewGroup}

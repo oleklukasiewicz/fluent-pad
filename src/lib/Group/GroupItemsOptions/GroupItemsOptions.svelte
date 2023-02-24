@@ -1,40 +1,40 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { createEventDispatcher } from "svelte";
-    import { IconButton, Button, ContentDialog } from "fluent-svelte";
-    import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
-    import Separator from "../../Other/Separator/Separator.svelte";
     import type { Group } from "../../../types/data";
+
+    import { IconButton, Button, ContentDialog } from "fluent-svelte";
+    import Separator from "../../Other/Separator/Separator.svelte";
+    import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
     import SelectAllIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
 
+    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
     export let isMultipleItemsEnabled: boolean = false;
+
+    let isSorterDialogOpen = false;
+    let items;
+    $: items = group?.items;
 
     let onAdd = () => dispatch("add");
     
     let onEditMultipleItems = () =>
         dispatch("editmultipleitems", { enabled: isMultipleItemsEnabled });
 
-    let isSorterDialogOpen = false;
-
     function showSorterDialog() {
         isSorterDialogOpen = true;
     }
-
-    let items = group?.items;
 
     function editMultipleItems() {
         isMultipleItemsEnabled = !isMultipleItemsEnabled;
         onEditMultipleItems();
     }
 
-    $: items = group?.items;
 </script>
 
 <div class="group-items-options">

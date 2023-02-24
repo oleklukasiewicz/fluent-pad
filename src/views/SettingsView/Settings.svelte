@@ -10,12 +10,6 @@
     </Expander>
 </div>
 
-<style>
-    #settings-view {
-        display: flex;
-        flex-direction: column;
-        flex: 1;
-        margin: 8px;
-        gap: 12px;
-    }
+<style lang="scss">
+    @use "Settings.scss";
 </style>

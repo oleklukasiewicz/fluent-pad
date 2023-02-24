@@ -1,29 +1,29 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { createEventDispatcher } from "svelte";
-    import { IconButton } from "fluent-svelte";
+
     import type { Group } from "../../../types/data";
 
+    import { IconButton } from "fluent-svelte";
     import EditGroupDialog from "../../Other/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
     import RemoveGroupDialog from "../../Other/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
+    import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
     export let disableEditGroup: boolean = true;
+
+    let isEditGroupDialogOpen = false;
+    let isRemoveDialogOpen = false;
 
     let onGroupEdit = (event) =>
         dispatch("groupedit", { title: event.detail.title });
     let onRemoveGroup = () => {
         dispatch("removegroup", { group: group });
     };
-
-    let isEditGroupDialogOpen = false;
-
-    let isRemoveDialogOpen = false;
 
     function showEditGroupDialog() {
         isEditGroupDialogOpen = true;
