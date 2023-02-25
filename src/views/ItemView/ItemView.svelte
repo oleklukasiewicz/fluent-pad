@@ -9,23 +9,28 @@
         group as selectedGroup,
         isItemExpanded,
         groupControl,
-        isMobileView
+        isMobileView,
     } from "../../viewModel/ItemViewModel";
 
     import ItemViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
     import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
     import Bange from "../../lib/Other/Bange/Bange.svelte";
+    import { SelectionGroup } from "../../types/data";
 
     let groupList = [];
 
     $: $id ? setGroupList() : "";
 
     function setGroupList() {
-        groupList = groupControl.getAll().map((_group) => ({
-            isItemInGroup:
-                groupControl.itemIndexInGroup($item, _group.id) != -1,
-            group: _group,
-        }));
+        groupList = groupControl
+            .getAll()
+            .map(
+                (_group) =>
+                    new SelectionGroup(
+                        _group,
+                        groupControl.itemIndexInGroup($item, _group.id) != -1
+                    )
+            );
     }
 
     function expandToggle(event) {
@@ -40,7 +45,7 @@
     }
 
     function onRemoveFromGroup(event) {
-        if(event.detail.group.id == $selectedGroup.id)
+        if (event.detail.group.id == $selectedGroup.id)
             groupControl.selectDefault();
         groupControl.removeItem(event.detail.group, event.detail.item);
     }

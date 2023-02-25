@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Item } from "../../../types/data";
+    import type { Item, Group } from "../../../types/data";
 
     import { IconButton, TextBlock } from "fluent-svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
@@ -9,15 +9,33 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_lines_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import EditMultipleItemsGroupDialog from "../../Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
+    import RemoveMultipleItemsDialog from "../../Dialogs/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
     const dispatch = createEventDispatcher();
 
     export let items: Item[] = [];
+    export let groups: Group[] = [];
     export let selectedItems: Item[] = [];
+
+    let isEditGroupsDialogOpened = false;
+    let isRemoveMultipleItemsOpened = false;
 
     let onSelectAll = () => dispatch("selectall");
 
     let removeItems = () => dispatch("removeitems", { items: selectedItems });
-    let onGroupEdit = () => dispatch("groupedit", { items: selectedItems });
+    let onGroupOfItemsEdit = (remove, add) =>
+        dispatch("groupset", { items: selectedItems, remove, add });
+
+    let onGroupsSet = function (event) {
+        onGroupOfItemsEdit(event.detail.remove, event.detail.add);
+    };
+
+    let showEditGroupsDialog = () => {
+        isEditGroupsDialogOpened = true;
+    };
+    let showRemoveMultipleItemsDialog = () => {
+        isRemoveMultipleItemsOpened = true;
+    };
 </script>
 
 <div class="selection-menu">
@@ -31,13 +49,25 @@
         {@html SelectAllOn}
     </IconButton>
     <Separator />
-    <IconButton disabled={selectedItems.length === 0} on:click={onGroupEdit}>
+    <IconButton
+        disabled={selectedItems.length === 0}
+        on:click={showEditGroupsDialog}
+    >
         {@html EditGroups}
     </IconButton>
     <Separator />
-    <IconButton disabled={selectedItems.length === 0} on:click={removeItems}>
+    <IconButton disabled={selectedItems.length === 0} on:click={showRemoveMultipleItemsDialog}>
         {@html DeleteIcon}
     </IconButton>
+    <EditMultipleItemsGroupDialog
+        bind:open={isEditGroupsDialogOpened}
+        on:setgroup={onGroupsSet}
+        {groups}
+    />
+    <RemoveMultipleItemsDialog
+        bind:open={isRemoveMultipleItemsOpened}
+        on:remove={removeItems}
+        />
 </div>
 
 <style lang="scss">

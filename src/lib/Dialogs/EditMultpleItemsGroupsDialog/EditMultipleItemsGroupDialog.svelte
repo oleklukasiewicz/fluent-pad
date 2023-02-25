@@ -1,0 +1,62 @@
+<script lang="ts">
+    import { _ } from "svelte-i18n";
+
+    import { Button, ContentDialog } from "fluent-svelte";
+
+    import { createEventDispatcher } from "svelte";
+    import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
+    const dispatch = createEventDispatcher();
+
+    export let open = false;
+    export let groups = [];
+
+    let removeFromGroupList = [];
+    let addToGroupList = [];
+
+    $: if (!open) {
+        removeFromGroupList = groups;
+        addToGroupList = [];
+    }
+
+    let setGroups = function () {
+        dispatch("setgroup", {
+            remove: removeFromGroupList,
+            add: addToGroupList,
+        });
+        closeDialog();
+    };
+    let toAddList = function (group) {
+        addToGroupList.push(group);
+        removeFromGroupList=removeFromGroupList.filter((g)=>g.id!=group.id);
+    };
+    let toRemoveList = function (group) {
+        removeFromGroupList.push(group);
+        addToGroupList=addToGroupList.filter((g)=>g.id!=group.id);
+    };
+    let closeDialog = function () {
+        open = false;
+    };
+</script>
+
+<ContentDialog
+    bind:open
+    title={$_("dialogs.edit_groups_of_multiple_items.title")}
+    on:backdropclick={closeDialog}
+>
+    {#each groups as group}
+        <CheckBoxListItem
+            on:select={() => toAddList(group)}
+            on:unselect={() => toRemoveList(group)}
+        >
+            {group.title}
+        </CheckBoxListItem>
+    {/each}
+    <svelte:fragment slot="footer">
+        <Button on:click={setGroups} variant="accent">
+            {$_("dialogs.edit_groups_of_multiple_items.set")}
+        </Button>
+        <Button on:click={closeDialog}>
+            {$_("dialogs.edit_groups_of_multiple_items.close")}
+        </Button>
+    </svelte:fragment>
+</ContentDialog>

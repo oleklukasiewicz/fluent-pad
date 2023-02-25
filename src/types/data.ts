@@ -43,3 +43,12 @@ export class SelectionItem {
         this.selected = selected || false;
     }
 }
+export class SelectionGroup {
+    selected: boolean;
+    group: Group;
+
+    constructor(group : Group, selected?: boolean) {
+        this.group = group;
+        this.selected = selected || false;
+    }
+}

@@ -5,18 +5,17 @@
         "create_group": "Create group",
         "logging": "Logging in"
     },
-    "data_names":
-    {
-        "item":"item",
-        "items":"items",
-        "group":"group",
-        "groups":"groups",
-        "new_group":"New group",
-        "new_item":"New item",
-        "no_item":"No item",
-        "no_group":"No group",
-        "no_items":"No items",
-        "no_groups":"No groups"
+    "data_names": {
+        "item": "item",
+        "items": "items",
+        "group": "group",
+        "groups": "groups",
+        "new_group": "New group",
+        "new_item": "New item",
+        "no_item": "No item",
+        "no_group": "No group",
+        "no_items": "No items",
+        "no_groups": "No groups"
     },
     "operations": {
         "add": "Add",
@@ -28,9 +27,14 @@
     },
     "dialogs": {
         "remove_item": {
-            "title":"Do you want to delete this item ?",
-            "remove":"Yes, remove item",
-            "cancel":"No, don't remove"
+            "title": "Do you want to delete this item ?",
+            "remove": "Yes, remove item",
+            "cancel": "No, don't remove"
+        },
+        "remove_multiple_items": {
+            "title": "Do you want to delete selected items ?",
+            "remove": "Yes, remove items",
+            "cancel": "No, don't remove"
         },
         "remove_group": {
             "title": "Do you want to delete this group ?",
@@ -39,19 +43,24 @@
         },
         "edit_group": {
             "title": "Edit group",
-            "title_placeholder":"Group name",
+            "title_placeholder": "Group name",
             "edit": "Save",
             "cancel": "Cancel"
         },
         "create_group": {
             "title": "Create group",
-            "title_placeholder":"Group name",
+            "title_placeholder": "Group name",
             "create": "Create",
             "cancel": "Cancel"
         },
         "edit_groups_of_item": {
             "title": "Edit groups of item",
-           "close":"Close"
+            "close": "Close"
+        },
+        "edit_groups_of_multiple_items": {
+            "title": "Set groups for items",
+            "set": "Set groups",
+            "close": "Close"
         }
     }
 }

@@ -3,6 +3,7 @@
         control,
         items,
         group,
+        groups,
         selectedItem,
         isDefaultGroup,
         groupControl,
@@ -81,6 +82,28 @@
 
         groupControl.update(_group);
     };
+    let onGroupsOfItemsSet = function (event) {
+        let items = event.detail.items;
+        let toAdd = event.detail.add;
+        let toRemove = event.detail.remove;
+
+        items.forEach((item) => {
+            toAdd.forEach((group) => {
+                groupControl.addItem(group, item);
+            });
+            toRemove.forEach((group) => {
+                groupControl.removeItem(group, item);
+            });
+        });
+    };
+
+    let onRemoveMultipleItems=function(event)
+    {
+        let items = event.detail.items;
+        items.forEach((item) => {
+            control.remove(item);
+        });
+    }
     let onGroupRemove = function () {
         groupControl.remove($group);
     };
@@ -133,14 +156,17 @@
                 />
                 <GroupItemsOptions
                     on:add={onAdd}
-                    on:editmultipleitems={onEditItems}
+                    on:multiselect={onEditItems}
                     bind:multiselect={isMultipleSelectionEnabled}
                     group={$group}
                 >
                     <MultiSelectionOptions
                         selectedItems={$selectedItems}
                         items={$items}
+                        groups={$groups}
                         on:selectall={onMultiSelectAll}
+                        on:groupset={onGroupsOfItemsSet}
+                        on:removeitems={onRemoveMultipleItems}
                     />
                 </GroupItemsOptions>
                 <GroupItemsCollection

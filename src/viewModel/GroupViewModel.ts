@@ -10,6 +10,7 @@ import { isMobileView as isMobile } from '../models/ui';
 export const control: IItemModel = Storage.item;
 export const groupControl: IGroupModel = Storage.group;
 
+export const groups: Readable<Group[]> = derived(Storage.storage, ($groups: Group[]) =>Storage.group.getAll() || []);
 export const group: Writable<Group> = writableDerived(Storage.group.selectedGroup, (s) => s, (s) => s);
 export const isDefaultGroup: Readable<boolean> = derived(Storage.group.selectedGroupIsDefault, (s: any) => s);
 

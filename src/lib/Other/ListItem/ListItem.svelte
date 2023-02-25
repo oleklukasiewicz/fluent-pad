@@ -5,7 +5,7 @@
     import MultiSelectListItem from "../MultiSelectListItem/MultiSelectListItem.svelte";
 
     export let item: BaseItem;
-    export let isCompact: boolean = true;
+    export let compact: boolean = true;
     export let selected: boolean = false;
     export let multiselect: boolean = false;
 </script>
@@ -17,9 +17,9 @@
     bind:selected
     {...$$restProps}
     on:click
-    class={"container " + (!isCompact ? "extended" : "compact")}
+    class={"container " + (!compact ? "extended" : "compact")}
 >
-    {#if isCompact}
+    {#if compact}
         {item.title}
     {:else}
         <div class="item-data">

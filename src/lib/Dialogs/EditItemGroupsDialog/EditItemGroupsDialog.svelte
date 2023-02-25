@@ -5,10 +5,11 @@
     import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
 
     import { createEventDispatcher } from "svelte";
+    import type { SelectionGroup } from "../../../types/data";
     const dispatch = createEventDispatcher();
 
     export let open = false;
-    export let groups = [];
+    export let groups: SelectionGroup[] = [] as SelectionGroup[];
     export let item;
 
     function removeItemFromGroup(item, group) {
@@ -30,7 +31,7 @@
 >
     {#each groups as selectionGroup}
         <CheckBoxListItem
-            checked={selectionGroup.isItemInGroup}
+            checked={selectionGroup.selected}
             on:select={() => addItemToGroup(item, selectionGroup.group)}
             on:unselect={() => removeItemFromGroup(item, selectionGroup.group)}
         >

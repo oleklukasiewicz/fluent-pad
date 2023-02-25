@@ -186,18 +186,21 @@ const group: IGroupModel =
     selectDefault: function () {
         group.selectIndex(0);
     },
-    getAll: () => get(storage).slice(1),
+    getAll: () => get(storage).filter((group: Group) => group.id !== _defaultGroup.id),
     getDefault: () => _defaultGroup,
     get: (groupId: string) => _findGroupById(groupId),
     itemIndexInGroup: (itemArg: any, groupArg: any) => {
         const group: Group = _resolveGroup(groupArg);
         const item: Item = _resolveItem(itemArg);
 
-        return group.items.findIndex((_item: Item) => _item.id === item?.id);
+        return group.items ? group.items.findIndex((_item: Item) => _item.id === item?.id) : -1;
     },
     addItem: function (group: any, item: any) {
         const _group: Group = _resolveGroup(group);
         const _item: Item = _resolveItem(item);
+
+        if (Storage.group.itemIndexInGroup(_item, _group) !== -1)
+            return;
 
         _group.items.push(_item);
         _group.modifyDate = new Date();
@@ -212,6 +215,9 @@ const group: IGroupModel =
     removeItem: function (group: any, item: any) {
         const _group: Group = _resolveGroup(group);
         const _item: Item = _resolveItem(item);
+
+        if (Storage.group.itemIndexInGroup(_item, _group) === -1)
+            return;
 
         _removeItemFromGroup(_group, _item.id);
         _group.modifyDate = new Date();
