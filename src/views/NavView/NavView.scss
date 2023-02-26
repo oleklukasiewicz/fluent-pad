@@ -2,8 +2,9 @@
 {
     display: flex;
     flex-direction: row;
+    background-color: var(--fds-solid-background-secondary);
+    max-height: 100vh;
 }
-
 :global(#settings-button svg)
 {
     vertical-align: bottom;

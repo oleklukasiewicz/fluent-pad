@@ -51,12 +51,22 @@
             {group.title}
         </CheckBoxListItem>
     {/each}
-    <svelte:fragment slot="footer">
+    <div slot="footer" class="footer">
         <Button on:click={setGroups} variant="accent">
             {$_("dialogs.edit_groups_of_multiple_items.set")}
         </Button>
         <Button on:click={closeDialog}>
             {$_("dialogs.edit_groups_of_multiple_items.close")}
         </Button>
-    </svelte:fragment>
+    </div>
 </ContentDialog>
+<style lang="scss">
+    .footer {
+        display: flex;
+        gap: 10px;
+        width: 100%;
+    }
+    :global(.footer > *) {
+        flex: 1;
+    }
+</style>

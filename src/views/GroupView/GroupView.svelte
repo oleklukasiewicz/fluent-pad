@@ -63,7 +63,11 @@
 
     let onSelect = (event) => {
         isDetailViewOpened = true;
-        if (!isMultipleSelectionEnabled) control.select(event.detail.item);
+        if (
+            !isMultipleSelectionEnabled &&
+            $selectedItem.id != event.detail.item.id
+        )
+            control.select(event.detail.item);
     };
 
     let onAdd = () => {
@@ -97,13 +101,12 @@
         });
     };
 
-    let onRemoveMultipleItems=function(event)
-    {
+    let onRemoveMultipleItems = function (event) {
         let items = event.detail.items;
         items.forEach((item) => {
             control.remove(item);
         });
-    }
+    };
     let onGroupRemove = function () {
         groupControl.remove($group);
     };

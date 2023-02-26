@@ -19,6 +19,7 @@
     },
     "operations": {
         "add": "Add",
+        "add_item": "Add item",
         "edit": "Edit",
         "delete": "Delete",
         "save": "Save",

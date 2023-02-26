@@ -3,6 +3,10 @@
     grid-template-columns: auto 1fr auto;
     width: 100%;
 }
+:global(#user-button)
+{
+    padding-right: 6px;
+}
 :global(#user-button .person-picture) {
     margin-top: 2px;
 }
@@ -20,4 +24,8 @@
     height: 16px;
     margin-top: 4px;
     text-align: center;
+}
+#logout-icon
+{
+    margin-top:2px;
 }

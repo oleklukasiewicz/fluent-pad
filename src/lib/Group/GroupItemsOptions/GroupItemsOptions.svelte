@@ -47,7 +47,7 @@
                     style="max-height:31px;padding-block:4px;"
                 >
                     {@html AddIcon}
-                    &nbsp; {$_("operations.add")}
+                    &nbsp; {$_("operations.add_item")}
                 </Button>
             </div>
             <IconButton id="sort-button" on:click={showSorterDialog}>

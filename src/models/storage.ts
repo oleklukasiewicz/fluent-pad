@@ -6,6 +6,7 @@ import type IBackend from '../types/backend';
 import { firebaseBackend } from '../backend/firebase';
 import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
 import { _ } from 'svelte-i18n';
+import { compareItems } from '../helpers';
 
 let loadedBackend: IBackend = firebaseBackend;
 
@@ -69,19 +70,41 @@ const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
 
 const selectedIndex: Writable<number> = writable(-1);
 
-const timeForSave = 300;
+const timeForSave = 1000;
+let needSave = false;
 let saveTimeout = null;
 
+const setupUpdate = function (_item) {
+    clearTimeout(saveTimeout);
+    needSave = true;
+    saveTimeout = setTimeout(() => {
+        needSave = false;
+        item.update(_item);
+    }
+        , timeForSave);
+}
+const forceUpdate = function (_item) {
+    if (needSave) {
+        clearTimeout(saveTimeout);
+        needSave = false;
+        item.update(_item);
+    }
+}
+
 const selectedItem: Writable<Item> = writableDerived(selectedIndex,
-    (s) => _defaultGroup.items[s] || {} as Item,
+    ($s) => _defaultGroup.items[$s] || {} as Item,
     (value: Item) => {
+        const prevItem = _defaultGroup.items[get(selectedIndex)];
         if (!value.id)
             return -1;
-        if (value.id === _defaultGroup.items[get(selectedIndex)]?.id) {
-            clearTimeout(saveTimeout);
-            saveTimeout = setTimeout(() => item.update(value), timeForSave);
+        if (value.id === prevItem?.id) {
+            setupUpdate(value);
+            return get(selectedIndex);
+        } else {
+            if (prevItem)
+                forceUpdate(prevItem);
+            return _findItemIndexById(value.id);
         }
-        return _findItemIndexById(value.id);
     });
 
 selectedGroup.subscribe((group: Group) => {

@@ -5,8 +5,10 @@
     display: grid;
     grid-template-rows: 1fr auto;
     grid-template-columns: 100%;
-    min-width: 300px;
-    padding: 8px;
+    min-width:200px;
+    width: 25vw;
+    max-width: 300px;
+    padding: 6px 8px 8px;
     box-sizing: border-box;
 
     &.minimal {
