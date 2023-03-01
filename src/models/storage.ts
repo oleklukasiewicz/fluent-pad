@@ -6,7 +6,6 @@ import type IBackend from '../types/backend';
 import { firebaseBackend } from '../backend/firebase';
 import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
 import { _ } from 'svelte-i18n';
-import { compareItems } from '../helpers';
 
 let loadedBackend: IBackend = firebaseBackend;
 
@@ -63,10 +62,7 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
 const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
 const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
     (group: any) => group.items?.map((item: Item, index: number) => { item.groupIndex = index; return item; }),
-    (reflecting: any, object: any) => {
-        object.items = reflecting;
-        return object;
-    });
+    (items) => items);
 
 const selectedIndex: Writable<number> = writable(-1);
 

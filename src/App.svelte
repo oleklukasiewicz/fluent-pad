@@ -2,17 +2,17 @@
 	import Router from "svelte-spa-router";
 	import "./i18n/i18n.ts";
 
+	import { isLogged } from "./viewModel/AppViewModel";
+
 	import "fluent-svelte/theme.css";
 
-	import GroupListView from "./views/NavView/NavView.svelte";
-	import GroupView from "./views/GroupView/GroupView.svelte";
+	import NavView from "./views/NavView/NavView.svelte";
+	import Group from "./views/GroupView/GroupView.svelte";
 	import Settings from "./views/SettingsView/Settings.svelte";
 	import Login from "./views/LoginView/LoginView.svelte";
 
-	import { isLogged } from "./viewModel/AppViewModel";
-
 	const routes = {
-		"/": GroupView,
+		"/": Group,
 		"/settings": Settings,
 	};
 </script>
@@ -21,12 +21,12 @@
 	{#if !$isLogged}
 		<Login />
 	{:else}
-		<GroupListView>
+		<NavView>
 			<Router {routes} />
-		</GroupListView>
+		</NavView>
 	{/if}
 </main>
 
 <style lang="scss" global>
-	@use "App.scss"
+	@use "App.scss";
 </style>

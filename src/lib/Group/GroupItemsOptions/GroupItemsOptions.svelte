@@ -3,7 +3,7 @@
 
     import type { Group } from "../../../types/data";
 
-    import { IconButton, Button, ContentDialog } from "fluent-svelte";
+    import { IconButton, Button } from "fluent-svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
@@ -12,6 +12,7 @@
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import ItemSortDialog from "../../Dialogs/ItemSortDialog/ItemSortDialog.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
@@ -67,13 +68,7 @@
             {@html SelectAllIcon}
         </ToggleIconButton>
     </div>
-    <ContentDialog bind:open={isSorterDialogOpen} title="Sorters">
-        <svelte:fragment slot="footer">
-            <Button on:click={() => (isSorterDialogOpen = false)}>
-                {$_("operations.close")}
-            </Button>
-        </svelte:fragment>
-    </ContentDialog>
+    <ItemSortDialog bind:open={isSorterDialogOpen} on:sort/>
 </div>
 
 <style lang="scss">

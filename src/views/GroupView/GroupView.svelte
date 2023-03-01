@@ -36,8 +36,13 @@
 
     let isDetailViewOpened = false;
     let isMultipleSelectionEnabled = false;
+    let direction = "asc";
+    let sortValue = "title";
+
+    const sortedItems: Writable<Item[]> = writable([]);
 
     const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
+    
     const selectedItems: Readable<Item[]> = derived(
         itemsWithSelection,
         ($itemsWithSelection) =>
@@ -47,12 +52,17 @@
     );
 
     items.subscribe((items) => {
+        sortedItems.set(sortItems([...items], sortValue, direction));
+    });
+
+    sortedItems.subscribe((items) => {
         itemsWithSelection.set(
             items.map(
                 (item) => new SelectionItem(item, item.id === $selectedItem?.id)
             )
         );
     });
+
     selectedItem.subscribe((item) => {
         itemsWithSelection.update((items) => {
             let index = items.findIndex((i) => i.item.id === item?.id);
@@ -60,6 +70,27 @@
             return items;
         });
     });
+
+    const onSort = function (event) {
+        sortValue = event.detail.value;
+        direction = event.detail.direction;
+
+        sortedItems.update((_items) => {
+            return sortItems(_items, sortValue, direction);
+        });
+    };
+
+    function sortItems(_items, prop, direction) {
+        
+        return _items.sort((a, b) => {
+            const aValue = a[prop];
+            const bValue = b[prop];
+
+            if (aValue > bValue) return direction == "asc" ? 1 : -1;
+            else if (aValue < bValue) return direction == "asc" ? -1 : 1;
+            else return 0;
+        });
+    }
 
     let onSelect = (event) => {
         isDetailViewOpened = true;
@@ -158,6 +189,7 @@
                     on:removegroup={onGroupRemove}
                 />
                 <GroupItemsOptions
+                    on:sort={onSort}
                     on:add={onAdd}
                     on:multiselect={onEditItems}
                     bind:multiselect={isMultipleSelectionEnabled}
@@ -165,7 +197,7 @@
                 >
                     <MultiSelectionOptions
                         selectedItems={$selectedItems}
-                        items={$items}
+                        items={$sortedItems}
                         groups={$groups}
                         on:selectall={onMultiSelectAll}
                         on:groupset={onGroupsOfItemsSet}

@@ -1,5 +1,3 @@
-import { GENERATE_ID, TYPE } from "../helpers";
-
 export class BaseItem {
     id: string;
     createDate: Date;
@@ -20,7 +18,7 @@ export class Group extends BaseItem {
     items: Item[];
 
     constructor(id: string, title?: string, createDate?: Date, modifyDate?: Date) {
-        super(id || GENERATE_ID(TYPE.group), title || "", "", createDate, modifyDate);
+        super(id, title || "", "", createDate, modifyDate);
         this.items = [];
     }
 }
@@ -29,7 +27,7 @@ export class Item extends BaseItem {
     groupIndex: number;
 
     constructor(id: string, title?: string, content?: string, createDate?: Date, modifyDate?: Date, groups?: string[]) {
-        super(id || GENERATE_ID(TYPE.item), title || "", content || "", createDate, modifyDate);
+        super(id, title || "", content || "", createDate, modifyDate);
         this.groupIndex = -1;
         this.groups = groups || [];
     }
