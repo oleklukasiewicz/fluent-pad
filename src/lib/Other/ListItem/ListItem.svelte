@@ -13,6 +13,8 @@
 <MultiSelectListItem
     on:select
     on:unselect
+    on:check
+    on:uncheck
     {multiselect}
     bind:selected
     {...$$restProps}

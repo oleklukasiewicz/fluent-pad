@@ -12,6 +12,8 @@ export interface IGroupModel {
     selectIndex(index: number): void;
     selectDefault(): void;
 
+    sort(group:Group,prop:string,direction:string):Group;
+
     getAll(): Group[];
     getDefault(): Group;
     get(groupId: string): Group;

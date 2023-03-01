@@ -250,6 +250,25 @@ const group: IGroupModel =
         loadedBackend.updateGroup(_group);
         loadedBackend.updateItem(_item);
     },
+    sort: function (group, prop, direction) {
+        const _items = _resolveGroup(group).items;
+       
+        if (_items) {
+            _items.sort((a, b) => {
+                const aValue = a[prop];
+                const bValue = b[prop];
+
+                if (aValue > bValue) return direction == "asc" ? 1 : -1;
+                else if (aValue < bValue) return direction == "asc" ? -1 : 1;
+                else return 0;
+            });
+        }
+
+        if(group.id === get(selectedGroup).id)
+            selectedGroup.update(group => group);
+
+        return group;
+    },
     selectedGroup: selectedGroup,
     selectedGroupIndex: selectedGroupIndex,
     selectedGroupItems: selectedGroupItems,
