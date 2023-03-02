@@ -128,7 +128,6 @@ const _addItemToGroup = (group: Group, item: Item, dontUpdateStores = false) => 
         _updateSelectedItemGroups(item);
 }
 
-
 const _updateSelectedItemGroups = (item: Item) => {
     selectedItem.update(_item => {
         _item.groups = item.groups;
@@ -145,7 +144,6 @@ const _updateItem = function (item: Item) {
     item.modifyDate = new Date();
     loadedBackend.updateItem(item);
 }
-
 
 const group: IGroupModel =
 {

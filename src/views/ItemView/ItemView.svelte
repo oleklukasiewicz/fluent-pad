@@ -28,7 +28,7 @@
                 (_group) =>
                     new SelectionGroup(
                         _group,
-                        groupControl.itemIndexInGroup($item, _group.id) != -1
+                        groupControl.itemIndexInGroup($item, _group) != -1
                     )
             );
     }
@@ -39,8 +39,8 @@
     function removeItem() {
         control.remove($id);
     }
-    function groupClick(groupId) {
-        if ($selectedGroup.id != groupId) groupControl.select(groupId);
+    function groupClick(group) {
+        if ($selectedGroup.id != group.id) groupControl.select(group);
         else groupControl.selectDefault();
     }
 
@@ -74,7 +74,7 @@
                     variant={$selectedGroup.id == group.id
                         ? "accent"
                         : "standard"}
-                    on:click={() => groupClick(group.id)}
+                    on:click={() => groupClick(group)}
                 />
             {/each}
         </div>
