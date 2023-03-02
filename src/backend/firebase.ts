@@ -39,7 +39,7 @@ const ItemConvertToFirebase = (item: Item) => {
     return fireItem;
 };
 const GroupConvertToFirebase = (group: Group) => {
-    const fireGroup = (({ items, ...o }) => o)(group);
+    const fireGroup = (({ items,sortFunction,filterFunction, ...o }) => o)(group);
     return fireGroup;
 };
 const ItemConvertToApp = (item: any) => {

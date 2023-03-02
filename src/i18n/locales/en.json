@@ -3,7 +3,8 @@
         "settings": "Settings",
         "all_items": "All items",
         "create_group": "Create group",
-        "logging": "Logging in"
+        "logging": "Logging in",
+        "search": "Search"
     },
     "data_names": {
         "item": "item",

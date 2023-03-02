@@ -12,7 +12,7 @@ export interface IGroupModel {
     selectIndex(index: number): void;
     selectDefault(): void;
 
-    sort(group:Group,prop:string,direction:string):Group;
+    sort(group: Group, method: any): Group;
 
     getAll(): Group[];
     getDefault(): Group;
@@ -21,6 +21,7 @@ export interface IGroupModel {
     itemIndexInGroup(itemId: any, groupId: any): number;
     addItem(group: any, item: any): void;
     removeItem(group: any, item: any): void;
+    setForItem(item: any, groups: string[]): void;
 
     selectedGroupIndex: Writable<number>;
     selectedGroup: Writable<Group>;

@@ -65,12 +65,13 @@
     });
 
     let onSelect = (event) => {
-        isDetailViewOpened = true;
-        if (
-            !isMultipleSelectionEnabled &&
-            $selectedItem.id != event.detail.item.id
-        )
-            control.select(event.detail.item);
+        if (!isMultipleSelectionEnabled) {
+            isDetailViewOpened = true;
+
+            if ($selectedItem.id != event.detail.item.id) {
+                control.select(event.detail.item);
+            }
+        }
     };
 
     let onAdd = () => {
@@ -95,12 +96,7 @@
         let toRemove = event.detail.remove;
 
         items.forEach((item) => {
-            toAdd.forEach((group) => {
-                groupControl.addItem(group, item);
-            });
-            toRemove.forEach((group) => {
-                groupControl.removeItem(group, item);
-            });
+            groupControl.setForItem(item, toAdd);
         });
     };
 
@@ -131,7 +127,14 @@
         sortValue = event.detail.value;
         direction = event.detail.direction;
 
-       groupControl.sort($group, sortValue, direction);
+        groupControl.sort($group,(a, b) => {
+                const aValue = a[sortValue];
+                const bValue = b[sortValue];
+
+                if (aValue > bValue) return direction == "asc" ? 1 : -1;
+                else if (aValue < bValue) return direction == "asc" ? -1 : 1;
+                else return 0;
+            });
     };
 
     let onEditItems = function (event) {

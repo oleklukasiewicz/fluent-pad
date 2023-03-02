@@ -14,7 +14,7 @@
 
     import type { Group } from "../../types/data";
 
-    import { ListItem } from "fluent-svelte";
+    import { ListItem, TextBox } from "fluent-svelte";
     import GroupList from "../../lib/Nav/GroupList/GroupList.svelte";
     import UserButton from "../../lib/Nav/UserButton/UserButton.svelte";
     import NavigationMenu from "../../lib/Nav/NavigationMenu/NavigationMenu.svelte";
@@ -33,6 +33,8 @@
 <div class="nav-view">
     <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
         <div slot="items">
+            <TextBox type="search" id="search-box" placeholder={$_("nav.search")} />
+            <br>
             <GroupList
                 groups={$groups}
                 defaultGroup={$groups[0]}

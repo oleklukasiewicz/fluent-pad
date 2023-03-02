@@ -16,10 +16,14 @@ export class BaseItem {
 
 export class Group extends BaseItem {
     items: Item[];
+    sortFunction: any;
+    filterFunction: any;
 
     constructor(id: string, title?: string, createDate?: Date, modifyDate?: Date) {
         super(id, title || "", "", createDate, modifyDate);
         this.items = [];
+        this.sortFunction = () => 0;
+        this.filterFunction = () => true;
     }
 }
 export class Item extends BaseItem {
@@ -36,7 +40,7 @@ export class SelectionItem {
     selected: boolean;
     item: Item;
 
-    constructor(item : Item, selected?: boolean) {
+    constructor(item: Item, selected?: boolean) {
         this.item = item;
         this.selected = selected || false;
     }
@@ -45,7 +49,7 @@ export class SelectionGroup {
     selected: boolean;
     group: Group;
 
-    constructor(group : Group, selected?: boolean) {
+    constructor(group: Group, selected?: boolean) {
         this.group = group;
         this.selected = selected || false;
     }

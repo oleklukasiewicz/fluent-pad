@@ -61,7 +61,7 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
 
 const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
 const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
-    (group: any) => group.items?.map((item: Item, index: number) => { item.groupIndex = index; return item; }),
+    (group: any) => group.items?.sort(group.sortFunction).map((item: Item, index: number) => { item.groupIndex = index; return item; }),
     (items) => items);
 
 const selectedIndex: Writable<number> = writable(-1);
@@ -127,17 +127,55 @@ selectedItem.subscribe((value: Item) => {
     }
 });
 
-const _removeItemFromGroup = (group: Group, id: string) => {
+const _removeItemFromGroupOnly = (group: Group, id: string, dontUpdateStores = false) => {
     group.items.splice(group.items.findIndex((it) => it.id === id), 1);
-    if (group.id === get(selectedGroup).id)
-        selectedGroup.update(group => group);
+    if (!dontUpdateStores)
+        storage.update(_storage => _storage);
 }
+
+const _removeItemFromGroup = (group: Group, item: any, dontUpdateStores = false) => {
+    const _item = _resolveItem(item);
+
+    _removeItemFromGroupOnly(group, _item.id, dontUpdateStores);
+
+    const _index: number = _item.groups.findIndex((_g) => _g === group.id);
+    _item.groups.splice(_index, 1);
+
+    if (get(selectedItem).id === _item.id && !dontUpdateStores)
+        _updateSelectedItemGroups(_item);
+
+}
+const _addItemToGroup = (group: Group, item: any, dontUpdateStores = false) => {
+    const _item = _resolveItem(item);
+
+    group.items.push(_item);
+    _item.groups.push(group.id);
+
+    if (!dontUpdateStores)
+        storage.update(_storage => _storage);
+
+    if (get(selectedItem).id === _item.id && !dontUpdateStores)
+        _updateSelectedItemGroups(_item);
+}
+
+
 const _updateSelectedItemGroups = (item: Item) => {
     selectedItem.update(_item => {
         _item.groups = item.groups;
         return item;
     })
 }
+
+const _updateGroup = function (group: Group) {
+    group.modifyDate = new Date();
+    loadedBackend.updateGroup(group);
+}
+
+const _updateItem = function (item: Item) {
+    item.modifyDate = new Date();
+    loadedBackend.updateItem(item);
+}
+
 
 const group: IGroupModel =
 {
@@ -221,15 +259,10 @@ const group: IGroupModel =
         if (Storage.group.itemIndexInGroup(_item, _group) !== -1)
             return;
 
-        _group.items.push(_item);
-        _group.modifyDate = new Date();
-
-        _item.groups.push(_group.id);
-
-        _updateSelectedItemGroups(_item);
-        storage.update(_storage => _storage);
-
-        loadedBackend.updateGroup(_group)
+        _addItemToGroup(_group, _item);
+        _updateGroup(_group);
+        if (get(selectedItem).id !== _item.id)
+            _updateItem(_item);
     },
     removeItem: function (group: any, item: any) {
         const _group: Group = _resolveGroup(group);
@@ -238,33 +271,46 @@ const group: IGroupModel =
         if (Storage.group.itemIndexInGroup(_item, _group) === -1)
             return;
 
-        _removeItemFromGroup(_group, _item.id);
-        _group.modifyDate = new Date();
-
-        const _index: number = _item.groups.findIndex((_g) => _g === _group.id);
-        _item.groups.splice(_index, 1);
-
-        _updateSelectedItemGroups(_item);
-        storage.update(_storage => _storage);
-
-        loadedBackend.updateGroup(_group);
-        loadedBackend.updateItem(_item);
+        _removeItemFromGroup(_group, _item);
+        _updateGroup(_group);
+        if (get(selectedItem).id !== _item.id)
+            _updateItem(_item);
     },
-    sort: function (group, prop, direction) {
-        const _items = _resolveGroup(group).items;
-       
-        if (_items) {
-            _items.sort((a, b) => {
-                const aValue = a[prop];
-                const bValue = b[prop];
+    setForItem: function (item: any, groupsId: Group[] | string[]) {
+        const _item: Item = _resolveItem(item);
 
-                if (aValue > bValue) return direction == "asc" ? 1 : -1;
-                else if (aValue < bValue) return direction == "asc" ? -1 : 1;
-                else return 0;
-            });
-        }
+        const _storage = get(storage);
 
-        if(group.id === get(selectedGroup).id)
+        _storage.forEach((_group) => {
+            if (_group.id === _defaultGroup.id)
+                return;
+
+            const setListHaveGroupId = groupsId.findIndex((_id) => _id === _group.id || _id.id === _group.id) !== -1;
+            const isItemInGroup = group.itemIndexInGroup(_item, _group) !== -1;
+
+            if (setListHaveGroupId) {
+
+                if (!isItemInGroup) {
+                    _addItemToGroup(_group, _item, true);
+                    _updateGroup(_group);
+                }
+            } else {
+                if (isItemInGroup) {
+                    _removeItemFromGroup(_group, _item, true);
+                    _updateGroup(_group);
+                }
+            }
+        });
+        storage.update(_storage => _storage);
+        if (get(selectedItem).id === _item.id)
+            selectedItem.set(_item);
+        _updateItem(_item);
+    },
+    sort: function (group, method = () => 0) {
+        const _group = _resolveGroup(group);
+        _group.sortFunction = method;
+
+        if (group.id === get(selectedGroup).id)
             selectedGroup.update(group => group);
 
         return group;
@@ -320,9 +366,9 @@ const item: IItemModel =
         const _index: number = _findItemIndexById(rItem);
         const _item: Item = _defaultGroup.items[_index];
 
-        _item.groups.forEach((groupId: string) => _removeItemFromGroup(_findGroupById(groupId), _item.id));
+        _item.groups.forEach((groupId: string) => _removeItemFromGroupOnly(_findGroupById(groupId), _item.id));
 
-        _removeItemFromGroup(_defaultGroup, _item.id);
+        _removeItemFromGroupOnly(_defaultGroup, _item.id);
 
         if (get(selectedGroup).items.length > 0) {
             if (get(selectedIndex) === _index)
