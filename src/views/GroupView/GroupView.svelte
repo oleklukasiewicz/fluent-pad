@@ -93,7 +93,6 @@
     let onGroupsOfItemsSet = function (event) {
         let items = event.detail.items;
         let toAdd = event.detail.add;
-        let toRemove = event.detail.remove;
 
         items.forEach((item) => {
             groupControl.setForItem(item, toAdd);

@@ -10,27 +10,22 @@
     export let open = false;
     export let groups = [];
 
-    let removeFromGroupList = [];
     let addToGroupList = [];
 
     $: if (!open) {
-        removeFromGroupList = groups;
         addToGroupList = [];
     }
 
     let setGroups = function () {
         dispatch("setgroup", {
-            remove: removeFromGroupList,
             add: addToGroupList,
         });
         closeDialog();
     };
     let toAddList = function (group) {
         addToGroupList.push(group);
-        removeFromGroupList=removeFromGroupList.filter((g)=>g.id!=group.id);
     };
     let toRemoveList = function (group) {
-        removeFromGroupList.push(group);
         addToGroupList=addToGroupList.filter((g)=>g.id!=group.id);
     };
     let closeDialog = function () {
