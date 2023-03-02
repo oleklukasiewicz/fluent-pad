@@ -13,15 +13,14 @@ let loadedBackend: IBackend = firebaseBackend;
 
 let _defaultGroup = new Group("default_group", get(_)("nav.all_items"));
 
-const _findItemById = (id: string, group = _defaultGroup): Item => group.items.find((groupItem) => groupItem.id === id) || {} as Item;
-const _findGroupById = (id: string): Group => get(storage).find((storageGroup: Group) => storageGroup.id === id) || {} as Group;
+const _findItemById = (id: string, group = _defaultGroup): Item => group.items.find((groupItem) => groupItem.id === id) || null as Item;
+const _findGroupById = (id: string): Group => get(storage).find((storageGroup: Group) => storageGroup.id === id) || null as Group;
 
 const _findItemIndexById = (id: string, group = _defaultGroup): number => group.items.findIndex((groupItem) => groupItem.id === id);
 const _findGroupIndexById = (id: string): number => get(storage).findIndex((storageGroup) => storageGroup.id === id);
 
 
-const storage: Writable<Group[]> = writable([]);
-get(storage).push(_defaultGroup);
+const storage: Writable<Group[]> = writable([_defaultGroup]);
 
 const selectedGroupIndex: Writable<number> = writable(-1);
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
@@ -45,9 +44,8 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     });
 
 const selectedGroupIsDefault: Readable<boolean> = derived(selectedGroup, ($group: Group) => $group.id === _defaultGroup.id);
-const selectedGroupItems: Writable<Item[]> = writableDerived(selectedGroup,
-    (group: any) => group.items?.sort(group.sortFunction).map((item: Item, index: number) => { item.groupIndex = index; return item; }),
-    (items) => items);
+const selectedGroupItems: Readable<Item[]> = derived(selectedGroup,
+    (group: any) => group.items?.sort(group.sortFunction).map((item: Item, index: number) => { item.groupIndex = index; return item; }));
 
 const selectedIndex: Writable<number> = writable(-1);
 
@@ -211,7 +209,7 @@ const group: IGroupModel =
     getAll: () => get(storage).filter((group: Group) => group.id !== _defaultGroup.id),
     getDefault: () => _defaultGroup,
     get: (groupId: string) => _findGroupById(groupId),
-    itemIndexInGroup: (item: Item, group: Group) => group.items ? group.items.findIndex((_item: Item) => _item.id === item?.id) : -1,
+    itemIndexInGroup: (item: Item, group: Group) => group.items.findIndex((_item: Item) => _item.id === item.id),
     addItem: function (group: Group, item: Item) {
         if (Storage.group.itemIndexInGroup(item, group) !== -1)
             return;
@@ -277,7 +275,10 @@ const item: IItemModel =
         _defaultGroup.items.push(item);
         item.groups.forEach((groupId) => {
             storage.update(_storage => {
-                _findGroupById(groupId)?.items.push(item);
+                const _group = _findGroupById(groupId);
+                if (!_group)
+                    throw new Error(`Group with id ${groupId} not found`);
+                _group.items.push(item);
                 return _storage;
             })
         });

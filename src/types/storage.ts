@@ -25,7 +25,7 @@ export interface IGroupModel {
 
     selectedGroupIndex: Writable<number>;
     selectedGroup: Writable<Group>;
-    selectedGroupItems: Writable<Item[]>;
+    selectedGroupItems: Readable<Item[]>;
     selectedGroupIsDefault: Readable<boolean>;
 }
 
