@@ -329,6 +329,8 @@ const item: IItemModel =
         } else
             item.unSelect();
 
+        selectedGroup.update(group => group);
+
         //event
         return await loadedBackend.removeItem(_item);
     },
