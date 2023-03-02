@@ -6,9 +6,9 @@ export interface IGroupModel {
     load(group: Group): Promise<Group>;
     add(group: Group): Promise<Group>;
     update(group: Group): Promise<Group>;
-    remove(group: any): Promise<void>;
+    remove(groupId:string): Promise<void>;
 
-    select(group: any): void;
+    select(group: Group): void;
     selectIndex(index: number): void;
     selectDefault(): void;
 
@@ -18,10 +18,10 @@ export interface IGroupModel {
     getDefault(): Group;
     get(groupId: string): Group;
 
-    itemIndexInGroup(itemId: any, groupId: any): number;
-    addItem(group: any, item: any): void;
-    removeItem(group: any, item: any): void;
-    setForItem(item: any, groups: string[]): void;
+    itemIndexInGroup(item: Item, group: Group): number;
+    addItem(group: Group, item: Item): void;
+    removeItem(group: Group, item: Item): void;
+    setForItem(item: Item, groupsIds: string[]): void;
 
     selectedGroupIndex: Writable<number>;
     selectedGroup: Writable<Group>;
@@ -31,12 +31,12 @@ export interface IGroupModel {
 
 export interface IItemModel {
     loadAll(): Promise<void>;
-    load(group: Item): Promise<Item>;
-    add(group: Item): Promise<Item>;
-    update(group: Item): Promise<Item>;
-    remove(group: any): Promise<void>;
+    load(item: Item): Promise<Item>;
+    add(item: Item): Promise<Item>;
+    update(item: Item): Promise<Item>;
+    remove(itemId: string): Promise<void>;
 
-    select(group: any): void;
+    select(item:Item): void;
     selectIndex(index: number): void;
     unSelect(): void;
 

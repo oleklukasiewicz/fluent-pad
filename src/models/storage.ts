@@ -1,39 +1,24 @@
+import { _ } from 'svelte-i18n';
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
-import { Group, Item } from '../types/data';
-import { isUserLogged } from './user';
-import type IBackend from '../types/backend';
-import { firebaseBackend } from '../backend/firebase';
+
 import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
-import { _ } from 'svelte-i18n';
+import type IBackend from '../types/backend';
+import { Group, Item } from '../types/data';
+
+import { isUserLogged } from './user';
+import { firebaseBackend } from '../backend/firebase';
 
 let loadedBackend: IBackend = firebaseBackend;
 
 let _defaultGroup = new Group("default_group", get(_)("nav.all_items"));
 
-const _resolveGroupId = (group: any) => typeof (group) === "object" ? group.id : group;
-const _resolveItemId = (item: any) => typeof (item) === "object" ? item.id : item;
+const _findItemById = (id: string, group = _defaultGroup): Item => group.items.find((groupItem) => groupItem.id === id) || {} as Item;
+const _findGroupById = (id: string): Group => get(storage).find((storageGroup: Group) => storageGroup.id === id) || {} as Group;
 
-const _resolveItem = (item: any, group = _defaultGroup) => typeof (item) === "object" ? item : _findItemById(item, group);
-const _resolveGroup = (group: any) => typeof (group) === "object" ? group : _findGroupById(group);
+const _findItemIndexById = (id: string, group = _defaultGroup): number => group.items.findIndex((groupItem) => groupItem.id === id);
+const _findGroupIndexById = (id: string): number => get(storage).findIndex((storageGroup) => storageGroup.id === id);
 
-const _findItemById = function (item: any, group = _defaultGroup): Item {
-    let id = _resolveItemId(item);
-    return group.items.find((groupItem) => groupItem.id === id) || {} as Item;
-}
-const _findGroupById = function (group: any): Group {
-    let id = _resolveGroupId(group);
-    return get(storage).find((storageGroup: Group) => storageGroup.id === id) || {} as Group;
-}
-
-const _findItemIndexById = function (item: any, group = _defaultGroup): number {
-    let id = _resolveItemId(item);
-    return group.items.findIndex((groupItem) => groupItem.id === id);
-}
-const _findGroupIndexById = function (group: any): number {
-    let id = _resolveGroupId(group);
-    return get(storage).findIndex((storageGroup) => storageGroup.id === id);
-}
 
 const storage: Writable<Group[]> = writable([]);
 get(storage).push(_defaultGroup);
@@ -108,23 +93,11 @@ selectedGroup.subscribe((group: Group) => {
         return;
     if (group.items.length > 0) {
         const _selectedItem: Item = get(selectedItem);
-        const index: number = _selectedItem.id ? _findItemIndexById(_selectedItem, group) : 0;
+        const index: number = _selectedItem.id ? _findItemIndexById(_selectedItem.id, group) : 0;
 
         selectedItem.set(group.items[index !== -1 ? index : 0]);
     } else
         selectedItem.set({} as Item);
-});
-selectedItem.subscribe((value: Item) => {
-    if (!value.id)
-        return;
-
-    let index = value.groupIndex;
-    if (index != -1) {
-        selectedGroupItems.update((items: Item[]) => {
-            items.splice(index, 1, value);
-            return items;
-        })
-    }
 });
 
 const _removeItemFromGroupOnly = (group: Group, id: string, dontUpdateStores = false) => {
@@ -132,30 +105,27 @@ const _removeItemFromGroupOnly = (group: Group, id: string, dontUpdateStores = f
     if (!dontUpdateStores)
         storage.update(_storage => _storage);
 }
+const _removeGroupFromItemOnly = (item: Item, groupId: string, dontUpdateStores = false) => {
+    const _index: number = item.groups.findIndex((_g) => _g === groupId);
+    item.groups.splice(_index, 1);
 
-const _removeItemFromGroup = (group: Group, item: any, dontUpdateStores = false) => {
-    const _item = _resolveItem(item);
-
-    _removeItemFromGroupOnly(group, _item.id, dontUpdateStores);
-
-    const _index: number = _item.groups.findIndex((_g) => _g === group.id);
-    _item.groups.splice(_index, 1);
-
-    if (get(selectedItem).id === _item.id && !dontUpdateStores)
-        _updateSelectedItemGroups(_item);
-
+    if (get(selectedItem).id === item.id && !dontUpdateStores)
+        _updateSelectedItemGroups(item);
 }
-const _addItemToGroup = (group: Group, item: any, dontUpdateStores = false) => {
-    const _item = _resolveItem(item);
 
-    group.items.push(_item);
-    _item.groups.push(group.id);
+const _removeItemFromGroup = (group: Group, item: Item, dontUpdateStores = false) => {
+    _removeGroupFromItemOnly(item, group.id, dontUpdateStores);
+    _removeItemFromGroupOnly(group, item.id, dontUpdateStores);
+}
+const _addItemToGroup = (group: Group, item: Item, dontUpdateStores = false) => {
+    group.items.push(item);
+    item.groups.push(group.id);
 
     if (!dontUpdateStores)
         storage.update(_storage => _storage);
 
-    if (get(selectedItem).id === _item.id && !dontUpdateStores)
-        _updateSelectedItemGroups(_item);
+    if (get(selectedItem).id === item.id && !dontUpdateStores)
+        _updateSelectedItemGroups(item);
 }
 
 
@@ -204,35 +174,32 @@ const group: IGroupModel =
             selectedGroup.set(group);
         return await loadedBackend.updateGroup(group);
     },
-    remove: async function (__group: any) {
-        const _groupIndex: number = _findGroupIndexById(__group);
+    remove: async function (groupId: string) {
+        const _groupIndex: number = _findGroupIndexById(groupId);
 
-        if (_groupIndex > 0) {
-            const _storage: Group[] = get(storage);
-            const _group: Group = _storage[_groupIndex];
+        if (_groupIndex === 0)
+            return;
+
+        const _storage: Group[] = get(storage);
+        const _group: Group = _storage[_groupIndex];
+
+        _defaultGroup.items.forEach((_item) => {
+            _removeGroupFromItemOnly(_item, _group.id);
+            loadedBackend.updateItem(_item);
+        });
+
+        storage.update(_storage => {
             _storage.splice(_groupIndex, 1);
+            return _storage;
+        });
 
-            _defaultGroup.items.forEach((_item) => {
-                const _index: number = _item.groups.findIndex((_groupId) => _groupId === _group.id);
-                if (_index === -1)
-                    return;
-                _item.groups.splice(_index, 1);
+        if (get(selectedGroupIndex) === _groupIndex)
+            group.selectDefault();
 
-                if (get(selectedItem).id === _item.id)
-                    _updateSelectedItemGroups(_item);
-
-                loadedBackend.updateItem(_item);
-            });
-            storage.set(_storage);
-
-            if (get(selectedGroupIndex) === _groupIndex)
-                group.selectDefault();
-
-            return await loadedBackend.removeGroup(_group);
-        }
+        return await loadedBackend.removeGroup(_group);
     },
-    select: function (group: any) {
-        const groupIndex: number = _findGroupIndexById(group);
+    select: function (group: Group) {
+        const groupIndex: number = _findGroupIndexById(group.id);
         selectedGroupIndex.set(groupIndex);
         //event
     },
@@ -246,39 +213,26 @@ const group: IGroupModel =
     getAll: () => get(storage).filter((group: Group) => group.id !== _defaultGroup.id),
     getDefault: () => _defaultGroup,
     get: (groupId: string) => _findGroupById(groupId),
-    itemIndexInGroup: (itemArg: any, groupArg: any) => {
-        const group: Group = _resolveGroup(groupArg);
-        const item: Item = _resolveItem(itemArg);
-
-        return group.items ? group.items.findIndex((_item: Item) => _item.id === item?.id) : -1;
-    },
-    addItem: function (group: any, item: any) {
-        const _group: Group = _resolveGroup(group);
-        const _item: Item = _resolveItem(item);
-
-        if (Storage.group.itemIndexInGroup(_item, _group) !== -1)
+    itemIndexInGroup: (item: Item, group: Group) => group.items ? group.items.findIndex((_item: Item) => _item.id === item?.id) : -1,
+    addItem: function (group: Group, item: Item) {
+        if (Storage.group.itemIndexInGroup(item, group) !== -1)
             return;
 
-        _addItemToGroup(_group, _item);
-        _updateGroup(_group);
-        if (get(selectedItem).id !== _item.id)
-            _updateItem(_item);
+        _addItemToGroup(group, item);
+        _updateGroup(group);
+        if (get(selectedItem).id !== item.id)
+            _updateItem(item);
     },
-    removeItem: function (group: any, item: any) {
-        const _group: Group = _resolveGroup(group);
-        const _item: Item = _resolveItem(item);
-
-        if (Storage.group.itemIndexInGroup(_item, _group) === -1)
+    removeItem: function (group: Group, item: Item) {
+        if (Storage.group.itemIndexInGroup(item, group) === -1)
             return;
 
-        _removeItemFromGroup(_group, _item);
-        _updateGroup(_group);
-        if (get(selectedItem).id !== _item.id)
-            _updateItem(_item);
+        _removeItemFromGroup(group, item);
+        _updateGroup(group);
+        if (get(selectedItem).id !== item.id)
+            _updateItem(item);
     },
-    setForItem: function (item: any, groupsId: Group[] | string[]) {
-        const _item: Item = _resolveItem(item);
-
+    setForItem: function (item: Item, groupsId: Group[] | string[]) {
         const _storage = get(storage);
 
         _storage.forEach((_group) => {
@@ -286,29 +240,28 @@ const group: IGroupModel =
                 return;
 
             const setListHaveGroupId = groupsId.findIndex((_id) => _id === _group.id || _id.id === _group.id) !== -1;
-            const isItemInGroup = group.itemIndexInGroup(_item, _group) !== -1;
+            const isItemInGroup = group.itemIndexInGroup(item, _group) !== -1;
 
             if (setListHaveGroupId) {
 
                 if (!isItemInGroup) {
-                    _addItemToGroup(_group, _item, true);
+                    _addItemToGroup(_group, item, true);
                     _updateGroup(_group);
                 }
             } else {
                 if (isItemInGroup) {
-                    _removeItemFromGroup(_group, _item, true);
+                    _removeItemFromGroup(_group, item, true);
                     _updateGroup(_group);
                 }
             }
         });
         storage.update(_storage => _storage);
-        if (get(selectedItem).id === _item.id)
-            selectedItem.set(_item);
-        _updateItem(_item);
+        if (get(selectedItem).id === item.id)
+            selectedItem.set(item);
+        _updateItem(item);
     },
-    sort: function (group, method = () => 0) {
-        const _group = _resolveGroup(group);
-        _group.sortFunction = method;
+    sort: function (group: Group, method = () => 0) {
+        group.sortFunction = method;
 
         if (group.id === get(selectedGroup).id)
             selectedGroup.update(group => group);
@@ -362,8 +315,8 @@ const item: IItemModel =
         _item = item;
         return await loadedBackend.updateItem(item);
     },
-    remove: async function (rItem: any) {
-        const _index: number = _findItemIndexById(rItem);
+    remove: async function (itemId: any) {
+        const _index: number = _findItemIndexById(itemId);
         const _item: Item = _defaultGroup.items[_index];
 
         _item.groups.forEach((groupId: string) => _removeItemFromGroupOnly(_findGroupById(groupId), _item.id));

@@ -58,16 +58,16 @@
 
     selectedItem.subscribe((item) => {
         itemsWithSelection.update((items) => {
-            let index = items.findIndex((i) => i.item.id === item?.id);
-            if (index !== -1) items[index].selected = true;
-            return items;
+            return items.map((_item) => {
+                _item.selected = _item.item.id === item?.id;
+                return _item;
+            });
         });
     });
 
     let onSelect = (event) => {
         if (!isMultipleSelectionEnabled) {
             isDetailViewOpened = true;
-
             if ($selectedItem.id != event.detail.item.id) {
                 control.select(event.detail.item);
             }
@@ -106,42 +106,50 @@
         });
     };
     let onGroupRemove = function () {
-        groupControl.remove($group);
+        groupControl.remove($group.id);
     };
 
     const setAllItemsToValue = (value: boolean) => {
-        itemsWithSelection.update((items) => {
-            items.forEach((item) => (item.selected = value));
-            return items;
-        });
+        itemsWithSelection.update((items) =>
+            items.map((item) => {
+                item.selected = value;
+                return item;
+            })
+        );
     };
-    const updateItemSelection = (item: Item, value: boolean) => {
-        itemsWithSelection.update((items) => {
-            if (items[item.groupIndex]) items[item.groupIndex].selected = value;
-            return items;
-        });
+
+    const updateItemSelection = (item: Item, value: boolean,dontUpdateOthers:boolean=true) => {
+        itemsWithSelection.update((items) =>
+            items.map((_item) => {
+                if (_item.item.id === item.id) {
+                    _item.selected = value;
+                } else {
+                    if(!dontUpdateOthers)
+                    _item.selected = !value;
+                }
+                return _item;
+            })
+        );
     };
 
     const onSort = function (event) {
         sortValue = event.detail.value;
         direction = event.detail.direction;
 
-        groupControl.sort($group,(a, b) => {
-                const aValue = a[sortValue];
-                const bValue = b[sortValue];
+        groupControl.sort($group, (a, b) => {
+            const aValue = a[sortValue];
+            const bValue = b[sortValue];
 
-                if (aValue > bValue) return direction == "asc" ? 1 : -1;
-                else if (aValue < bValue) return direction == "asc" ? -1 : 1;
-                else return 0;
-            });
+            if (aValue > bValue) return direction == "asc" ? 1 : -1;
+            else if (aValue < bValue) return direction == "asc" ? -1 : 1;
+            else return 0;
+        });
     };
 
     let onEditItems = function (event) {
         isMultipleSelectionEnabled = event.detail.enabled;
-        if (!isMultipleSelectionEnabled) {
-            setAllItemsToValue(false);
-            updateItemSelection($selectedItem, true);
-        }
+        if (!isMultipleSelectionEnabled)
+            updateItemSelection($selectedItem, true, false);
     };
 
     let onMultiSelect = function (event) {
