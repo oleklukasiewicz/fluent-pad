@@ -19,9 +19,15 @@
     import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
     import Bange from "../../lib/Other/Bange/Bange.svelte";
 
+    import EditItemGroupsDialog from "../../lib/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+    import RemoveItemDialog from "../../lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
+
     import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
 
     let groupList = [];
+
+    let isRemoveDialogOpen = false;
+    let isGroupsDialogOpen = false;
 
     $: $id ? setGroupList() : "";
 
@@ -56,19 +62,23 @@
     function onAddToGroup(event) {
         groupControl.addItem(event.detail.group, event.detail.item);
     }
+    function showRemoveDialog() {
+       isRemoveDialogOpen = true;
+    }
+    function showGroupsDialog()
+    {
+        isGroupsDialogOpen=true;
+    }
 </script>
 
 <div id="item-view">
     {#if $id}
         <ItemViewOptions
             expandable={!$isMobileView}
-            groups={groupList}
             expanded={$isItemExpanded}
-            item={$item}
-            on:removefromgroup={onRemoveFromGroup}
-            on:addtogroup={onAddToGroup}
             on:expandtoggle={expandToggle}
-            on:remove={removeItem}
+            on:remove={showRemoveDialog}
+            on:groups={showGroupsDialog}
         />
         <input id="item-title" placeholder="Enter title" bind:value={$title} />
         <div id="groups">
@@ -83,7 +93,7 @@
             </Bange>
 
             {/each}
-            <!--<Bange variant="link">{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>-->
+            <!--<Bange variant="link" on:click={showGroupsDialog}>{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>-->
         </div>
         <textarea
             id="item-content"
@@ -93,6 +103,14 @@
     {:else}
         <Placeholder />
     {/if}
+    <RemoveItemDialog bind:open={isRemoveDialogOpen} on:remove={removeItem} />
+    <EditItemGroupsDialog
+        bind:open={isGroupsDialogOpen}
+        groups={groupList}
+        item={$item}
+        on:removefromgroup={onRemoveFromGroup}
+        on:addtogroup={onAddToGroup}
+    />
 </div>
 
 <style lang="scss">

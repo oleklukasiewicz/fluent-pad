@@ -32,10 +32,23 @@
 
     import ItemView from "../ItemView/ItemView.svelte";
 
+    import ItemSortDialog from "../../lib/Dialogs/ItemSortDialog/ItemSortDialog.svelte";
+    import EditMultipleItemsGroupDialog from "../../lib/Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
+    import RemoveMultipleItemsDialog from "../../lib/Dialogs/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
+    import EditGroupDialog from "../../lib/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
+    import RemoveGroupDialog from "../../lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
+
     import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
 
     let isDetailViewOpened = false;
     let isMultipleSelectionEnabled = false;
+
+    let isSorterDialogOpen = false;
+    let isEditGroupsDialogOpened = false;
+    let isRemoveMultipleItemsOpened = false;
+    let isEditGroupDialogOpen = false;
+    let isRemoveDialogOpen = false;
+
     let direction = "asc";
     let sortValue = "title";
 
@@ -91,18 +104,16 @@
         groupControl.update(_group);
     };
     let onGroupsOfItemsSet = function (event) {
-        let items = event.detail.items;
-        let toAdd = event.detail.add;
+        let groups = event.detail.groups;
 
-        items.forEach((item) => {
-            groupControl.setForItem(item, toAdd);
-        });
+        $selectedItems.forEach((item) => groupControl.setForItem(item, groups));
+
+        if (!groups.includes($group.id)) groupControl.selectDefault();
     };
 
-    let onRemoveMultipleItems = function (event) {
-        let items = event.detail.items;
-        items.forEach((item) => {
-            control.remove(item);
+    let onRemoveMultipleItems = function () {
+        $selectedItems.forEach((item) => {
+            control.remove(item.id);
         });
     };
     let onGroupRemove = function () {
@@ -118,19 +129,39 @@
         );
     };
 
-    const updateItemSelection = (item: Item, value: boolean,dontUpdateOthers:boolean=true) => {
+    const updateItemSelection = (
+        item: Item,
+        value: boolean,
+        dontUpdateOthers: boolean = true
+    ) => {
         itemsWithSelection.update((items) =>
             items.map((_item) => {
                 if (_item.item.id === item.id) {
                     _item.selected = value;
                 } else {
-                    if(!dontUpdateOthers)
-                    _item.selected = !value;
+                    if (!dontUpdateOthers) _item.selected = !value;
                 }
                 return _item;
             })
         );
     };
+
+    const openSortDialog = () => {
+        isSorterDialogOpen = true;
+    };
+    const showEditGroupsDialog = () => {
+        isEditGroupsDialogOpened = true;
+    };
+    const showRemoveMultipleItemsDialog = () => {
+        isRemoveMultipleItemsOpened = true;
+    };
+    function showEditGroupDialog() {
+        isEditGroupDialogOpen = true;
+    }
+
+    function showRemoveGroupDialog() {
+        isRemoveDialogOpen = true;
+    }
 
     const onSort = function (event) {
         sortValue = event.detail.value;
@@ -174,12 +205,12 @@
                 <GroupOptions
                     group={$group}
                     groupeditable={$isDefaultGroup}
-                    on:editgroup={onGroupEdit}
-                    on:removegroup={onGroupRemove}
+                    on:editgroup={showEditGroupDialog}
+                    on:removegroup={showRemoveGroupDialog}
                 />
                 <GroupItemsOptions
-                    on:sort={onSort}
                     on:add={onAdd}
+                    on:sort={openSortDialog}
                     on:multiselect={onEditItems}
                     bind:multiselect={isMultipleSelectionEnabled}
                     group={$group}
@@ -187,10 +218,9 @@
                     <MultiSelectionOptions
                         selectedItems={$selectedItems}
                         items={$items}
-                        groups={$groups}
                         on:selectall={onMultiSelectAll}
-                        on:groupset={onGroupsOfItemsSet}
-                        on:removeitems={onRemoveMultipleItems}
+                        on:editgroups={showEditGroupsDialog}
+                        on:removemultiple={showRemoveMultipleItemsDialog}
                     />
                 </GroupItemsOptions>
                 <GroupItemsCollection
@@ -216,6 +246,25 @@
             >
         </div>
     </MasterDetail>
+    <ItemSortDialog bind:open={isSorterDialogOpen} on:sort={onSort} />
+    <EditMultipleItemsGroupDialog
+        bind:open={isEditGroupsDialogOpened}
+        on:setgroup={onGroupsOfItemsSet}
+        groups={$groups}
+    />
+    <RemoveMultipleItemsDialog
+        bind:open={isRemoveMultipleItemsOpened}
+        on:remove={onRemoveMultipleItems}
+    />
+    <EditGroupDialog
+        bind:open={isEditGroupDialogOpen}
+        on:editgroup={onGroupEdit}
+        group={$group}
+    />
+    <RemoveGroupDialog
+        bind:open={isRemoveDialogOpen}
+        on:removegroup={onGroupRemove}
+    />
 </div>
 
 <style lang="scss">

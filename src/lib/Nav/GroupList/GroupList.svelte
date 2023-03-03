@@ -6,7 +6,6 @@
     import { Button } from "fluent-svelte";
     import ListItem from "../../Other/ListItem/ListItem.svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
-    import CreateGroupDialog from "../../Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
@@ -20,7 +19,6 @@
     export let selectedGroup;
 
     let _groups;
-    let isNewGroupDialogOpen = false;
 
     $: _groups = groups.filter((group) => group.id != defaultGroup.id);
 
@@ -31,18 +29,9 @@
             });
         }
     };
-    let onGroupAdd = (_group: Group) => {
-        if (isNewGroupDialogOpen)
-            dispatch("addgroup", {
-                group: _group,
-            });
-    };
 
     function addNewGroup(event) {
-        onGroupAdd(event.detail.group);
-    }
-    function addNewGroupDialog() {
-        isNewGroupDialogOpen = true;
+        dispatch("addgroup");
     }
 </script>
 
@@ -59,21 +48,17 @@
     {/if}
     {#each _groups as group (group.id)}
         <ListGroup
-            group={group}
+            {group}
             href="#"
             isCompact={false}
             selected={group.id == selectedGroup.id}
             on:click={() => onSelect(group)}
         />
     {/each}
-    <Button id="add-group-button" variant="accent" on:click={addNewGroupDialog}>
+    <Button id="add-group-button" variant="accent" on:click={addNewGroup}>
         {@html AddIcon}
         &nbsp; {$_("nav.create_group")}
     </Button>
-    <CreateGroupDialog
-        bind:open={isNewGroupDialogOpen}
-        on:addgroup={addNewGroup}
-    />
 </div>
 
 <style lang="scss">

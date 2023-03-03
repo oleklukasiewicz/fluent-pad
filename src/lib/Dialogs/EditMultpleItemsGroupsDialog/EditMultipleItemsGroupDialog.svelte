@@ -10,23 +10,23 @@
     export let open = false;
     export let groups = [];
 
-    let addToGroupList = [];
+    let groupsList = [];
 
     $: if (!open) {
-        addToGroupList = [];
+        groupsList = [];
     }
 
     let setGroups = function () {
         dispatch("setgroup", {
-            add: addToGroupList,
+            groups: groupsList,
         });
         closeDialog();
     };
-    let toAddList = function (group) {
-        addToGroupList.push(group);
+    let addToList = function (group) {
+        groupsList.push(group);
     };
-    let toRemoveList = function (group) {
-        addToGroupList=addToGroupList.filter((g)=>g.id!=group.id);
+    let removeFromList = function (group) {
+        groupsList = groupsList.filter((g) => g.id != group.id);
     };
     let closeDialog = function () {
         open = false;
@@ -40,8 +40,8 @@
 >
     {#each groups as group}
         <CheckBoxListItem
-            on:select={() => toAddList(group)}
-            on:unselect={() => toRemoveList(group)}
+            on:select={() => addToList(group)}
+            on:unselect={() => removeFromList(group)}
         >
             {group.title}
         </CheckBoxListItem>
@@ -55,6 +55,7 @@
         </Button>
     </div>
 </ContentDialog>
+
 <style lang="scss">
     .footer {
         display: flex;

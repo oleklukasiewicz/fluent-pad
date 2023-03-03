@@ -6,22 +6,14 @@
     import Separator from "../../Other/Separator/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
-    import EditItemGroupsDialog from "../../Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
-    import RemoveItemDialog from "../../Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
-
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import GroupEditIcon from "@fluentui/svg-icons/icons/channel_20_regular.svg?raw";
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
 
     const dispatch = createEventDispatcher();
 
-    export let groups = [];
-    export let item;
     export let expanded = false;
     export let expandable = false;
-
-    let isRemoveDialogOpen = false;
-    let isGroupsDialogOpen = false;
 
     let onExpandToggle = () => {
         if (expanded)
@@ -38,34 +30,21 @@
         });
     };
 
-    let onRemove = () => {
+    let removeItem = () => {
         dispatch("remove");
     };
 
-    let onRemoveFromGroup = (event) =>
-        dispatch("removefromgroup", {
-            item: event.detail.item,
-            group: event.detail.group,
-        });
-    let onAddToGroup = (event) =>
-        dispatch("addtogroup", {
-            item: event.detail.item,
-            group: event.detail.group,
-        });
-
-    function showRemoveDialog() {
-        isRemoveDialogOpen = true;
-    }
-    function showGroupsDialog() {
-        isGroupsDialogOpen = true;
+    let showGroups=()=>
+    {
+        dispatch("groups");
     }
 </script>
 
 <div class="options">
-    <IconButton on:click={showRemoveDialog}>
+    <IconButton on:click={removeItem}>
         {@html DeleteIcon}
     </IconButton>
-    <IconButton on:click={showGroupsDialog}>
+    <IconButton on:click={showGroups}>
         {@html GroupEditIcon}
     </IconButton>
     <Separator />
@@ -76,15 +55,6 @@
     >
         {@html ExpandIcon}
     </ToggleIconButton>
-    <!-- Content Dialogs -->
-    <RemoveItemDialog bind:open={isRemoveDialogOpen} on:remove={onRemove} />
-    <EditItemGroupsDialog
-        bind:open={isGroupsDialogOpen}
-        {groups}
-        {item}
-        on:removefromgroup={onRemoveFromGroup}
-        on:addtogroup={onAddToGroup}
-    />
 </div>
 
 <style lang="scss">

@@ -12,13 +12,12 @@
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import ItemSortDialog from "../../Dialogs/ItemSortDialog/ItemSortDialog.svelte";
+   
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
     export let multiselect: boolean = false;
 
-    let isSorterDialogOpen = false;
     let items;
     $: items = group?.items;
 
@@ -27,8 +26,8 @@
     const setMultiSelect = () =>
         dispatch("multiselect", { enabled: multiselect });
 
-    function showSorterDialog() {
-        isSorterDialogOpen = true;
+    function sort() {
+       dispatch("sort");
     }
 
     function editMultipleItems() {
@@ -51,7 +50,7 @@
                     &nbsp; {$_("operations.add_item")}
                 </Button>
             </div>
-            <IconButton id="sort-button" on:click={showSorterDialog}>
+            <IconButton id="sort-button" on:click={sort}>
                 {@html SortIcon}
             </IconButton>
             <Separator />
@@ -68,7 +67,6 @@
             {@html SelectAllIcon}
         </ToggleIconButton>
     </div>
-    <ItemSortDialog bind:open={isSorterDialogOpen} on:sort/>
 </div>
 
 <style lang="scss">

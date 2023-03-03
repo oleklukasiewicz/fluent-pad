@@ -19,28 +19,42 @@
     import UserButton from "../../lib/Nav/UserButton/UserButton.svelte";
     import NavigationMenu from "../../lib/Nav/NavigationMenu/NavigationMenu.svelte";
 
+    import CreateGroupDialog from "../../lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
+
     import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
 
     let isMenuOpened = false;
+    let isNewGroupDialogOpen = false;
 
     let selectGroup = (event) => {
         isMenuOpened = false;
         groupControl.select(event.detail.group as Group);
     };
-    let addGroup = (event) => groupControl.add(event.detail.group as Group);
+
+    let addGroup = (event) => {
+        if (isNewGroupDialogOpen) groupControl.add(event.detail.group as Group);
+    };
+
+    let showNewGroupDialog = () => {
+        isNewGroupDialogOpen = true;
+    };
 </script>
 
 <div class="nav-view">
     <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
         <div slot="items">
-            <TextBox type="search" id="search-box" placeholder={$_("nav.search")} />
-            <br>
+            <TextBox
+                type="search"
+                id="search-box"
+                placeholder={$_("nav.search")}
+            />
+            <br />
             <GroupList
                 groups={$groups}
                 defaultGroup={$groups[0]}
                 selectedGroup={$location === "/" ? $selectedGroup : {}}
                 on:select={selectGroup}
-                on:addgroup={addGroup}
+                on:addgroup={showNewGroupDialog}
             />
         </div>
         <div slot="footer">
@@ -65,6 +79,10 @@
         class="navigation-shadow"
         class:show={isMenuOpened && $isMobileView}
         on:click={() => (isMenuOpened = false)}
+    />
+    <CreateGroupDialog
+        bind:open={isNewGroupDialogOpen}
+        on:addgroup={addGroup}
     />
 </div>
 
