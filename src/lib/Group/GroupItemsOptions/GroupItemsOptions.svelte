@@ -1,15 +1,16 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
 
-    import type { Group } from "../../../types/data";
+    import type { Group,Item  } from "../../../types/data";
 
     import { IconButton, Button } from "fluent-svelte";
-    import Separator from "../../Other/Separator/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
     import SelectAllIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";
     import SortIcon from "@fluentui/svg-icons/icons/arrow_sort_20_regular.svg?raw";
+
+    import MultiSelectionOptions from "../MultiSelectionOptions/MultiSelectionOptions.svelte";
 
     import { createEventDispatcher } from "svelte";
    
@@ -17,6 +18,7 @@
 
     export let group: Group = {} as Group;
     export let multiselect: boolean = false;
+    export let selectedItems:Item[] = [];
 
     let items;
     $: items = group?.items;
@@ -53,10 +55,15 @@
             <IconButton id="sort-button" on:click={sort}>
                 {@html SortIcon}
             </IconButton>
-            <Separator />
         {:else}
             <div id="right-options">
-                <slot />
+                <MultiSelectionOptions
+                selectedItems={selectedItems}
+                items={items}
+                on:selectall
+                on:editgroups
+                on:removemultiple
+            />
             </div>
         {/if}
         <ToggleIconButton

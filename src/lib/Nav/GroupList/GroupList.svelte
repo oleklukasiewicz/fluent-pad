@@ -1,21 +1,20 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
 
-    import type { Group } from "../../../types/data";
-
     import { Button } from "fluent-svelte";
     import ListItem from "../../Other/ListItem/ListItem.svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
 
+    import ListGroup from "../../Other/ListGroup/ListGroup.svelte";
+
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import ListGroup from "../../Other/ListGroup/ListGroup.svelte";
     const dispatch = createEventDispatcher();
 
     export let groups = [];
-    export let defaultGroup;
 
+    export let defaultGroup;
     export let selectedGroup;
 
     let _groups;
@@ -30,7 +29,7 @@
         }
     };
 
-    function addNewGroup(event) {
+    function addNewGroup() {
         dispatch("addgroup");
     }
 </script>

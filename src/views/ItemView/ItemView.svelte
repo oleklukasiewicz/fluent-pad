@@ -78,9 +78,7 @@
             expanded={$isItemExpanded}
             on:expandtoggle={expandToggle}
             on:remove={showRemoveDialog}
-            on:groups={showGroupsDialog}
         />
-        <input id="item-title" placeholder="Enter title" bind:value={$title} />
         <div id="groups">
             {#each $groups as group}
                 <Bange
@@ -93,8 +91,9 @@
             </Bange>
 
             {/each}
-            <!--<Bange variant="link" on:click={showGroupsDialog}>{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>-->
+            <Bange variant="link" on:click={showGroupsDialog}>{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>
         </div>
+        <input id="item-title" placeholder="Enter title" bind:value={$title} />
         <textarea
             id="item-content"
             bind:value={$content}

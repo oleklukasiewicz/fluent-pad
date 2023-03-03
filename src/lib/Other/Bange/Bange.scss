@@ -12,6 +12,7 @@
     border-color: var(--fds-control-border-default);
     font-size: var(--fds-caption-font-size);
     transition: var(--fds-control-faster-duration) ease border-color;
+    margin: 0;
 
     &:hover {
         background-color: var(--fds-control-fill-secondary);
@@ -38,7 +39,8 @@
 
     &.link {
         border-color: transparent;
-        background-color: transparent;
+        background-color: var(--fds-subtle-fill-transparent);
+        color: var(--fds-accent-text-primary);
 
         &:hover {
             background-color: var(--fds-control-fill-secondary);
@@ -57,4 +59,8 @@
 
 :global(.bange>*) {
     vertical-align: middle;
+}
+
+:global(.bange.link svg) {
+    fill: var(--fds-accent-text-primary);
 }

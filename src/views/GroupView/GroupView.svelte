@@ -26,7 +26,6 @@
     import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
 
     import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
-    import MultiSelectionOptions from "../../lib/Group/MultiSelectionOptions/MultiSelectionOptions.svelte";
 
     import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
 
@@ -212,17 +211,13 @@
                     on:add={onAdd}
                     on:sort={openSortDialog}
                     on:multiselect={onEditItems}
+                    on:selectall={onMultiSelectAll}
+                    on:editgroups={showEditGroupsDialog}
+                    on:removemultiple={showRemoveMultipleItemsDialog}
                     bind:multiselect={isMultipleSelectionEnabled}
                     group={$group}
-                >
-                    <MultiSelectionOptions
-                        selectedItems={$selectedItems}
-                        items={$items}
-                        on:selectall={onMultiSelectAll}
-                        on:editgroups={showEditGroupsDialog}
-                        on:removemultiple={showRemoveMultipleItemsDialog}
-                    />
-                </GroupItemsOptions>
+                    selectedItems={$selectedItems}
+                />
                 <GroupItemsCollection
                     on:select={onSelect}
                     on:multiselect={onMultiSelect}
