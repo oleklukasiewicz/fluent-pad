@@ -29,6 +29,7 @@
     "operations": {
         "add": "Add",
         "add_item": "Add item",
+        "set_groups": "Set groups",
         "edit": "Edit",
         "delete": "Delete",
         "save": "Save",

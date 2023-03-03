@@ -1,5 +1,6 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    import { validateTitle } from "../../../helpers";
 
     import type { Group } from "../../../types/data";
 
@@ -15,7 +16,7 @@
     let isGroupButtonDisabled = true;
 
     $: if (!open) groupTitle = group.title;
-    $: isGroupButtonDisabled = groupTitle?.trim() == "";
+    $: isGroupButtonDisabled = !validateTitle(groupTitle || "");
 
     function editGroup() {
         dispatch("editgroup", {

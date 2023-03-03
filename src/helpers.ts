@@ -1,5 +1,5 @@
 export const DATE_FORMAT = (date: any) => {
-    if (date?.seconds) date = new Date(date.seconds * 1000)
+    if (date.seconds) date = new Date(date.seconds * 1000)
     return date ? ((MONTHS[date.getMonth()]) + " " + date.getDate() + ", " + date.getFullYear()) : "";
 };
 
@@ -18,3 +18,4 @@ const MONTHS =
         "Nov",
         "Dec"
     ];
+export const validateTitle = (title: string) => (title.trim() !== "");

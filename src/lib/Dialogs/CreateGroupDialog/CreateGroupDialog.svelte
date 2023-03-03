@@ -1,5 +1,6 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
+    import { validateTitle } from "../../../helpers";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
     import { Group } from "../../../types/data";
@@ -12,7 +13,7 @@
     let newGroupTitle = "";
     let isCreateGroupButtonDisabled;
 
-    $: isCreateGroupButtonDisabled = newGroupTitle.trim() === "";
+    $: isCreateGroupButtonDisabled = !validateTitle(newGroupTitle || "");
 
     function addNewGroup() {
         dispatch("addgroup", {

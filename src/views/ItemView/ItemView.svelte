@@ -1,4 +1,5 @@
 <script lang="ts">
+    import {_} from "svelte-i18n";
     import {
         control,
         title,
@@ -12,10 +13,13 @@
         isMobileView,
     } from "../../viewModel/ItemViewModel";
 
+    import { SelectionGroup } from "../../types/data";
+
     import ItemViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
     import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
     import Bange from "../../lib/Other/Bange/Bange.svelte";
-    import { SelectionGroup } from "../../types/data";
+
+    import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
 
     let groupList = [];
 
@@ -70,13 +74,16 @@
         <div id="groups">
             {#each $groups as group}
                 <Bange
-                    label={group.title}
                     variant={$selectedGroup.id == group.id
                         ? "accent"
                         : "standard"}
                     on:click={() => groupClick(group)}
-                />
+                >
+            {group.title}
+            </Bange>
+
             {/each}
+            <!--<Bange variant="link">{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>-->
         </div>
         <textarea
             id="item-content"

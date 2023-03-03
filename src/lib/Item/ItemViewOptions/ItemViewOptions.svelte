@@ -6,11 +6,12 @@
     import Separator from "../../Other/Separator/Separator.svelte";
     import ToggleIconButton from "../../Other/ToggleIconButton/ToggleIconButton.svelte";
 
+    import EditItemGroupsDialog from "../../Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+    import RemoveItemDialog from "../../Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
+
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
     import GroupEditIcon from "@fluentui/svg-icons/icons/channel_20_regular.svg?raw";
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
-    import EditItemGroupsDialog from "../../Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
-    import RemoveItemDialog from "../../Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -18,7 +19,7 @@
     export let item;
     export let expanded = false;
     export let expandable = false;
-    
+
     let isRemoveDialogOpen = false;
     let isGroupsDialogOpen = false;
 
@@ -31,7 +32,7 @@
             dispatch("expand", {
                 isExpanded: true,
             });
-       expanded=!expanded;
+        expanded = !expanded;
         dispatch("expandtoggle", {
             isExpanded: expanded,
         });
