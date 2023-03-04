@@ -9,21 +9,24 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_lines_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
     const dispatch = createEventDispatcher();
 
     export let items: Item[] = [];
     export let selectedItems: Item[] = [];
 
     let selectAll = () => dispatch("selectall");
-    
+
     let editgroups = () => dispatch("editgroups");
     let removeMultiple = () => dispatch("removemultiple");
 </script>
 
-<div class="selection-menu">
-    <TextBlock variant="body" id="selected-items-count">
-        {selectedItems.length + " selected"}
-    </TextBlock>
+<CommandBar>
+    <svelte:fragment slot="right-options">
+        <TextBlock variant="body" id="selected-items-count">
+            {selectedItems.length + " selected"}
+        </TextBlock>
+    </svelte:fragment>
     <IconButton
         disabled={items.length === selectedItems.length}
         on:click={selectAll}
@@ -31,17 +34,14 @@
         {@html SelectAllOn}
     </IconButton>
     <Separator />
-    <IconButton
-        disabled={selectedItems.length === 0}
-        on:click={editgroups}
-    >
+    <IconButton disabled={selectedItems.length === 0} on:click={editgroups}>
         {@html EditGroups}
     </IconButton>
     <Separator />
     <IconButton disabled={selectedItems.length === 0} on:click={removeMultiple}>
         {@html DeleteIcon}
     </IconButton>
-</div>
+</CommandBar>
 
 <style lang="scss">
     @use "MultiSelectionOptions.scss";

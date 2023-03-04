@@ -8,6 +8,8 @@
     import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
+    import Separator from "../../Other/Separator/Separator.svelte";
     const dispatch = createEventDispatcher();
 
     export let expanded = false;
@@ -33,21 +35,16 @@
     };
 </script>
 
-<div class="options">
-    <div class="right-options">
-        <ToggleIconButton
-        disabled={!expandable}
-        on:click={onExpandToggle}
-        variant={expanded ? "accent" : "standard"}
-    >
-        {@html ExpandIcon}
-    </ToggleIconButton>
-    </div>
+<CommandBar>
     <IconButton on:click={removeItem}>
         {@html DeleteIcon}
     </IconButton>
-</div>
-
-<style lang="scss">
-    @use "ItemViewOptions.scss";
-</style>
+    <Separator/>
+    <ToggleIconButton
+            disabled={!expandable}
+            on:click={onExpandToggle}
+            variant={expanded ? "accent" : "standard"}
+        >
+            {@html ExpandIcon}
+        </ToggleIconButton>
+</CommandBar>

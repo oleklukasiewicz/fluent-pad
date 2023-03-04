@@ -1,13 +1,7 @@
 .group-title {
-    flex: 1;
     display: block;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     margin: 4px 4px;
-}
-.group-options
-{
-    display: flex;
-    gap:8px;
 }

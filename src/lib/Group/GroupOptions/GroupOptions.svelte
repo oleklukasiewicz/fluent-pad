@@ -9,6 +9,7 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
@@ -20,12 +21,12 @@
     let removeGroup = function () {
         dispatch("removegroup");
     };
-
-
 </script>
 
-<div class="group-options">
-    <b class="group-title">{group.title}</b>
+<CommandBar>
+    <svelte:fragment slot="right-options">
+        <b class="group-title">{group.title}</b>
+    </svelte:fragment>
     <IconButton
         id="edit-group-button"
         disabled={groupeditable}
@@ -40,7 +41,7 @@
     >
         {@html DeleteIcon}
     </IconButton>
-</div>
+</CommandBar>
 
 <style lang="scss">
     @use "GroupOptions.scss";

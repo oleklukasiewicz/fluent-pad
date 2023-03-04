@@ -64,3 +64,6 @@
 :global(.bange.link svg) {
     fill: var(--fds-accent-text-primary);
 }
+:global(.bange.link:active svg) {
+    fill: var(--fds-text-secondary);
+}
