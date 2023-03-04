@@ -1,7 +1,9 @@
 <script lang="ts">
+    let className = "";
+    export { className as class };
 </script>
 
-<div class="command-bar">
+<div class={"command-bar " + className}>
     <div class="right-options">
         <slot name="right-options" />
     </div>

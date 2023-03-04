@@ -4,12 +4,12 @@
     import type { Group } from "../../../types/data";
 
     import { IconButton } from "fluent-svelte";
+    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
 
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
@@ -23,7 +23,7 @@
     };
 </script>
 
-<CommandBar>
+<CommandBar class="group-options">
     <svelte:fragment slot="right-options">
         <b class="group-title">{group.title}</b>
     </svelte:fragment>

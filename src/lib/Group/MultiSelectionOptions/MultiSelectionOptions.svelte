@@ -3,13 +3,13 @@
 
     import { IconButton, TextBlock } from "fluent-svelte";
     import Separator from "../../Other/Separator/Separator.svelte";
+    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
 
     import SelectAllOn from "@fluentui/svg-icons/icons/select_all_on_20_regular.svg?raw";
     import EditGroups from "@fluentui/svg-icons/icons/channel_add_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_lines_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import CommandBar from "../../Other/CommandBar/CommandBar.svelte";
     const dispatch = createEventDispatcher();
 
     export let items: Item[] = [];
