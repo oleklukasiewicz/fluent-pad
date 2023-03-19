@@ -1,0 +1,13 @@
+@keyframes Blink
+{
+    0% { opacity: 0; }
+    50% { opacity: 0.2; }
+    100% { opacity: 0; }
+}
+.text-placeholder
+{
+    background-color: var(--fds-text-on-accent-disabled);
+    animation: Blink 1.5s infinite;
+    width:100%;
+    margin: auto 0;
+}

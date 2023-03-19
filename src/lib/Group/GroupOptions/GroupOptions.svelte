@@ -10,6 +10,7 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import TextPlaceholder from "../../Other/TextPlaceholder/TextPlaceholder.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
@@ -25,7 +26,11 @@
 
 <CommandBar class="group-options">
     <svelte:fragment slot="right-options">
+        {#if group.id}
         <b class="group-title">{group.title}</b>
+        {:else}
+        <TextPlaceholder size="24px" class="group-title-placeholder"/>
+        {/if}
     </svelte:fragment>
     <IconButton
         id="edit-group-button"

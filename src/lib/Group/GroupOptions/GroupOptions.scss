@@ -5,3 +5,9 @@
     white-space: nowrap;
     margin: 4px 4px;
 }
+:global(.group-title-placeholder)
+{
+    margin-bottom: 4px !important;
+    margin-right: 8px !important;
+    margin-top: 4px !important;
+}

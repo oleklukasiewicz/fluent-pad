@@ -38,6 +38,7 @@
     import RemoveGroupDialog from "../../lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
     import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
+    import ItemListPlaceholder from "../../lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
 
     let isDetailViewOpened = false;
     let isMultipleSelectionEnabled = false;
@@ -94,6 +95,7 @@
             new Date()
         );
         control.add(item);
+        isDetailViewOpened = true;
     };
 
     let onGroupEdit = function (event) {
@@ -218,18 +220,24 @@
                     group={$group}
                     selectedItems={$selectedItems}
                 />
-                <GroupItemsCollection
-                    on:select={onSelect}
-                    on:multiselect={onMultiSelect}
-                    on:multiunselect={onMultiUnSelect}
-                    selection={isMultipleSelectionEnabled
-                        ? "multi"
-                        : $isMobileView
-                        ? "none"
-                        : "single"}
-                    compact={false}
-                    items={$itemsWithSelection}
-                />
+                {#if $group.id}
+                    <GroupItemsCollection
+                        on:select={onSelect}
+                        on:multiselect={onMultiSelect}
+                        on:multiunselect={onMultiUnSelect}
+                        selection={isMultipleSelectionEnabled
+                            ? "multi"
+                            : $isMobileView
+                            ? "none"
+                            : "single"}
+                        compact={false}
+                        items={$itemsWithSelection}
+                    />
+                {:else}
+                    {#each Array(10) as i}
+                        <ItemListPlaceholder />
+                    {/each}
+                {/if}
             </div>
         </div>
         <div id="item-container" slot="detail">

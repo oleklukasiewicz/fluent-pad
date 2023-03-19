@@ -22,9 +22,13 @@
     import CreateGroupDialog from "../../lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
     import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
+    import SearchResults from "../../lib/Nav/SearchResults/SearchResults.svelte";
 
     let isMenuOpened = false;
     let isNewGroupDialogOpen = false;
+    let isSearchResultsOpen = false;
+
+    let searchBox;
 
     let selectGroup = (event) => {
         isMenuOpened = false;
@@ -38,16 +42,23 @@
     let showNewGroupDialog = () => {
         isNewGroupDialogOpen = true;
     };
+
+    let showSearchResults = () => {
+        isSearchResultsOpen = true;
+    };
 </script>
 
 <div class="nav-view">
     <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
         <div slot="items">
             <TextBox
+                bind:this={searchBox}
                 type="search"
                 id="search-box"
                 placeholder={$_("nav.search")}
+                on:search={showSearchResults}
             />
+            <SearchResults bind:open={isSearchResultsOpen} anchorElement={searchBox}/>
             <br />
             <GroupList
                 groups={$groups}
