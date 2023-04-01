@@ -58,7 +58,10 @@
                 placeholder={$_("nav.search")}
                 on:search={showSearchResults}
             />
-            <SearchResults bind:open={isSearchResultsOpen} anchorElement={searchBox}/>
+            <SearchResults
+                bind:open={isSearchResultsOpen}
+                anchorElement={searchBox}
+            />
             <br />
             <GroupList
                 groups={$groups}

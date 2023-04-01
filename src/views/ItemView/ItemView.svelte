@@ -1,5 +1,5 @@
 <script lang="ts">
-    import {_} from "svelte-i18n";
+    import { _ } from "svelte-i18n";
     import {
         control,
         title,
@@ -63,11 +63,10 @@
         groupControl.addItem(event.detail.group, event.detail.item);
     }
     function showRemoveDialog() {
-       isRemoveDialogOpen = true;
+        isRemoveDialogOpen = true;
     }
-    function showGroupsDialog()
-    {
-        isGroupsDialogOpen=true;
+    function showGroupsDialog() {
+        isGroupsDialogOpen = true;
     }
 </script>
 
@@ -87,11 +86,12 @@
                         : "standard"}
                     on:click={() => groupClick(group)}
                 >
-            {group.title}
-            </Bange>
-
+                    {group.title}
+                </Bange>
             {/each}
-            <Bange variant="link" on:click={showGroupsDialog}>{@html EditGroupsIcon} {$_("operations.set_groups")} </Bange>
+            <Bange variant="link" on:click={showGroupsDialog}
+                >{@html EditGroupsIcon} {$_("operations.set_groups")}
+            </Bange>
         </div>
         <input id="item-title" placeholder="Enter title" bind:value={$title} />
         <textarea

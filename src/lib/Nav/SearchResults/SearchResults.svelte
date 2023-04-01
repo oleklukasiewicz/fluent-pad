@@ -5,7 +5,14 @@
     export let anchorElement;
 </script>
 
-<Flyout id="search-results" bind:open placement="bottom" offset={-10} {anchorElement} alignment="start"/>
+<Flyout
+    id="search-results"
+    bind:open
+    placement="bottom"
+    offset={-10}
+    {anchorElement}
+    alignment="start"
+/>
 
 <style lang="scss">
     @use "SearchResults.scss";
