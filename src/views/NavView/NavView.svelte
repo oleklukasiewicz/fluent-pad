@@ -6,6 +6,7 @@
         userName,
         userPicture,
         logout,
+        loading,
         isMobileView,
     } from "../../viewModel/NavViewModel";
 
@@ -65,6 +66,7 @@
             <br />
             <GroupList
                 groups={$groups}
+                loading={$loading}
                 defaultGroup={$groups[0]}
                 selectedGroup={$location === "/" ? $selectedGroup : {}}
                 on:select={selectGroup}

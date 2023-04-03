@@ -27,6 +27,7 @@ export interface IGroupModel {
     selectedGroup: Writable<Group>;
     selectedGroupItems: Readable<Item[]>;
     selectedGroupIsDefault: Readable<boolean>;
+    loaded: Writable<boolean>;
 }
 
 export interface IItemModel {
@@ -45,6 +46,7 @@ export interface IItemModel {
 
     selectedIndex: Writable<number>;
     selectedItem: Writable<Item>;
+    allLoaded: Writable<boolean>;
 }
 
 export interface IStorageModel {

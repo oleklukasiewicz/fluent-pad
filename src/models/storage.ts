@@ -22,6 +22,9 @@ const _findGroupIndexById = (id: string): number => get(storage).findIndex((stor
 
 const storage: Writable<Group[]> = writable([_defaultGroup]);
 
+const itemsLoaded: Writable<boolean> = writable(false);
+const groupsLoaded: Writable<boolean> = writable(false);
+
 const selectedGroupIndex: Writable<number> = writable(-1);
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     ((s) => get(storage)[s] || {} as Group),
@@ -153,9 +156,12 @@ const group: IGroupModel =
         return group;
     },
     loadAll: async () =>
+    {
         await (
             await loadedBackend.loadGroups()
-        ).forEach((_item) => group.load(_item)),
+        ).forEach((_item) => group.load(_item));
+        groupsLoaded.set(true);
+    },
     add: async function (_group: Group) {
         _group.id = loadedBackend.generateGroupId();
 
@@ -268,6 +274,7 @@ const group: IGroupModel =
     selectedGroupIndex: selectedGroupIndex,
     selectedGroupItems: selectedGroupItems,
     selectedGroupIsDefault: selectedGroupIsDefault,
+    loaded: groupsLoaded
 }
 const item: IItemModel =
 {
@@ -288,7 +295,9 @@ const item: IItemModel =
     loadAll: async () =>
         await (
             await loadedBackend.loadItems()
-        ).forEach((_item: Item) => item.load(_item)),
+        ).forEach((_item: Item) => item.load(_item).then(() => {
+            itemsLoaded.set(true);
+            })),
     add: async function (newItem: Item) {
         newItem.id = helpers.GenerateItemId();
         _defaultGroup.items.push(newItem);
@@ -347,6 +356,7 @@ const item: IItemModel =
 
     selectedItem: selectedItem,
     selectedIndex: selectedIndex,
+    allLoaded: itemsLoaded
 }
 const helpers =
 {
