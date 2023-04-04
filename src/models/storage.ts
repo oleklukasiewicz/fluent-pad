@@ -1,4 +1,5 @@
 import { _ } from 'svelte-i18n';
+import * as lodash from 'lodash';
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
 
@@ -6,17 +7,18 @@ import type { IGroupModel, IItemModel, IRelationsModel, IStorageModel } from '..
 import { Group, Item } from '../types/data';
 
 import { isUserLogged } from './user';
+
 import { firebaseStorageAPI } from '../api/firebase';
 
-let loadedStorageAPI = firebaseStorageAPI;
+let _loadedStorageAPI = firebaseStorageAPI;
 
 let _defaultGroup = new Group("default_group", get(_)("nav.all_items"));
 
-const _findItemById = (id: string, group = _defaultGroup): Item => group.items.find((groupItem) => groupItem.id === id) || null as Item;
-const _findGroupById = (id: string): Group => get(storage).find((storageGroup: Group) => storageGroup.id === id) || null as Group;
-
 const _findItemIndexById = (id: string, group = _defaultGroup): number => group.items.findIndex((groupItem) => groupItem.id === id);
 const _findGroupIndexById = (id: string): number => get(storage).findIndex((storageGroup) => storageGroup.id === id);
+
+const _findItemById = (id: string, group = _defaultGroup): Item => group.items[_findItemIndexById(id, group)] as Item;
+const _findGroupById = (id: string): Group => get(storage)[_findGroupIndexById(id)] as Group;
 
 
 const storage: Writable<Group[]> = writable([_defaultGroup]);
@@ -33,13 +35,14 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
             return;
         if (_old.id != value.id)
             index = _findGroupIndexById(value.id);
-        else
-            _updateSelectedItemGroups(get(selectedItem));
-
-        storage.update((__storage) => {
-            __storage[index] = value;
-            return __storage;
-        });
+        else {
+            if (!lodash.isEqual(value, _old)) {
+                _updateSelectedItemGroups(get(selectedItem));
+                if (value.id != _defaultGroup.id)
+                    group.update(value);
+                console.log("update group");
+            }
+        }
         return index;
     });
 
@@ -51,8 +54,8 @@ const selectedGroupItems: Readable<Item[]> = derived(selectedGroup,
             return [];
         if (group.flags?.itemsLoaded !== true) {
             const itemsAsync = group.id === _defaultGroup.id ?
-                loadedStorageAPI.item.loadAll() :
-                loadedStorageAPI.item.loadForGroup(group.id);
+                _loadedStorageAPI.item.loadAll() :
+                _loadedStorageAPI.item.loadForGroup(group.id);
 
             itemsAsync.then(
                 (items) => {
@@ -101,7 +104,8 @@ const selectedItem: Writable<Item> = writableDerived(selectedIndex,
         if (!value.id)
             return -1;
         if (value.id === prevItem?.id) {
-            setupUpdate(value);
+            if (!lodash.isEqual(value, prevItem))
+                setupUpdate(value);
             return get(selectedIndex);
         } else {
             if (prevItem)
@@ -125,7 +129,7 @@ selectedGroup.subscribe((group: Group) => {
 const _removeItemFromGroupOnly = (group: Group, id: string, dontUpdateStores = false) => {
     group.items.splice(group.items.findIndex((it) => it.id === id), 1);
     if (!dontUpdateStores)
-        storage.update(_storage => _storage);
+        Storage.group.update(group);
 }
 const _removeGroupFromItemOnly = (item: Item, groupId: string, dontUpdateStores = false) => {
     const _index: number = item.groups.findIndex((_g) => _g === groupId);
@@ -144,7 +148,7 @@ const _addItemToGroup = (group: Group, item: Item, dontUpdateStores = false) => 
     item.groups.push(group.id);
 
     if (!dontUpdateStores)
-        storage.update(_storage => _storage);
+        Storage.group.update(group);
 
     if (get(selectedItem).id === item.id && !dontUpdateStores)
         _updateSelectedItemGroups(item);
@@ -158,7 +162,7 @@ const _updateSelectedItemGroups = (item: Item) => {
 }
 const _updateItem = function (item: Item) {
     item.modifyDate = new Date();
-    loadedStorageAPI.item.update(item);
+    _loadedStorageAPI.item.update(item);
 }
 
 const group: IGroupModel =
@@ -172,25 +176,29 @@ const group: IGroupModel =
     },
     loadAll: async () => {
         await (
-            await loadedStorageAPI.group.loadAll()
-        ).forEach((_item) => group.load(_item))
+            await _loadedStorageAPI.group.loadAll()
+        ).forEach((_item) => group.load(_item));
+        groupsLoaded.set(true);
     },
     add: async function (_group: Group) {
-        _group.id = loadedStorageAPI.generateGroupId();
+        _group.id = _loadedStorageAPI.generateGroupId();
 
         group.load(_group);
         group.select(_group);
 
-        loadedStorageAPI.group.add(_group);
+        _loadedStorageAPI.group.add(_group);
     },
     update: async function (group: Group) {
         group.modifyDate = new Date();
         group.itemsCount = group.items.length;
 
-        let _group: Group = _findGroupById(group.id) || {} as Group;
-        _group = group;
+        const _index = _findGroupIndexById(group.id)
+        storage.update((__storage) => {
+            __storage[_index] = group;
+            return __storage;
+        });
 
-        loadedStorageAPI.group.update(group);
+        _loadedStorageAPI.group.update(group);
     },
     remove: async function (groupId: string) {
         const _groupIndex: number = _findGroupIndexById(groupId);
@@ -203,7 +211,7 @@ const group: IGroupModel =
 
         _defaultGroup.items.forEach((_item) => {
             _removeGroupFromItemOnly(_item, _group.id);
-            loadedStorageAPI.item.update(_item);
+            _loadedStorageAPI.item.update(_item);
         });
 
         storage.update(_storage => {
@@ -214,7 +222,7 @@ const group: IGroupModel =
         if (get(selectedGroupIndex) === _groupIndex)
             group.selectDefault();
 
-        return await loadedStorageAPI.group.remove(_group.id);
+        return await _loadedStorageAPI.group.remove(_group.id);
     },
     select: function (group: Group) {
         const groupIndex: number = _findGroupIndexById(group.id);
@@ -264,10 +272,10 @@ const item: IItemModel =
     },
     loadAll: async () =>
         await (
-            await loadedStorageAPI.item.loadAll()
+            await _loadedStorageAPI.item.loadAll()
         ).forEach((_item: Item) => item.load(_item)),
     add: async function (newItem: Item) {
-        newItem.id = helpers.GenerateItemId();
+        newItem.id = _loadedStorageAPI.generateItemId();
         _defaultGroup.items.push(newItem);
 
         if (get(selectedGroupIndex) != 0) {
@@ -282,14 +290,14 @@ const item: IItemModel =
 
         selectedItem.set(newItem);
         //event
-        await loadedStorageAPI.item.add(newItem);
+        await _loadedStorageAPI.item.add(newItem);
 
     },
     update: async function (item: Item) {
         item.modifyDate = new Date();
         let _item: Item = _findItemById(item.id) || {} as Item;
         _item = item;
-        await loadedStorageAPI.item.update(item);
+        await _loadedStorageAPI.item.update(item);
     },
     remove: async function (itemId: any) {
         const _index: number = _findItemIndexById(itemId);
@@ -308,7 +316,7 @@ const item: IItemModel =
         selectedGroup.update(group => group);
 
         //event
-        return await loadedStorageAPI.item.remove(_item.id);
+        return await _loadedStorageAPI.item.remove(_item.id);
     },
     select: function (item: Item) {
         selectedItem.set(item);
@@ -374,29 +382,20 @@ const relations: IRelationsModel =
         _updateItem(item);
     },
 }
-const helpers =
-{
-    GenerateGroupId: (): string => loadedStorageAPI.generateGroupId(),
-    GenerateItemId: (): string => loadedStorageAPI.generateItemId(),
-}
-const loadAllData = async () => {
-    await group.loadAll();
-    //await item.loadAll();
-    groupsLoaded.set(true);
-}
-const clearAllData = async () => {
+
+const clearStorage = async () => {
     storage.set([_defaultGroup]);
     _defaultGroup.items = [];
-    selectedGroupIndex.set(-1);
+    selectedGroupIndex.set(0);
     selectedIndex.set(-1);
 }
 
 isUserLogged.subscribe(async (isLogged: boolean) => {
     if (isLogged) {
-        await loadAllData();
+        await group.loadAll();
         group.selectDefault();
     } else {
-        clearAllData();
+        clearStorage();
     }
 });
 
@@ -405,10 +404,5 @@ export let Storage: IStorageModel = {
     item: item,
     relations: relations,
 
-    storage: storage,
-
-    loadAllData: loadAllData,
-    clearAllData: clearAllData,
-
-    helpers: helpers
+    storage: storage
 }

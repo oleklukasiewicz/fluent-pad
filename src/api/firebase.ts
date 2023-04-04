@@ -58,6 +58,7 @@ const ItemConvertToApp = (item: any) => {
 const GroupConvertToApp = (item: any) => {
     let appGroup = new Group("");
     Object.assign(appGroup, item);
+    appGroup.itemsCount = item.itemsCount;
     appGroup.createDate = item.createDate.toDate();
     appGroup.modifyDate = item.modifyDate.toDate();
     return appGroup;

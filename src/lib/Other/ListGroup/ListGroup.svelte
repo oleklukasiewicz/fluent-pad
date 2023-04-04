@@ -29,12 +29,12 @@
                 {DATE_FORMAT(group.modifyDate)}
             </span>
             <span class="group-content">
-                {#if group.items.length === 0}
+                {#if group.itemsCount === 0}
                     {$_("data_names.no_items")}
-                {:else if group.items.length === 1}
+                {:else if group.itemsCount === 1}
                     {1 + " " + $_("data_names.item")}
                 {:else}
-                    {group.items.length + " " + $_("data_names.items")}
+                    {group.itemsCount + " " + $_("data_names.items")}
                 {/if}
             </span>
         </div>

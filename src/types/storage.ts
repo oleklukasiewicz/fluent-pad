@@ -59,9 +59,4 @@ export interface IStorageModel {
     group: IGroupModel;
     item: IItemModel;
     relations: IRelationsModel;
-
-    clearAllData(): Promise<void>;
-    loadAllData(): Promise<void>;
-
-    helpers: object;
 }

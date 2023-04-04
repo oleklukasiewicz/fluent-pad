@@ -85,14 +85,14 @@
                 picture={$userPicture}
                 on:click={logout}
             />
-            <ListItem
+            <!-- <ListItem
                 href="#/settings"
                 id="settings-button"
                 selected={$location === "/settings"}
                 on:click={() => (isMenuOpened = false)}
             >
                 {@html SettingsIcon}&nbsp; {$_("nav.settings")}
-            </ListItem>
+            </ListItem> -->
         </div>
     </NavigationMenu>
     <slot />
