@@ -7,6 +7,7 @@
         userPicture,
         logout,
         isMobileView,
+        groupsLoaded,
     } from "../../viewModel/NavViewModel";
 
     import { location } from "svelte-spa-router";
@@ -23,6 +24,7 @@
 
     import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
     import SearchResults from "../../lib/Nav/SearchResults/SearchResults.svelte";
+    import ItemListPlaceholder from "../../lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
 
     let isMenuOpened = false;
     let isNewGroupDialogOpen = false;
@@ -63,13 +65,19 @@
                 anchorElement={searchBox}
             />
             <br />
-            <GroupList
-                groups={$groups}
-                defaultGroup={$groups[0]}
-                selectedGroup={$location === "/" ? $selectedGroup : {}}
-                on:select={selectGroup}
-                on:addgroup={showNewGroupDialog}
-            />
+            {#if $groupsLoaded}
+                <GroupList
+                    groups={$groups}
+                    defaultGroup={$groups[0]}
+                    selectedGroup={$location === "/" ? $selectedGroup : {}}
+                    on:select={selectGroup}
+                    on:addgroup={showNewGroupDialog}
+                />
+            {:else}
+                {#each Array(5) as i}
+                    <ItemListPlaceholder gap/>
+                {/each}
+            {/if}
         </div>
         <div slot="footer">
             <UserButton

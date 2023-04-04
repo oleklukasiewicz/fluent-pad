@@ -4,23 +4,26 @@ export class BaseItem {
     modifyDate: Date;
     title: string;
     content: string;
+    flags:any;
 
-    constructor(id: string, title: string, content: string, createDate?: Date, modifyDate?: Date) {
+    constructor(id: string, title: string, content: string, createDate?: Date, modifyDate?: Date,flags?:any) {
         this.id = id;
         this.title = title || "";
         this.content = content || "";
         this.createDate = createDate || new Date();
         this.modifyDate = modifyDate || new Date();
+        this.flags = flags || {};
     }
 }
 
 export class Group extends BaseItem {
     items: Item[];
+    itemsCount: number;
     sortFunction: any;
     filterFunction: any;
 
     constructor(id: string, title?: string, createDate?: Date, modifyDate?: Date) {
-        super(id, title || "", "", createDate, modifyDate);
+        super(id, title || "", "", createDate, modifyDate,{});
         this.items = [];
         this.sortFunction = () => 0;
         this.filterFunction = () => true;

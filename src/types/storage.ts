@@ -4,8 +4,8 @@ import type { Group, Item } from "./data";
 export interface IGroupModel {
     loadAll(): Promise<void>;
     load(group: Group): Promise<Group>;
-    add(group: Group): Promise<Group>;
-    update(group: Group): Promise<Group>;
+    add(group: Group): Promise<void>;
+    update(group: Group): Promise<void>;
     remove(groupId:string): Promise<void>;
 
     select(group: Group): void;
@@ -27,13 +27,14 @@ export interface IGroupModel {
     selectedGroup: Writable<Group>;
     selectedGroupItems: Readable<Item[]>;
     selectedGroupIsDefault: Readable<boolean>;
+    groupsLoaded: Writable<boolean>;
 }
 
 export interface IItemModel {
     loadAll(): Promise<void>;
     load(item: Item): Promise<Item>;
-    add(item: Item): Promise<Item>;
-    update(item: Item): Promise<Item>;
+    add(item: Item): Promise<void>;
+    update(item: Item): Promise<void>;
     remove(itemId: string): Promise<void>;
 
     select(item:Item): void;

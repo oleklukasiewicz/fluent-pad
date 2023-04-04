@@ -61,9 +61,9 @@
                 .map((item) => item.item)
     );
 
-    items.subscribe((items) => {
+    items.subscribe(async (items) => {
         itemsWithSelection.set(
-            items.map(
+            await items.map(
                 (item) => new SelectionItem(item, item.id === $selectedItem?.id)
             )
         );
@@ -220,7 +220,7 @@
                     group={$group}
                     selectedItems={$selectedItems}
                 />
-                {#if $group.id}
+                {#if $group.flags?.itemsLoaded}
                     <GroupItemsCollection
                         on:select={onSelect}
                         on:multiselect={onMultiSelect}
@@ -234,7 +234,7 @@
                         items={$itemsWithSelection}
                     />
                 {:else}
-                    {#each Array(10) as i}
+                    {#each Array($group.itemsCount || 10) as i}
                         <ItemListPlaceholder />
                     {/each}
                 {/if}

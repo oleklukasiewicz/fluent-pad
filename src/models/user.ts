@@ -1,5 +1,5 @@
 import { writable, type Writable } from "svelte/store";
-import { firebaseBackend } from "../backend/firebase";
+import { firebaseUserAPI } from "../api/firebase";
 import type { IUserModel, User } from "../types/user";
 
 export const isUserLogged: Writable<boolean> = writable(false);
@@ -9,7 +9,7 @@ export const userPicture: Writable<string> = writable(null);
 export const user: IUserModel =
 {
     login: async function () {
-        const _user: User = await firebaseBackend.loadUser();
+        const _user: User = await firebaseUserAPI.login();
 
         if (_user.uid === null)
             return false;
@@ -21,7 +21,7 @@ export const user: IUserModel =
         return true;
     },
     logout: async function () {
-        await firebaseBackend.logoutUser();
+        await firebaseUserAPI.logout();
 
         isUserLogged.set(false);
         userName.set(null);

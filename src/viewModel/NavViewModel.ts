@@ -16,6 +16,7 @@ export const groups: Writable<Group[]> = writableDerived(Storage.storage, (s) =>
 export const userName: Readable<string> = derived(user.userName, $name => $name);
 export const userPicture: Readable<string> = derived(user.userPicture, $pic => $pic);
 export const isUserLogged: Readable<boolean> = derived(user.isUserLogged, $isLogged => $isLogged);
+export const groupsLoaded: Writable<boolean> = Storage.group.groupsLoaded;
 
 export const logout = user.user.logout;
 
