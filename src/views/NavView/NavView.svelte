@@ -6,7 +6,6 @@
         userName,
         userPicture,
         logout,
-        loading,
         isMobileView,
         groupsLoaded,
     } from "../../viewModel/NavViewModel";

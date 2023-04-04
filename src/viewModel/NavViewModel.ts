@@ -12,7 +12,6 @@ export const itemControl: IItemModel = Storage.item;
 
 export const selectedGroup: Writable<Group> = writableDerived(Storage.group.selectedGroup, (s) => s, (s) => s);
 export const groups: Writable<Group[]> = writableDerived(Storage.storage, (s) => s, (s) => s);
-export const loading: Readable<boolean> = derived(Storage.group.loaded, (s) => !s);
 
 export const userName: Readable<string> = derived(user.userName, $name => $name);
 export const userPicture: Readable<string> = derived(user.userPicture, $pic => $pic);
