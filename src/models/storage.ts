@@ -24,6 +24,7 @@ const _findGroupById = (id: string): Group => get(storage)[_findGroupIndexById(i
 const storage: Writable<Group[]> = writable([_defaultGroup]);
 
 const groupsLoaded: Writable<boolean> = writable(false);
+
 const selectedGroupIndex: Writable<number> = writable(0);
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     ((s) => get(storage)[s] || {} as Group),
@@ -33,14 +34,12 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
 
         if (index === -1)
             return;
-        if (_old.id != value.id)
+        if (_old?.id != value.id)
             index = _findGroupIndexById(value.id);
         else {
             if (!lodash.isEqual(value, _old)) {
-                _updateSelectedItemGroups(get(selectedItem));
                 if (value.id != _defaultGroup.id)
                     group.update(value);
-                console.log("update group");
             }
         }
         return index;
@@ -104,7 +103,6 @@ const selectedItem: Writable<Item> = writableDerived(selectedIndex,
         if (!value.id)
             return -1;
         if (value.id === prevItem?.id) {
-            if (!lodash.isEqual(value, prevItem))
                 setupUpdate(value);
             return get(selectedIndex);
         } else {
@@ -134,9 +132,6 @@ const _removeItemFromGroupOnly = (group: Group, id: string, dontUpdateStores = f
 const _removeGroupFromItemOnly = (item: Item, groupId: string, dontUpdateStores = false) => {
     const _index: number = item.groups.findIndex((_g) => _g === groupId);
     item.groups.splice(_index, 1);
-
-    if (get(selectedItem).id === item.id && !dontUpdateStores)
-        _updateSelectedItemGroups(item);
 }
 
 const _removeItemFromGroup = (group: Group, item: Item, dontUpdateStores = false) => {
@@ -149,17 +144,8 @@ const _addItemToGroup = (group: Group, item: Item, dontUpdateStores = false) => 
 
     if (!dontUpdateStores)
         Storage.group.update(group);
-
-    if (get(selectedItem).id === item.id && !dontUpdateStores)
-        _updateSelectedItemGroups(item);
 }
 
-const _updateSelectedItemGroups = (item: Item) => {
-    selectedItem.update(_item => {
-        _item.groups = item.groups;
-        return item;
-    })
-}
 const _updateItem = function (item: Item) {
     item.modifyDate = new Date();
     _loadedStorageAPI.item.update(item);
@@ -189,10 +175,14 @@ const group: IGroupModel =
         _loadedStorageAPI.group.add(_group);
     },
     update: async function (group: Group) {
+
+        if (group.id === _defaultGroup.id)
+            return;
+
         group.modifyDate = new Date();
         group.itemsCount = group.items.length;
 
-        const _index = _findGroupIndexById(group.id)
+        const _index = _findGroupIndexById(group.id);
         storage.update((__storage) => {
             __storage[_index] = group;
             return __storage;
@@ -239,7 +229,6 @@ const group: IGroupModel =
     getAll: () => get(storage).filter((group: Group) => group.id !== _defaultGroup.id),
     getDefault: () => _defaultGroup,
     get: (groupId: string) => _findGroupById(groupId),
-    itemIndexInGroup: (item: Item, group: Group) => group.items.findIndex((_item: Item) => _item.id === item.id),
     sort: function (group: Group, method = () => 0) {
         group.sortFunction = method;
 
@@ -336,22 +325,23 @@ const item: IItemModel =
 const relations: IRelationsModel =
 {
     addTo: function (group: Group, item: Item) {
-        if (Storage.group.itemIndexInGroup(item, group) !== -1)
+        if (relations.isItemInGroup(item, group))
             return;
 
         _addItemToGroup(group, item);
         Storage.group.update(group);
-        if (get(selectedItem).id !== item.id)
-            _updateItem(item);
+        _updateItem(item);
+        selectedItem.update(_item => _item);
+
     },
     removeFrom: function (group: Group, item: Item) {
-        if (Storage.group.itemIndexInGroup(item, group) === -1)
+        if (!relations.isItemInGroup(item, group))
             return;
 
         _removeItemFromGroup(group, item);
         Storage.group.update(group);
-        if (get(selectedItem).id !== item.id)
-            _updateItem(item);
+        _updateItem(item);
+        selectedItem.update(_item => _item);
     },
     setFor: function (item: Item, groupsId: string[]) {
         const _storage = get(storage);
@@ -361,7 +351,7 @@ const relations: IRelationsModel =
                 return;
 
             const setListHaveGroupId = groupsId.findIndex((_id) => _id === _group.id) !== -1;
-            const isItemInGroup = group.itemIndexInGroup(item, _group) !== -1;
+            const isItemInGroup = relations.isItemInGroup(item, _group);
 
             if (setListHaveGroupId) {
 
@@ -381,6 +371,9 @@ const relations: IRelationsModel =
             selectedItem.set(item);
         _updateItem(item);
     },
+    isItemInGroup: function (item: Item, group: Group) {
+        return item.groups.findIndex((_groupId) => _groupId === group.id) !== -1;
+    }
 }
 
 const clearStorage = async () => {

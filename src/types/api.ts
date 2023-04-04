@@ -49,13 +49,11 @@ export class ApiGroup {
     createDate: Date;
     modifyDate: Date;
     title: string;
-    content: string;
     itemsCount: number;
 
-    constructor(id?: string, title?: string, content?: string, createDate?: Date, modifyDate?: Date, itemsCount?: number) {
+    constructor(id?: string, title?: string, createDate?: Date, modifyDate?: Date, itemsCount?: number) {
         this.id = id;
         this.title = title;
-        this.content = content;
         this.createDate = createDate;
         this.modifyDate = modifyDate;
         this.itemsCount = itemsCount;

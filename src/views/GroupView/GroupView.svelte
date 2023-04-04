@@ -100,10 +100,8 @@
     };
 
     let onGroupEdit = function (event) {
-        let _group = $group;
         $group.title = event.detail.title;
-
-        groupControl.update(_group);
+        groupControl.update($group);
     };
     let onGroupsOfItemsSet = function (event) {
         let groups = event.detail.groups;

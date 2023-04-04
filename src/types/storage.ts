@@ -18,8 +18,6 @@ export interface IGroupModel {
     getDefault(): Group;
     get(groupId: string): Group;
 
-    itemIndexInGroup(item: Item, group: Group): number;
-
     selectedGroupIndex: Writable<number>;
     selectedGroup: Writable<Group>;
     selectedGroupItems: Readable<Item[]>;
@@ -50,6 +48,7 @@ export interface IRelationsModel {
     addTo(group: Group,item: Item): void;
     removeFrom(group: Group,item: Item): void;
     setFor(item: Item, groupsIds: string[]): void;
+    isItemInGroup(item: Item, group: Group): boolean;
 }
 
 export interface IStorageModel {

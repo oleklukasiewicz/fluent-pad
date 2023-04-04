@@ -30,7 +30,7 @@
     let isRemoveDialogOpen = false;
     let isGroupsDialogOpen = false;
 
-    $: $groups ? setGroupList() : "";
+    $: $id ? setGroupList() : "";
 
     function setGroupList() {
         groupList = groupControl
@@ -39,7 +39,7 @@
                 (_group) =>
                     new SelectionGroup(
                         _group,
-                        groupControl.itemIndexInGroup($item, _group) != -1
+                        relationsControl.isItemInGroup($item,_group)
                     )
             );
     }
