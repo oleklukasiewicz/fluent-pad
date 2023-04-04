@@ -10,11 +10,13 @@
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
+    import ItemListPlaceholder from "../../Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
     const dispatch = createEventDispatcher();
 
     export let groups = [];
 
     export let defaultGroup;
+    export let loading = false;
     export let selectedGroup;
 
     let _groups;
@@ -42,22 +44,28 @@
         selected={defaultGroup.id == selectedGroup.id}
         on:click={() => onSelect(defaultGroup)}
     />
-    {#if _groups.length > 0}
-        <Separator horizontal={true} />
+    {#if loading}
+        {#each Array(10) as i}
+            <ItemListPlaceholder />
+        {/each}
+    {:else}
+        {#if _groups.length > 0}
+            <Separator horizontal={true} />
+        {/if}
+        {#each _groups as group (group.id)}
+            <ListGroup
+                {group}
+                href="#"
+                isCompact={false}
+                selected={group.id == selectedGroup.id}
+                on:click={() => onSelect(group)}
+            />
+        {/each}
+        <Button id="add-group-button" variant="accent" on:click={addNewGroup}>
+            {@html AddIcon}
+            &nbsp; {$_("nav.create_group")}
+        </Button>
     {/if}
-    {#each _groups as group (group.id)}
-        <ListGroup
-            {group}
-            href="#"
-            isCompact={false}
-            selected={group.id == selectedGroup.id}
-            on:click={() => onSelect(group)}
-        />
-    {/each}
-    <Button id="add-group-button" variant="accent" on:click={addNewGroup}>
-        {@html AddIcon}
-        &nbsp; {$_("nav.create_group")}
-    </Button>
 </div>
 
 <style lang="scss">

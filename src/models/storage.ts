@@ -171,9 +171,11 @@ const group: IGroupModel =
         return group;
     },
     loadAll: async () =>
+    {
         await (
             await loadedStorageAPI.group.loadAll()
-        ).forEach((_item) => group.load(_item)),
+        ).forEach((_item) => group.load(_item))
+    },
     add: async function (_group: Group) {
         _group.id = loadedStorageAPI.generateGroupId();
 
