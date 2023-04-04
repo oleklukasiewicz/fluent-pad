@@ -4,11 +4,12 @@ import { writableDerived } from "svelte-writable-derived";
 import { Storage } from '../models/storage';
 
 import type { Group, Item } from '../types/data';
-import type { IItemModel, IGroupModel } from '../types/storage';
+import type { IItemModel, IGroupModel,IRelationsModel } from '../types/storage';
 import { isMobileView as isMobile } from '../models/ui';
 
 export const control: IItemModel = Storage.item;
 export const groupControl: IGroupModel = Storage.group;
+export const relationsControl: IRelationsModel = Storage.relations;
 
 export const groups: Readable<Group[]> = derived(Storage.storage, ($groups: Group[]) =>Storage.group.getAll() || []);
 export const group: Writable<Group> = writableDerived(Storage.group.selectedGroup, (s) => s, (s) => s);

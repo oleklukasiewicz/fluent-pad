@@ -2,7 +2,7 @@ import { _ } from 'svelte-i18n';
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
 
-import type { IGroupModel, IItemModel, IStorageModel } from '../types/storage';
+import type { IGroupModel, IItemModel, IRelationsModel, IStorageModel } from '../types/storage';
 import { Group, Item } from '../types/data';
 
 import { isUserLogged } from './user';
@@ -22,7 +22,7 @@ const _findGroupIndexById = (id: string): number => get(storage).findIndex((stor
 const storage: Writable<Group[]> = writable([_defaultGroup]);
 
 const groupsLoaded: Writable<boolean> = writable(false);
-const selectedGroupIndex: Writable<number> = writable(-1);
+const selectedGroupIndex: Writable<number> = writable(0);
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
     ((s) => get(storage)[s] || {} as Group),
     (value: Group) => {
@@ -170,8 +170,7 @@ const group: IGroupModel =
         });
         return group;
     },
-    loadAll: async () =>
-    {
+    loadAll: async () => {
         await (
             await loadedStorageAPI.group.loadAll()
         ).forEach((_item) => group.load(_item))
@@ -233,52 +232,6 @@ const group: IGroupModel =
     getDefault: () => _defaultGroup,
     get: (groupId: string) => _findGroupById(groupId),
     itemIndexInGroup: (item: Item, group: Group) => group.items.findIndex((_item: Item) => _item.id === item.id),
-    addItem: function (group: Group, item: Item) {
-        if (Storage.group.itemIndexInGroup(item, group) !== -1)
-            return;
-
-        _addItemToGroup(group, item);
-        Storage.group.update(group);
-        if (get(selectedItem).id !== item.id)
-            _updateItem(item);
-    },
-    removeItem: function (group: Group, item: Item) {
-        if (Storage.group.itemIndexInGroup(item, group) === -1)
-            return;
-
-        _removeItemFromGroup(group, item);
-        Storage.group.update(group);
-        if (get(selectedItem).id !== item.id)
-            _updateItem(item);
-    },
-    setForItem: function (item: Item, groupsId: Group[] | string[]) {
-        const _storage = get(storage);
-
-        _storage.forEach((_group) => {
-            if (_group.id === _defaultGroup.id)
-                return;
-
-            const setListHaveGroupId = groupsId.findIndex((_id) => _id === _group.id || _id.id === _group.id) !== -1;
-            const isItemInGroup = group.itemIndexInGroup(item, _group) !== -1;
-
-            if (setListHaveGroupId) {
-
-                if (!isItemInGroup) {
-                    _addItemToGroup(_group, item, true);
-                    Storage.group.update(_group);
-                }
-            } else {
-                if (isItemInGroup) {
-                    _removeItemFromGroup(_group, item, true);
-                    Storage.group.update(_group);
-                }
-            }
-        });
-        storage.update(_storage => _storage);
-        if (get(selectedItem).id === item.id)
-            selectedItem.set(item);
-        _updateItem(item);
-    },
     sort: function (group: Group, method = () => 0) {
         group.sortFunction = method;
 
@@ -372,6 +325,55 @@ const item: IItemModel =
     selectedItem: selectedItem,
     selectedIndex: selectedIndex,
 }
+const relations: IRelationsModel =
+{
+    addTo: function (group: Group, item: Item) {
+        if (Storage.group.itemIndexInGroup(item, group) !== -1)
+            return;
+
+        _addItemToGroup(group, item);
+        Storage.group.update(group);
+        if (get(selectedItem).id !== item.id)
+            _updateItem(item);
+    },
+    removeFrom: function (group: Group, item: Item) {
+        if (Storage.group.itemIndexInGroup(item, group) === -1)
+            return;
+
+        _removeItemFromGroup(group, item);
+        Storage.group.update(group);
+        if (get(selectedItem).id !== item.id)
+            _updateItem(item);
+    },
+    setFor: function (item: Item, groupsId: string[]) {
+        const _storage = get(storage);
+
+        _storage.forEach((_group) => {
+            if (_group.id === _defaultGroup.id)
+                return;
+
+            const setListHaveGroupId = groupsId.findIndex((_id) => _id === _group.id) !== -1;
+            const isItemInGroup = group.itemIndexInGroup(item, _group) !== -1;
+
+            if (setListHaveGroupId) {
+
+                if (!isItemInGroup) {
+                    _addItemToGroup(_group, item, true);
+                    Storage.group.update(_group);
+                }
+            } else {
+                if (isItemInGroup) {
+                    _removeItemFromGroup(_group, item, true);
+                    Storage.group.update(_group);
+                }
+            }
+        });
+        storage.update(_storage => _storage);
+        if (get(selectedItem).id === item.id)
+            selectedItem.set(item);
+        _updateItem(item);
+    },
+}
 const helpers =
 {
     GenerateGroupId: (): string => loadedStorageAPI.generateGroupId(),
@@ -401,6 +403,7 @@ isUserLogged.subscribe(async (isLogged: boolean) => {
 export let Storage: IStorageModel = {
     group: group,
     item: item,
+    relations: relations,
 
     storage: storage,
 

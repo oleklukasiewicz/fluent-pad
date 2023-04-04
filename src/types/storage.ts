@@ -19,9 +19,6 @@ export interface IGroupModel {
     get(groupId: string): Group;
 
     itemIndexInGroup(item: Item, group: Group): number;
-    addItem(group: Group, item: Item): void;
-    removeItem(group: Group, item: Item): void;
-    setForItem(item: Item, groupsIds: string[]): void;
 
     selectedGroupIndex: Writable<number>;
     selectedGroup: Writable<Group>;
@@ -48,12 +45,20 @@ export interface IItemModel {
     selectedItem: Writable<Item>;
 }
 
+export interface IRelationsModel {
+    
+    addTo(group: Group,item: Item): void;
+    removeFrom(group: Group,item: Item): void;
+    setFor(item: Item, groupsIds: string[]): void;
+}
+
 export interface IStorageModel {
 
     storage: Writable<Group[]>;
 
     group: IGroupModel;
     item: IItemModel;
+    relations: IRelationsModel;
 
     clearAllData(): Promise<void>;
     loadAllData(): Promise<void>;

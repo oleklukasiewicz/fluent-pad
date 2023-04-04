@@ -9,6 +9,7 @@
         groupControl,
         isListHidden,
         isMobileView,
+        relationsControl,
     } from "../../viewModel/GroupViewModel";
 
     import {
@@ -107,7 +108,7 @@
     let onGroupsOfItemsSet = function (event) {
         let groups = event.detail.groups;
 
-        $selectedItems.forEach((item) => groupControl.setForItem(item, groups));
+        $selectedItems.forEach((item) => relationsControl.setFor(item, groups.map((group) => group.id)));
 
         if (!groups.includes($group.id)) groupControl.selectDefault();
     };

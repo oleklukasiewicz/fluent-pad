@@ -23,6 +23,7 @@
     import RemoveItemDialog from "../../lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
     import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
+    import { relationsControl } from "../../viewModel/GroupViewModel";
 
     let groupList = [];
 
@@ -57,10 +58,10 @@
     function onRemoveFromGroup(event) {
         if (event.detail.group.id == $selectedGroup.id)
             groupControl.selectDefault();
-        groupControl.removeItem(event.detail.group, event.detail.item);
+        relationsControl.removeFrom(event.detail.group, event.detail.item);
     }
     function onAddToGroup(event) {
-        groupControl.addItem(event.detail.group, event.detail.item);
+        relationsControl.addTo(event.detail.group, event.detail.item);
     }
     function showRemoveDialog() {
         isRemoveDialogOpen = true;
