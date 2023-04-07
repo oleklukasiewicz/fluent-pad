@@ -8,6 +8,7 @@
         logout,
         isMobileView,
         groupsLoaded,
+        searchGroup
     } from "../../viewModel/NavViewModel";
 
     import { location } from "svelte-spa-router";
@@ -26,13 +27,13 @@
     import SearchBar from "$lib/Other/SearchBar/SearchBar.svelte";
     import { control } from "$viewModel/GroupViewModel";
     import { toUpper } from "lodash";
-    import ListGroup from "$lib/Other/ListGroup/ListGroup.svelte";
     import ListItem from "$lib/Other/ListItem/ListItem.svelte";
 
     let isMenuOpened = false;
     let isNewGroupDialogOpen = false;
-    let isSearchResultsOpen = false;
-    const searchGroup = groupControl.get("search_group");
+    let searchSourceData;
+    let resultOpened = false;
+    let searchResults = [];
 
     let selectGroup = (event) => {
         isMenuOpened = false;
@@ -45,12 +46,7 @@
 
     let showNewGroupDialog = () => {
         isNewGroupDialogOpen = true;
-    };
-
-    let showSearchResults = () => {
-        isSearchResultsOpen = true;
-    };
-    let searchSourceData;
+    }
 
     const getSearchSourceData = () => {
         searchSourceData = [...control.getAll()];
@@ -66,6 +62,7 @@
     };
     const openSearchResults = (obj) => {
         resultOpened = false;
+        isMenuOpened = false;
         if (obj.type === "group") {
             groupControl.select(obj);
         } else {
@@ -78,20 +75,18 @@
         let details = event.detail;
         let results = details.data;
 
-        if (results.length === 0) {
+        if (results.length === 0) 
             return;
-        }
+
         searchGroup.items = results;
         searchGroup.title =
             $_("nav.search_results") + " (" + results.length + ")";
 
         groupControl.select(searchGroup);
         groupControl.sort(searchGroup, () => 0);
+        isMenuOpened = false;
         resultOpened = false;
     };
-
-    let resultOpened = false;
-    let searchResults = [];
 </script>
 
 <div class="nav-view">

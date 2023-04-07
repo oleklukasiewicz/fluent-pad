@@ -21,3 +21,5 @@ export const groupsLoaded: Writable<boolean> = Storage.group.groupsLoaded;
 export const logout = user.user.logout;
 
 export const isMobileView: Readable<boolean> = derived(ui.isMobileView, $isMobile => $isMobile);
+
+export const searchGroup = Storage.group.get("search_group");

@@ -53,6 +53,8 @@
     let direction = "asc";
     let sortValue = "title";
 
+    $: $group ? (isDetailViewOpened = false) : "";
+
     const itemsWithSelection: Writable<SelectionItem[]> = writable([]);
     const selectedItems: Readable<Item[]> = derived(
         itemsWithSelection,

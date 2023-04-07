@@ -1,5 +1,6 @@
 .navigation-view-pane {
     height: 100vh;
+    max-height: 100vh;
     background-color: var(--fds-solid-background-secondary);
     transition: transform 0.12s cubic-bezier(0.1, 0.9, 0.2, 1);
     display: grid;

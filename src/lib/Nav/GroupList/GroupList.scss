@@ -1,7 +1,22 @@
 div {
     flex: 1;
 }
+
 :global(#add-group-button) {
     width: calc(100% - 12px);
     margin: 6px 8px;
+}
+
+.group-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.groups {
+    max-height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    max-height: calc(100vh - 220px);
+    flex-direction: column;
 }

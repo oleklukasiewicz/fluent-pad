@@ -8,11 +8,14 @@
 
     display: flex;
     flex-direction: column;
-    min-block-size: 380px;
     overflow: hidden;
     text-decoration: none;
     transition: var(--fds-control-normal-duration) ease;
     text-align: center;
+    min-width: 250px;
+    max-width: 300px;
+    max-height: 500px;
+    min-height: 300px;
 
     &.interactive {
         cursor: pointer;
