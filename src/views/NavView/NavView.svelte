@@ -77,10 +77,8 @@
     const openAllResults = (event) => {
         let details = event.detail;
         let results = details.data;
-        let text = details.value;
 
-        if (text == "") {
-            groupControl.selectDefault();
+        if (results.length === 0) {
             return;
         }
         searchGroup.items = results;
