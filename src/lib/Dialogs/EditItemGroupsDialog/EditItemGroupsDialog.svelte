@@ -2,10 +2,10 @@
     import { _ } from "svelte-i18n";
 
     import { ContentDialog, Button } from "fluent-svelte";
-    import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
+    import CheckBoxListItem from "$lib/Other/CheckBoxListItem/CheckBoxListItem.svelte";
 
     import { createEventDispatcher } from "svelte";
-    import type { SelectionGroup } from "../../../types/data";
+    import type { SelectionGroup } from "$type/data";
     const dispatch = createEventDispatcher();
 
     export let open = false;

@@ -2,7 +2,7 @@
     import { _ } from "svelte-i18n";
     import { validateTitle } from "../../../helpers";
 
-    import type { Group } from "../../../types/data";
+    import type { Group } from "$type/data";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
 

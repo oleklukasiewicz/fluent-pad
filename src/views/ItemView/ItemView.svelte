@@ -13,14 +13,14 @@
         isMobileView,
     } from "../../viewModel/ItemViewModel";
 
-    import { SelectionGroup } from "../../types/data";
+    import { SelectionGroup } from "$type/data";
 
-    import ItemViewOptions from "../../lib/Item/ItemViewOptions/ItemViewOptions.svelte";
-    import Placeholder from "../../lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
-    import Bange from "../../lib/Other/Bange/Bange.svelte";
+    import ItemViewOptions from "$lib/Item/ItemViewOptions/ItemViewOptions.svelte";
+    import Placeholder from "$lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
+    import Bange from "$lib/Other/Bange/Bange.svelte";
 
-    import EditItemGroupsDialog from "../../lib/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
-    import RemoveItemDialog from "../../lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
+    import EditItemGroupsDialog from "$lib/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+    import RemoveItemDialog from "$lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
     import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
     import { relationsControl } from "../../viewModel/GroupViewModel";

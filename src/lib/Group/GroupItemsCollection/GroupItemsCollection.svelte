@@ -1,7 +1,7 @@
 <script lang="ts">
-    import type { SelectionItem } from "../../../types/data";
+    import type { SelectionItem } from "$type/data";
 
-    import ListItem from "../../Other/ListItem/ListItem.svelte";
+    import ListItem from "$lib/Other/ListItem/ListItem.svelte";
 
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();

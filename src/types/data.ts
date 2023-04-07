@@ -1,5 +1,6 @@
 export class BaseItem {
     id: string;
+    type: string="base";
     createDate: Date;
     modifyDate: Date;
     title: string;
@@ -23,6 +24,7 @@ export class Group extends BaseItem {
     constructor(id: string, title?: string, createDate?: Date, modifyDate?: Date) {
         super(id, title || "", createDate, modifyDate,{});
         this.items = [];
+        this.type = "group";
         this.itemsCount = 0;
         this.sortFunction = () => 0;
         this.filterFunction = () => true;
@@ -36,6 +38,7 @@ export class Item extends BaseItem {
     constructor(id: string, title?: string, content?: string, createDate?: Date, modifyDate?: Date, groups?: string[]) {
         super(id, title || "", createDate, modifyDate);
         this.groupIndex = -1;
+        this.type = "item";
         this.content = content || "";
         this.groups = groups || [];
     }

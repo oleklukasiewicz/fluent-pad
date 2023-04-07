@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Group } from "../../../types/data";
+    import type { Group } from "$type/data";
     import { DATE_FORMAT } from "../../../helpers";
 
     import { ListItem } from "fluent-svelte";
@@ -8,17 +8,17 @@
     export let group: Group = {} as Group;
     export let selected: boolean = false;
     export let href = "";
-    export let isCompact = false;
+    export let compact = false;
 </script>
 
 <ListItem
-    class={"list-group " + (!isCompact ? "extended" : "compact")}
+    class={"list-group " + (!compact ? "extended" : "compact")}
     {href}
     {selected}
     on:click
     on:select
 >
-    {#if isCompact}
+    {#if compact}
         {group.title}
     {:else}
         <div class="group-data">

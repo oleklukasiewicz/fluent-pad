@@ -13,24 +13,25 @@
     import { location } from "svelte-spa-router";
     import { _ } from "svelte-i18n";
 
-    import type { Group } from "../../types/data";
+    import type { Group } from "$type/data";
 
-    import { ListItem, TextBox } from "fluent-svelte";
-    import GroupList from "../../lib/Nav/GroupList/GroupList.svelte";
-    import UserButton from "../../lib/Nav/UserButton/UserButton.svelte";
-    import NavigationMenu from "../../lib/Nav/NavigationMenu/NavigationMenu.svelte";
+    import GroupList from "$lib/Nav/GroupList/GroupList.svelte";
+    import UserButton from "$lib/Nav/UserButton/UserButton.svelte";
+    import NavigationMenu from "$lib/Nav/NavigationMenu/NavigationMenu.svelte";
 
-    import CreateGroupDialog from "../../lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
+    import CreateGroupDialog from "$lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
-    import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
-    import SearchResults from "../../lib/Nav/SearchResults/SearchResults.svelte";
-    import ItemListPlaceholder from "../../lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+    // import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
+    import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+    import SearchBar from "$lib/Other/SearchBar/SearchBar.svelte";
+    import { control } from "$viewModel/GroupViewModel";
+    import { toUpper } from "lodash";
+    import ListGroup from "$lib/Other/ListGroup/ListGroup.svelte";
+    import ListItem from "$lib/Other/ListItem/ListItem.svelte";
 
     let isMenuOpened = false;
     let isNewGroupDialogOpen = false;
     let isSearchResultsOpen = false;
-
-    let searchBox;
 
     let selectGroup = (event) => {
         isMenuOpened = false;
@@ -48,23 +49,62 @@
     let showSearchResults = () => {
         isSearchResultsOpen = true;
     };
+    let searchSourceData;
+
+    const getSearchSourceData = () => {
+        searchSourceData = [...groupControl.getAll(), ...control.getAll()];
+    };
+    const searchMethod = (text, item, index) => {
+        const textUpper = toUpper(text);
+
+        return (
+            toUpper(item.title).includes(textUpper) ||
+            toUpper(item.content).includes(textUpper)
+        );
+    };
+    const openSearchResults = (obj) => {
+        resultOpened = false;
+        if (obj.type === "group") {
+            groupControl.select(obj);
+        } else {
+            control.select(obj);
+            if (!obj.groups.includes($selectedGroup.id))
+                groupControl.selectDefault();
+        }
+    };
+
+    let resultOpened = false;
+    let searchResults = [];
 </script>
 
 <div class="nav-view">
     <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
         <div slot="items">
-            <TextBox
-                bind:this={searchBox}
-                type="search"
-                id="search-box"
-                placeholder={$_("nav.search")}
-                on:search={showSearchResults}
-            />
-            <SearchResults
-                bind:open={isSearchResultsOpen}
-                anchorElement={searchBox}
-            />
-            <br />
+            <SearchBar
+                data={searchSourceData}
+                bind:results={searchResults}
+                {searchMethod}
+                bind:open={resultOpened}
+                on:start={getSearchSourceData}
+            >
+                <div slot="results">
+                    {#each searchResults as result}
+                        {#if result.type === "group"}
+                            <ListGroup
+                                group={result}
+                                compact={false}
+                                on:click={() => openSearchResults(result)}
+                            />
+                        {:else}
+                            <ListItem
+                                item={result}
+                                compact={false}
+                                on:click={() => openSearchResults(result)}
+                            />
+                        {/if}
+                    {/each}
+                </div>
+            </SearchBar>
             {#if $groupsLoaded}
                 <GroupList
                     groups={$groups}
@@ -75,7 +115,7 @@
                 />
             {:else}
                 {#each Array(5) as i}
-                    <ItemListPlaceholder gap/>
+                    <ItemListPlaceholder gap />
                 {/each}
             {/if}
         </div>

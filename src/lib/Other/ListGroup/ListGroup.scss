@@ -1,9 +1,13 @@
 :global(.list-group.extended) {
     height: auto !important;
-    max-width: 100%;
-    margin: 6px 0px !important;
-    padding-right: 6px;
+    padding-right: 0px;
+    padding-inline: 0px !important;
     inline-size: 100% !important;
+}
+:global(.list-group) {
+    inline-size: 100% !important;
+    margin: 6px 0px 0px 0px !important;
+    max-width: 100%;
 }
 :global(.list-group > *) {
     width: 100%;
@@ -11,7 +15,7 @@
 .group-data {
     display: grid;
     grid-template-rows: auto 1fr;
-    margin: 8px 0px;
+    margin: 8px 10px 8px 12px;
     flex:1;
 }
 .group-content,

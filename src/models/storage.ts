@@ -24,6 +24,7 @@ const _findGroupById = (id: string): Group => get(storage)[_findGroupIndexById(i
 const storage: Writable<Group[]> = writable([_defaultGroup]);
 
 const groupsLoaded: Writable<boolean> = writable(false);
+const itemsLoaded: Writable<boolean> = writable(false);
 
 const selectedGroupIndex: Writable<number> = writable(0);
 const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
@@ -34,13 +35,12 @@ const selectedGroup: Writable<Group> = writableDerived(selectedGroupIndex,
 
         if (index === -1)
             return;
+            
         if (_old?.id != value.id)
             index = _findGroupIndexById(value.id);
         else {
-            if (!lodash.isEqual(value, _old)) {
                 if (value.id != _defaultGroup.id)
                     group.update(value);
-            }
         }
         return index;
     });
@@ -51,26 +51,32 @@ const selectedGroupItems: Readable<Item[]> = derived(selectedGroup,
         const sort = (items) => items.sort(group.sortFunction).map((item: Item, index: number) => { item.groupIndex = index; return item; })
         if (!group.id)
             return [];
-        if (group.flags?.itemsLoaded !== true) {
-            const itemsAsync = group.id === _defaultGroup.id ?
-                _loadedStorageAPI.item.loadAll() :
-                _loadedStorageAPI.item.loadForGroup(group.id);
 
-            itemsAsync.then(
-                (items) => {
-                    items.forEach((item: Item) => {
-                        if (_findItemById(item.id) === null)
-                            Storage.item.load(item);
-                    });
-                    group.items = items;
-                    group.flags.itemsLoaded = true;
-
-                    selectedGroup.set(group);
-
-                    return sort(group.items);
-                });
-        } else
+        if (get(itemsLoaded) || group.flags.itemsLoaded) {
+            group.flags.itemsLoaded = true;
             return sort(group.items);
+        }
+
+        const itemsAsync = group.id === _defaultGroup.id ?
+            _loadedStorageAPI.item.loadAll() :
+            _loadedStorageAPI.item.loadForGroup(group.id);
+
+        itemsAsync.then(
+            (items) => {
+                items.forEach((item: Item) => {
+                    if (!_findItemById(item.id))
+                        Storage.item.load(item);
+                });
+                group.items = items;
+                group.flags.itemsLoaded = true;
+
+                selectedGroup.set(group);
+            });
+
+        if (group.id === _defaultGroup.id)
+            itemsLoaded.set(true);
+
+        return sort(group.items);
     });
 
 const selectedIndex: Writable<number> = writable(-1);
@@ -103,7 +109,7 @@ const selectedItem: Writable<Item> = writableDerived(selectedIndex,
         if (!value.id)
             return -1;
         if (value.id === prevItem?.id) {
-                setupUpdate(value);
+            setupUpdate(value);
             return get(selectedIndex);
         } else {
             if (prevItem)
@@ -161,9 +167,9 @@ const group: IGroupModel =
         return group;
     },
     loadAll: async () => {
-        await (
-            await _loadedStorageAPI.group.loadAll()
-        ).forEach((_item) => group.load(_item));
+        await _loadedStorageAPI.group.loadAll().then((groups) =>
+            groups.sort((a: Group, b: Group) => a.createDate > b.createDate ? 1 : -1)
+                .forEach((_item) => group.load(_item)));
         groupsLoaded.set(true);
     },
     add: async function (_group: Group) {
@@ -267,9 +273,10 @@ const item: IItemModel =
         newItem.id = _loadedStorageAPI.generateItemId();
         _defaultGroup.items.push(newItem);
 
-        if (get(selectedGroupIndex) != 0) {
-            newItem.groups.push(get(selectedGroup).id);
+        selectedItem.set(newItem);
 
+        if (get(selectedGroup).id !== _defaultGroup.id) {
+            newItem.groups.push(get(selectedGroup).id);
             selectedGroup.update(group => {
                 group.items.push(newItem);
                 return group;
@@ -277,8 +284,6 @@ const item: IItemModel =
         } else
             selectedGroup.update(group => group);
 
-        selectedItem.set(newItem);
-        //event
         await _loadedStorageAPI.item.add(newItem);
 
     },
@@ -321,6 +326,7 @@ const item: IItemModel =
 
     selectedItem: selectedItem,
     selectedIndex: selectedIndex,
+    itemsLoaded: itemsLoaded,
 }
 const relations: IRelationsModel =
 {

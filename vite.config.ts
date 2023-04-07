@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from 'vite'
 import { svelte } from '@sveltejs/vite-plugin-svelte'
 import replace from '@rollup/plugin-replace';
+import * as path from 'path';
 import { config } from 'dotenv';
 
 const configToReplace = {};
@@ -19,5 +20,14 @@ export default defineConfig({
       values: configToReplace
     }
   )],
+  resolve: {
+    alias: {
+      $lib: path.resolve('src/lib'),
+      $viewModel: path.resolve('src/viewModel'),
+      $model: path.resolve('src/models'),
+      $view: path.resolve('src/views'),
+      $type: path.resolve('src/types'),
+    }
+  }
 })
 

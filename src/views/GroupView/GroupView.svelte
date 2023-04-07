@@ -10,7 +10,7 @@
         isListHidden,
         isMobileView,
         relationsControl,
-    } from "../../viewModel/GroupViewModel";
+    } from "$viewModel/GroupViewModel";
 
     import {
         derived,
@@ -19,27 +19,27 @@
         type Writable,
     } from "svelte/store";
 
-    import { Item, SelectionItem } from "../../types/data";
+    import { Item, SelectionItem } from "$type/data";
 
     import { IconButton } from "fluent-svelte";
 
-    import GroupItemsOptions from "../../lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
-    import GroupOptions from "../../lib/Group/GroupOptions/GroupOptions.svelte";
+    import GroupItemsOptions from "$lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
+    import GroupOptions from "$lib/Group/GroupOptions/GroupOptions.svelte";
 
-    import GroupItemsCollection from "../../lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
+    import GroupItemsCollection from "$lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
 
-    import MasterDetail from "../../lib/Other/MasterDetail/MasterDetail.svelte";
+    import MasterDetail from "$lib/Other/MasterDetail/MasterDetail.svelte";
 
-    import ItemView from "../ItemView/ItemView.svelte";
+    import ItemView from "$view/ItemView/ItemView.svelte";
 
-    import ItemSortDialog from "../../lib/Dialogs/ItemSortDialog/ItemSortDialog.svelte";
-    import EditMultipleItemsGroupDialog from "../../lib/Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
-    import RemoveMultipleItemsDialog from "../../lib/Dialogs/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
-    import EditGroupDialog from "../../lib/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
-    import RemoveGroupDialog from "../../lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
+    import ItemSortDialog from "$lib/Dialogs/ItemSortDialog/ItemSortDialog.svelte";
+    import EditMultipleItemsGroupDialog from "$lib/Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
+    import RemoveMultipleItemsDialog from "$lib/Dialogs/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
+    import EditGroupDialog from "$lib/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
+    import RemoveGroupDialog from "$lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
     import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
-    import ItemListPlaceholder from "../../lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+    import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
 
     let isDetailViewOpened = false;
     let isMultipleSelectionEnabled = false;
@@ -101,7 +101,6 @@
 
     let onGroupEdit = function (event) {
         $group.title = event.detail.title;
-        groupControl.update($group);
     };
     let onGroupsOfItemsSet = function (event) {
         let groups = event.detail.groups;

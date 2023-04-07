@@ -2,15 +2,14 @@
     import { _ } from "svelte-i18n";
 
     import { Button } from "fluent-svelte";
-    import ListItem from "../../Other/ListItem/ListItem.svelte";
-    import Separator from "../../Other/Separator/Separator.svelte";
+    import Separator from "$lib/Other/Separator/Separator.svelte";
 
-    import ListGroup from "../../Other/ListGroup/ListGroup.svelte";
+    import ListGroup from "$lib/Other/ListGroup/ListGroup.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import ItemListPlaceholder from "../../Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+    import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
     const dispatch = createEventDispatcher();
 
     export let groups = [];
@@ -37,10 +36,10 @@
 </script>
 
 <div>
-    <ListItem
-        item={defaultGroup}
+    <ListGroup
+        group={defaultGroup}
         href="#"
-        isCompact={true}
+        compact={true}
         selected={defaultGroup.id == selectedGroup.id}
         on:click={() => onSelect(defaultGroup)}
     />
@@ -56,7 +55,7 @@
             <ListGroup
                 {group}
                 href="#"
-                isCompact={false}
+                compact={false}
                 selected={group.id == selectedGroup.id}
                 on:click={() => onSelect(group)}
             />

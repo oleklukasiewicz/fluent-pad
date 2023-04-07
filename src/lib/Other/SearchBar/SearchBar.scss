@@ -1,0 +1,16 @@
+:global(.search-bar) {
+    min-width: 100%;
+}
+
+:global(.search-bar .flyout-anchor) {
+    position: relative !important;
+}
+
+:global(.search-bar .flyout) {
+    min-width: 100%;
+    display: block;
+    position: absolute;
+    padding: 0px 6px !important;
+    top:-14px;
+    min-inline-size: 100% !important;
+}

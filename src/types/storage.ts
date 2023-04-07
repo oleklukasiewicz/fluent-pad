@@ -41,6 +41,7 @@ export interface IItemModel {
 
     selectedIndex: Writable<number>;
     selectedItem: Writable<Item>;
+    itemsLoaded: Writable<boolean>;
 }
 
 export interface IRelationsModel {

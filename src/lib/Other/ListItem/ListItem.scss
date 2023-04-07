@@ -6,11 +6,11 @@
 }
 :global(.multi-select-list-item.extended > *) {
     height: auto;
-    margin: 10px !important;
+    margin: 8px 0px 8px 2px !important;
     box-sizing: border-box;
 }
 :global(.multi-select-list-item > *) {
-    width: calc(100% - 20px);
+    width: calc(100% - 12px);
 }
 :global(.multi-select-list-item .checkbox-container ) {
     max-width: fit-content;

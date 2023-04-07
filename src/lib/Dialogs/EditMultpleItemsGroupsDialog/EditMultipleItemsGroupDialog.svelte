@@ -4,7 +4,7 @@
     import { Button, ContentDialog } from "fluent-svelte";
 
     import { createEventDispatcher } from "svelte";
-    import CheckBoxListItem from "../../Other/CheckBoxListItem/CheckBoxListItem.svelte";
+    import CheckBoxListItem from "$lib/Other/CheckBoxListItem/CheckBoxListItem.svelte";
     const dispatch = createEventDispatcher();
 
     export let open = false;

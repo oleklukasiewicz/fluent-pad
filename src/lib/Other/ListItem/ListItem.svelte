@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { BaseItem } from "../../../types/data";
+    import type { Item } from "$type/data";
     import { DATE_FORMAT } from "../../../helpers";
     
     import MultiSelectListItem from "../MultiSelectListItem/MultiSelectListItem.svelte";
 
-    export let item: BaseItem;
+    export let item: Item;
     export let compact: boolean = true;
     export let selected: boolean = false;
     export let multiselect: boolean = false;

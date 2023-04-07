@@ -3,7 +3,7 @@
     import { validateTitle } from "../../../helpers";
 
     import { ContentDialog, Button, TextBox } from "fluent-svelte";
-    import { Group } from "../../../types/data";
+    import { Group } from "$type/data";
 
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
