@@ -4,7 +4,10 @@
         "all_items": "All items",
         "create_group": "Create group",
         "logging": "Logging in",
-        "search": "Search"
+        "search": "Search items",
+        "show_all": "Show all",
+        "search_results": "Search results",
+        "no_results": "No results"
     },
     "data_names": {
         "item": "item",

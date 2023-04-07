@@ -32,6 +32,7 @@
     let isMenuOpened = false;
     let isNewGroupDialogOpen = false;
     let isSearchResultsOpen = false;
+    const searchGroup = groupControl.get("search_group");
 
     let selectGroup = (event) => {
         isMenuOpened = false;
@@ -52,9 +53,10 @@
     let searchSourceData;
 
     const getSearchSourceData = () => {
-        searchSourceData = [...groupControl.getAll(), ...control.getAll()];
+        searchSourceData = [...control.getAll()];
     };
-    const searchMethod = (text, item, index) => {
+    const searchMethod = (text, item) => {
+        if (text == "") return false;
         const textUpper = toUpper(text);
 
         return (
@@ -72,6 +74,23 @@
                 groupControl.selectDefault();
         }
     };
+    const openAllResults = (event) => {
+        let details = event.detail;
+        let results = details.data;
+        let text = details.value;
+
+        if (text == "") {
+            groupControl.selectDefault();
+            return;
+        }
+        searchGroup.items = results;
+        searchGroup.title =
+            $_("nav.search_results") + " (" + results.length + ")";
+
+        groupControl.select(searchGroup);
+        groupControl.sort(searchGroup, () => 0);
+        resultOpened = false;
+    };
 
     let resultOpened = false;
     let searchResults = [];
@@ -81,27 +100,21 @@
     <NavigationMenu minimal={$isMobileView} bind:opened={isMenuOpened}>
         <div slot="items">
             <SearchBar
+                maxResultsCount={3}
                 data={searchSourceData}
                 bind:results={searchResults}
                 {searchMethod}
                 bind:open={resultOpened}
+                on:showAll={openAllResults}
                 on:start={getSearchSourceData}
             >
                 <div slot="results">
                     {#each searchResults as result}
-                        {#if result.type === "group"}
-                            <ListGroup
-                                group={result}
-                                compact={false}
-                                on:click={() => openSearchResults(result)}
-                            />
-                        {:else}
-                            <ListItem
-                                item={result}
-                                compact={false}
-                                on:click={() => openSearchResults(result)}
-                            />
-                        {/if}
+                        <ListItem
+                            item={result}
+                            compact={false}
+                            on:click={() => openSearchResults(result)}
+                        />
                     {/each}
                 </div>
             </SearchBar>

@@ -14,3 +14,16 @@
     top:-14px;
     min-inline-size: 100% !important;
 }
+:global(.search-bar-all-items)
+{
+    width: 100%;
+}
+.search-bar-container
+{
+    height: 36px;
+}
+.search-bar-no-results
+{
+    text-align: center;
+    margin: 8px 12px;
+}

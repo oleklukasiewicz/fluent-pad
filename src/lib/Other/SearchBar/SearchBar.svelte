@@ -1,6 +1,6 @@
 <script lang="ts">
     import { _ } from "svelte-i18n";
-    import { Flyout, TextBox } from "fluent-svelte";
+    import { Button, Flyout, TextBox } from "fluent-svelte";
 
     import { createEventDispatcher } from "svelte";
     const dispatch = createEventDispatcher();
@@ -12,6 +12,7 @@
     export let searchMethod = (text, item, index) => {};
     let inputValue;
     let resultsTrimmed = false;
+    let allResults = [];
 
     const startSearch = () => {
         dispatch("start", { value: inputValue });
@@ -24,8 +25,11 @@
     const closeResults = () => {
         open = false;
     };
+    const showAllResults = () => {
+        dispatch("showAll", { value: inputValue, data: allResults });
+    };
     const search = (text) => {
-        const allResults = data.filter((item, index) =>
+        allResults = data.filter((item, index) =>
             searchMethod(text, item, index)
         );
         if (allResults.length > maxResultsCount) {
@@ -38,19 +42,19 @@
     };
 </script>
 
-<div>
+<div class="search-bar-container">
     <TextBox
         type="search"
         id="search-box"
         bind:value={inputValue}
         placeholder={$_("nav.search")}
-        on:search={openResults}
+        on:search={showAllResults}
         on:input={openResults}
         on:clear={closeResults}
         on:click={startSearch}
     />
     <Flyout
-        bind:open={open}
+        bind:open
         placement="bottom"
         class="search-bar"
         alignment="start"
@@ -58,6 +62,16 @@
     >
         <svelte:fragment slot="flyout">
             <slot name="results" />
+            {#if results.length == 0 && inputValue != ""}
+                <div class="search-bar-no-results">
+                    {$_("nav.no_results")}
+                </div>
+            {/if}
+            {#if resultsTrimmed}
+                <Button class="search-bar-all-items" on:click={showAllResults}
+                    >{$_("nav.show_all")} ({allResults.length})</Button
+                >
+            {/if}
         </svelte:fragment>
     </Flyout>
 </div>

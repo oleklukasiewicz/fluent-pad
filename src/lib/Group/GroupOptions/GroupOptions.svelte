@@ -15,6 +15,7 @@
 
     export let group: Group = {} as Group;
     export let groupeditable: boolean = true;
+    export let isreadonly: boolean = false;
 
     let editGroup = function () {
         dispatch("editgroup");
@@ -32,20 +33,22 @@
         <TextPlaceholder size="24px" class="group-title-placeholder"/>
         {/if}
     </svelte:fragment>
+    {#if !isreadonly}
     <IconButton
         id="edit-group-button"
-        disabled={groupeditable}
+        disabled={!groupeditable}
         on:click={editGroup}
     >
         {@html EditIcon}
     </IconButton>
     <IconButton
         id="remove-group-button"
-        disabled={groupeditable}
+        disabled={!groupeditable}
         on:click={removeGroup}
     >
         {@html DeleteIcon}
     </IconButton>
+    {/if}
 </CommandBar>
 
 <style lang="scss">
