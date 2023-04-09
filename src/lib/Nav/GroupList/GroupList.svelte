@@ -17,6 +17,7 @@
     export let defaultGroup;
     export let loading = false;
     export let selectedGroup;
+    export let compact = false;
 
     let _groups;
 
@@ -51,14 +52,14 @@
     <div class="groups">
         {#if loading}
             {#each Array(10) as i}
-                <ItemListPlaceholder />
+                <ItemListPlaceholder {compact} />
             {/each}
         {:else}
             {#each _groups as group (group.id)}
                 <ListGroup
                     {group}
                     href="#"
-                    compact={false}
+                    {compact}
                     selected={group.id == selectedGroup.id}
                     on:click={() => onSelect(group)}
                 />

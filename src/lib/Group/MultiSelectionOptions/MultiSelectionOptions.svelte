@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Item, Group } from "$type/data";
+    import type { Item } from "$type/data";
 
     import { IconButton, TextBlock } from "fluent-svelte";
     import Separator from "$lib/Other/Separator/Separator.svelte";
@@ -23,9 +23,11 @@
 
 <CommandBar>
     <svelte:fragment slot="right-options">
-        <TextBlock variant="body" id="selected-items-count">
+        <div id="selected-items-count">
+        <TextBlock variant="body" >
             {selectedItems.length + " selected"}
         </TextBlock>
+    </div>
     </svelte:fragment>
     <IconButton
         disabled={items.length === selectedItems.length}

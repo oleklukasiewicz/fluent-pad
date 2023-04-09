@@ -6,6 +6,7 @@
         userName,
         userPicture,
         logout,
+        isGroupsCompact,
         isMobileView,
         groupsLoaded,
         searchGroup
@@ -114,6 +115,7 @@
             {#if $groupsLoaded}
                 <GroupList
                     groups={$groups}
+                    compact={$isGroupsCompact}
                     defaultGroup={$groups[0]}
                     selectedGroup={$location === "/" ? $selectedGroup : {}}
                     on:select={selectGroup}
