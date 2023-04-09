@@ -5,7 +5,7 @@ import { collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDo
 import { Group, Item } from "../types/data";
 
 import { User } from "../types/user";
-import { IUserAPI, IStorageAPI, ApiItem, ApiGroup } from "../types/api";
+import { type IUserAPI, type IStorageAPI, ApiItem, ApiGroup } from "../types/api";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 

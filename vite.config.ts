@@ -6,7 +6,7 @@ import { config } from 'dotenv';
 
 const configToReplace = {};
 
-for (const [key, value] of Object.entries(config().parsed||{})) {
+for (const [key, value] of Object.entries(config().parsed)) {
   configToReplace[`process.env.${key}`] = JSON.stringify(value);
 }
 
