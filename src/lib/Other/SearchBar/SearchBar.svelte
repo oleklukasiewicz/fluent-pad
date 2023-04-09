@@ -77,5 +77,5 @@
 </div>
 
 <style lang="scss">
-    @use "Searchbar.scss";
+    @use "SearchBar.scss";
 </style>
