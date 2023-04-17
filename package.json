@@ -12,7 +12,7 @@
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.2",
     "@tsconfig/svelte": "^4.0.1",
-    "@types/lodash": "^4.14.192",
+    "@types/lodash": "^4.14.194",
     "svelte": "^3.55.1",
     "svelte-check": "^3.2.0",
     "svelte-previous": "^2.1.3",
