@@ -9,7 +9,11 @@
         &.opened>.master {
             display: none;
         }
-
+        &>.master,&>.detail
+        {
+            width: 100%;
+            max-width: none;
+        }
         &.closed>.detail {
             display: none;
         }
