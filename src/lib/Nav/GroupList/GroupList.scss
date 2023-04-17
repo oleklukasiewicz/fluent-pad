@@ -7,6 +7,7 @@ div {
 }
 
 .group-list {
+    margin: 4px 0px;
     display: flex;
     flex-direction: column;
 }
@@ -18,4 +19,10 @@ div {
     display: flex;
     max-height: calc(100vh - 220px);
     flex-direction: column;
+}
+:global(.group-list .list-item)
+{
+    inline-size: 100% !important;
+    margin-left: 0px !important;
+    margin-right: 0px !important;
 }

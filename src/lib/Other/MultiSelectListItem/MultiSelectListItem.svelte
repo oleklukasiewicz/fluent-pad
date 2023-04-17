@@ -55,7 +55,7 @@ List Items display data stacked vertically in a single column. List Items work b
 		{...$$restProps}
 	>
 		{#if multiselect}
-			<Checkbox bind:checked={selected} /> &nbsp;&nbsp;
+			<Checkbox bind:checked={selected} /> &nbsp;&nbsp;&nbsp;
 		{/if}
 		<slot name="icon" />
 		<TextBlock>
@@ -78,7 +78,7 @@ List Items display data stacked vertically in a single column. List Items work b
 		{...$$restProps}
 	>
 		{#if multiselect}
-			<Checkbox bind:checked={selected} />&nbsp;&nbsp;
+			<Checkbox bind:checked={selected} />&nbsp;&nbsp;&nbsp;
 		{/if}
 		<slot name="icon" />
 		<TextBlock>

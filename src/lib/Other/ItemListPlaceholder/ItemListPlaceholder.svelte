@@ -5,9 +5,9 @@
 </script>
 
 <div class="item-list-placeholder" class:gap>
-    <TextPlaceholder size="14px" />
+    <TextPlaceholder size="16px" />
     {#if !compact}
-    <TextPlaceholder size="14px" />
+    <TextPlaceholder size="16px" />
     {/if}
 </div>
 
@@ -16,9 +16,10 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-        margin: 12px;
+        padding: 8px;
+        margin: 4px;
         &.gap {
-            margin: 16px 0;
+            margin: 6px 0;
         }
     }
 </style>

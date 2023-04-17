@@ -86,6 +86,20 @@ export const firebaseStorageAPI: IStorageAPI = {
   generateGroupId: () => doc(collection(db, userDB, pathToGroups)).id,
 
   group: {
+    search: async function (searchText: string) {
+      const itemsRef = collection(db, userDB, pathToGroups);
+      const q = query(itemsRef, where("groups", "array-contains", searchText));
+
+      let docs = [];
+
+      await getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          docs.push(doc.data());
+        });
+      });
+      return docs;
+
+    },
     load: async function (id: string) {
       const docRef = doc(db, userDB, pathToGroups, id);
       const docSnap = await getDoc(docRef);
@@ -121,6 +135,20 @@ export const firebaseStorageAPI: IStorageAPI = {
     },
   },
   item: {
+    search: async function (searchText: string) {
+      const itemsRef = collection(db, userDB, pathToItems);
+      const q = query(itemsRef, where("name", "array-contains", searchText),where("content","==",searchText));
+
+      let docs = [];
+
+      await getDocs(q).then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          docs.push(doc.data());
+        });
+      });
+      return docs;
+
+    },
     load: async function (id: string) {
       const docRef = doc(db, userDB, pathToItems, id);
       const docSnap = await getDoc(docRef);

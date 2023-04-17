@@ -1,31 +1,35 @@
 #group-view {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
-    background-color: var(--fds-solid-background-base);
-    max-height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+  background-color: var(--fds-solid-background-base);
+  max-height: 100%;
 }
 
 #item-list-grid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    padding: 8px 8px 0px;
-    box-sizing: border-box;
-    max-height: 100vh;
+  flex: 1;
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  padding: 8px 8px 0px;
+  max-height: 100vh;
 }
 
 #item-container {
-    flex: 2;
-    display: flex;
-    height: 100%;
-    max-height: 100%;
+  flex: 2;
+  display: flex;
+  height: 100%;
+  max-height: 100%;
 }
 
 .master-view-stacked-options {
-    margin-left: 38px;
+  margin-left: 38px;
 }
 
 :global(.master-detail.stacked .group-options) {
-    margin-left: 38px;
+  margin-left: 38px;
+}
+.items-placeholder {
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
 }
