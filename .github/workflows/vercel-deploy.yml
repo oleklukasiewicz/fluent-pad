@@ -12,8 +12,6 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - id: snaplet
-        uses: snaplet/action@v1
       - uses: snaplet/vercel-action@v3
         with:
           env: |
