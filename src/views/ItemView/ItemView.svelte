@@ -11,6 +11,7 @@
     isItemExpanded,
     groupControl,
     isMobileView,
+    relationsControl
   } from "../../viewModel/ItemViewModel";
 
   import { SelectionGroup } from "$type/data";
@@ -23,7 +24,6 @@
   import RemoveItemDialog from "$lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
   import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
-  import { relationsControl } from "../../viewModel/GroupViewModel";
 
   let groupList = [];
 

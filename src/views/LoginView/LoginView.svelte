@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { login } from "../../viewModel/LoginViewModel";
+    import { login } from "$viewModel/LoginViewModel";
 
     import { Button, TextBlock } from "fluent-svelte";
     import Card from "$lib/Other/Card/Card.svelte";

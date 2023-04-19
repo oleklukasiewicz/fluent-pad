@@ -14,7 +14,7 @@
 
 <div id="settings-view">
   <div id="settings-title" class:mobile={$isMobileView}>
-    <TextBlock variant="subtitle">Settings</TextBlock>
+    <TextBlock variant="subtitle">$_("nav.settings")</TextBlock>
   </div>
   <Expander expanded>
     <TextBlock variant="bodyLarge">{@html ItemsHeightIcon} {$_("settings.display")}</TextBlock>
