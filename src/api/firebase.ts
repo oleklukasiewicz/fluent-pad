@@ -18,15 +18,17 @@ import {
   where,
 } from "firebase/firestore";
 
-import { Group, Item } from "../types/data";
+import { Group, Item } from "$type/data";
 
-import { User } from "../types/user";
+import { User } from "$type/user";
 import {
   type IUserAPI,
   type IStorageAPI,
   ApiItem,
   ApiGroup,
-} from "../types/api";
+  type ISettingsAPI,
+} from "$type/api";
+import { DEFAULT_SETTINGS, type ISettings } from "$type/settings";
 
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -54,6 +56,9 @@ let userDB = "";
 const pathToUsers = "users/";
 const pathToItems = "items";
 const pathToGroups = "groups";
+
+const pathToSettings = "settings";
+const settingsFileName = "settings";
 
 const ItemConvertToFirebase = (item: Item) => {
   const fireItem = new ApiItem("");
@@ -98,7 +103,6 @@ export const firebaseStorageAPI: IStorageAPI = {
         });
       });
       return docs;
-
     },
     load: async function (id: string) {
       const docRef = doc(db, userDB, pathToGroups, id);
@@ -137,7 +141,11 @@ export const firebaseStorageAPI: IStorageAPI = {
   item: {
     search: async function (searchText: string) {
       const itemsRef = collection(db, userDB, pathToItems);
-      const q = query(itemsRef, where("name", "array-contains", searchText),where("content","==",searchText));
+      const q = query(
+        itemsRef,
+        where("name", "array-contains", searchText),
+        where("content", "==", searchText)
+      );
 
       let docs = [];
 
@@ -147,7 +155,6 @@ export const firebaseStorageAPI: IStorageAPI = {
         });
       });
       return docs;
-
     },
     load: async function (id: string) {
       const docRef = doc(db, userDB, pathToItems, id);
@@ -215,5 +222,19 @@ export const firebaseUserAPI: IUserAPI = {
         return false;
         // An error happened.
       });
+  },
+};
+export const firebaseSettingsAPI: ISettingsAPI = {
+  load: async function () {
+    const docRef = doc(db, userDB, pathToSettings,settingsFileName);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return docSnap.data() as ISettings;
+    } else {
+      return DEFAULT_SETTINGS;
+    }
+  },
+  save: async function (settings: any) {
+    await updateDoc(doc(db, userDB, pathToSettings,settingsFileName), settings);
   },
 };

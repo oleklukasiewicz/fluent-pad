@@ -30,7 +30,7 @@
   let isRemoveDialogOpen = false;
   let isGroupsDialogOpen = false;
 
-  $: $item ? setGroupList() : "";
+  $: $item.id ? setGroupList() : "";
 
   function setGroupList() {
     groupList = groupControl

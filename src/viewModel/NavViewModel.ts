@@ -3,6 +3,7 @@ import { derived, type Readable, type Writable } from "svelte/store";
 
 import * as user from "../models/user";
 import * as ui from "../models/ui";
+import { isGroupsCompact as compactGroups } from "$model/settings";
 import { Storage } from "../models/storage";
 import type { Group } from "../types/data";
 import type { IGroupModel, IItemModel } from "../types/storage";
@@ -24,4 +25,4 @@ export const isMobileView: Readable<boolean> = derived(ui.isMobileView, $isMobil
 
 export const searchGroup = Storage.group.get("search_group");
 
-export const isGroupsCompact = derived(ui.isGroupsCompactMode, $S => $S);
+export const isGroupsCompact = derived(compactGroups, $S => $S);

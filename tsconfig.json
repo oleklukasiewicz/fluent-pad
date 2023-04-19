@@ -13,6 +13,7 @@
       "$view/*": ["src/views/*"],
       "$model/*": ["src/models/*"],
       "$type/*": ["src/types/*"],
+      "$api/*": ["src/api/*"],
     },
     /**
      * Typecheck JS in `.svelte` and `.js` files by default.

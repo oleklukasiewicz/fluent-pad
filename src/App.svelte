@@ -8,7 +8,7 @@
 
 	import NavView from "./views/NavView/NavView.svelte";
 	import Group from "./views/GroupView/GroupView.svelte";
-	import Settings from "./views/SettingsView/Settings.svelte";
+	import Settings from "./views/SettingsView/SettingsView.svelte";
 	import Login from "./views/LoginView/LoginView.svelte";
 
 	const routes = {

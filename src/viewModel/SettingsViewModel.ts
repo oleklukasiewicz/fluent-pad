@@ -1,5 +1,18 @@
-import { derived, type Readable, type Writable } from "svelte/store";
+import { derived } from "svelte/store";
+import writableDerived from "svelte-writable-derived";
 
-import * as ui from "../models/ui";
+import { isMobileView as mobileMode } from "$model/ui";
+import { isGroupsCompact, isItemsCompact } from "$model/settings";
 
-export const isMobileView: Readable<boolean> = derived(ui.isMobileView, $isMobile => $isMobile);
+export const isMobileView = derived(mobileMode, ($isMobile) => $isMobile);
+
+export const isGroupsCompactMode = writableDerived(
+  isGroupsCompact,
+  ($S) => $S,
+  ($S) => $S
+);
+export const isItemsCompactMode = writableDerived(
+  isItemsCompact,
+  ($S) => $S,
+  ($S) => $S
+);

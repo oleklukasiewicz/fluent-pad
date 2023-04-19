@@ -1,4 +1,5 @@
 import type { Group, Item } from "./data";
+import type { ISettings } from "./settings";
 import type { User } from "./user";
 
 export type IStorageAPI = {
@@ -25,6 +26,10 @@ export type IStorageAPI = {
 export type IUserAPI = {
   login: () => Promise<User>;
   logout: () => Promise<boolean>;
+};
+export type ISettingsAPI = {
+  load: () => Promise<ISettings>;
+  save: (settings: object) => Promise<void>;
 };
 
 export class ApiItem {

@@ -68,7 +68,7 @@
                 </div>
             {/if}
             {#if resultsTrimmed}
-                <Button class="search-bar-all-items" on:click={showAllResults}
+                <Button class="search-bar-all-items" href="#" on:click={showAllResults}
                     >{$_("nav.show_all")} ({allResults.length})</Button
                 >
             {/if}

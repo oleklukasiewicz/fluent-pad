@@ -27,6 +27,7 @@ export default defineConfig({
       $model: path.resolve('src/models'),
       $view: path.resolve('src/views'),
       $type: path.resolve('src/types'),
+      $api: path.resolve('src/api'),
     }
   }
 })

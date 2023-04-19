@@ -83,5 +83,11 @@
             "set": "Set groups",
             "close": "Close"
         }
+    },
+    "settings":
+    {
+        "display":"Display",
+        "compactGroups":"Compact groups",
+        "compactItems":"Compact items"
     }
 }

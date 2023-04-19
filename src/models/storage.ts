@@ -1,5 +1,4 @@
 import { _ } from 'svelte-i18n';
-import * as lodash from 'lodash';
 import { derived, get, writable, type Readable, type Writable } from 'svelte/store';
 import { writableDerived } from "svelte-writable-derived";
 
@@ -158,7 +157,7 @@ const _updateItem = function (item: Item) {
     _loadedStorageAPI.item.update(item);
 }
 
-const group: IGroupModel =
+export const group: IGroupModel =
 {
     load: async function (group: Group) {
         storage.update(_storage => {
@@ -250,7 +249,7 @@ const group: IGroupModel =
     selectedGroupIsDefault: selectedGroupIsDefault,
     groupsLoaded: groupsLoaded,
 }
-const item: IItemModel =
+export const item: IItemModel =
 {
     load: async function (item: Item) {
         _defaultGroup.items.push(item);
@@ -329,7 +328,7 @@ const item: IItemModel =
     selectedIndex: selectedIndex,
     itemsLoaded: itemsLoaded,
 }
-const relations: IRelationsModel =
+export const relations: IRelationsModel =
 {
     addTo: function (group: Group, item: Item) {
         if (relations.isItemInGroup(item, group))
