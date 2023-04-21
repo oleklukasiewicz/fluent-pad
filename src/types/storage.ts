@@ -42,6 +42,7 @@ export type IItemModel = {
   selectedIndex: Writable<number>;
   selectedItem: Writable<Item>;
   itemsLoaded: Writable<boolean>;
+  currentItemNeedSave: Writable<boolean>;
 };
 
 export type IRelationsModel = {

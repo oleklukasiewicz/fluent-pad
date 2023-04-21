@@ -9,15 +9,14 @@
 
   import { Expander, TextBlock, ToggleSwitch } from "fluent-svelte";
 
-  import ItemsHeightIcon from "@fluentui/svg-icons/icons/arrow_autofit_height_20_regular.svg?raw";
 </script>
 
 <div id="settings-view">
   <div id="settings-title" class:mobile={$isMobileView}>
-    <TextBlock variant="subtitle">$_("nav.settings")</TextBlock>
+    <TextBlock variant="subtitle">{$_("nav.settings")}</TextBlock>
   </div>
-  <Expander expanded>
-    <TextBlock variant="bodyLarge">{@html ItemsHeightIcon} {$_("settings.display")}</TextBlock>
+  <Expander expanded title>
+   {$_("settings.display")}
     <svelte:fragment slot="content">
       <ToggleSwitch bind:checked={$isGroupsCompactMode}>{$_("settings.compactGroups")}</ToggleSwitch>
       <br />

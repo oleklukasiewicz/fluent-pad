@@ -28,3 +28,4 @@ export const groups: Readable<Group[]> = derived(Storage.item.selectedItem, (val
 export const isItemExpanded: Writable<boolean> = writableDerived(isListHidden, (isHidden) => isHidden, (isHidden) => isHidden);
 
 export const isMobileView = derived(isMobile, $S => $S);
+export const needSave = writableDerived(Storage.item.currentItemNeedSave, (s) => s, (s: boolean) => s);

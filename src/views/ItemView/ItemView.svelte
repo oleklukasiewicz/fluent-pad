@@ -11,7 +11,8 @@
     isItemExpanded,
     groupControl,
     isMobileView,
-    relationsControl
+    relationsControl,
+    needSave
   } from "../../viewModel/ItemViewModel";
 
   import { SelectionGroup } from "$type/data";
@@ -72,9 +73,11 @@
   }
 </script>
 
-<div id="item-view">
+<div id="item-view" class:mobile={$isMobileView}>
   {#if $id}
     <ItemViewOptions
+      class="options"
+      needSave={$needSave}
       expandable={!$isMobileView}
       expanded={$isItemExpanded}
       on:expandtoggle={expandToggle}

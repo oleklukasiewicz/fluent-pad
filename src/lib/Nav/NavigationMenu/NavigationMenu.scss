@@ -36,3 +36,8 @@
     left: 8px;
     z-index: 6;
 }
+:global(.footer .list-item)
+{
+    margin: 6px 0px 0px !important;
+    inline-size: 100% !important;
+}
