@@ -1,74 +1,91 @@
 @use "fluent-svelte/mixins" as *;
 
 .multi-select-list-item {
-	@include flex($align: center);
+  @include flex($align: center);
 
-	inline-size: calc(100%);
-	position: relative;
-	box-sizing: border-box;
-	flex: 0 0 auto;
-	margin: 3px 0px;
-	padding-inline: 12px;
-	border-radius: var(--fds-control-corner-radius);
-	outline: none;
-	background-color: var(--fds-subtle-fill-transparent);
-	color: var(--fds-text-primary);
-	text-decoration: none;
-	cursor: default;
-	user-select: none;
-	block-size: 34px;
-	text-decoration: none;
+  inline-size: calc(100%);
+  position: relative;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  margin: 3px 0px;
+  padding-inline: 12px;
+  border-radius: var(--fds-control-corner-radius);
+  outline: none;
+  background-color: var(--fds-subtle-fill-transparent);
+  color: var(--fds-text-primary);
+  text-decoration: none;
+  cursor: default;
+  user-select: none;
+  block-size: 34px;
+  text-decoration: none;
 
-	&::before {
-		content: "";
-		position: absolute;
-		border-radius: 3px;
-		background-color: var(--fds-accent-default);
-		transition: transform var(--fds-control-fast-duration) var(--fds-control-fast-out-slow-in-easing);
-		opacity: 0;
-		inset-inline-start: 0;
-		inline-size: 3px;
-		block-size: 16px;
-		transform: scaleY(0);
-	}
+  &::before {
+    content: "";
+    position: absolute;
+    border-radius: 3px;
+    background-color: var(--fds-accent-default);
+    transition: transform var(--fds-control-fast-duration)
+      var(--fds-control-fast-out-slow-in-easing);
+    opacity: 0;
+    inset-inline-start: 0;
+    inline-size: 3px;
+    block-size: 16px;
+    transform: scaleY(0);
+  }
 
-	&.selected::before {
-		transform: scaleY(1);
-		opacity: 1;
-	}
+  &.selected::before {
+    transform: scaleY(1);
+    opacity: 1;
+  }
 
-	&:focus-visible {
-		box-shadow: var(--fds-focus-stroke);
-	}
+  &:focus-visible {
+    box-shadow: var(--fds-focus-stroke);
+  }
+  & > .item-content {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 16px;
+  }
 
-	&:hover,
-	&.selected {
-		background-color: var(--fds-subtle-fill-secondary);
-	}
+  &:hover,
+  &.selected {
+    background-color: var(--fds-subtle-fill-secondary);
+  }
 
-	&:active {
-		background-color: var(--fds-subtle-fill-tertiary);
-		color: var(--fds-text-secondary);
+  &:active {
+    background-color: var(--fds-subtle-fill-tertiary);
+    color: var(--fds-text-secondary);
 
-		&::before {
-			transform: scaleY(0.625);
-		}
-	}
+    &::before {
+      transform: scaleY(0.625);
+    }
+  }
 
-	&.disabled {
-		background-color: var(--fds-subtle-fill-transparent);
-		color: var(--fds-text-disabled);
-		pointer-events: none;
-		&.selected {
-			background-color: var(--fds-subtle-fill-secondary);
-			&::before {
-				background-color: var(--fds-accent-disabled);
-			}
-		}
-	}
+  &.disabled {
+    background-color: var(--fds-subtle-fill-transparent);
+    color: var(--fds-text-disabled);
+    pointer-events: none;
+    &.selected {
+      background-color: var(--fds-subtle-fill-secondary);
+      &::before {
+        background-color: var(--fds-accent-disabled);
+      }
+    }
+  }
 
-	> :global(svg) {
-		@include icon($size: 16px);
-		margin-inline-end: 16px;
-	}
+  > :global(svg) {
+    @include icon($size: 16px);
+    margin-inline-end: 16px;
+  }
 }
+:global(.multi-select-list-item> .item-content > .text-block) {
+  flex: 1;
+}
+:global(.multi-select-list-item> .item-content > .checkbox-container) {
+	margin-left: -40px;
+	transition: margin-left 0.3s;
+  }
+  :global(.multi-select-list-item.multiselect> .item-content > .checkbox-container) {
+	margin-left: 0px;
+  }

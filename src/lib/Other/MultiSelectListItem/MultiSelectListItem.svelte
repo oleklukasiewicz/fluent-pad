@@ -1,34 +1,34 @@
 <script lang="ts">
-	import { createEventDispatcher } from "svelte";
-	import { get_current_component } from "svelte/internal";
-	import { createEventForwarder } from "fluent-svelte/internal";
-	import { Checkbox, TextBlock } from "fluent-svelte";
-	/** @restProps {button | a} */
-	/** Controls whether the item is selected or not. */
-	export let selected = false;
-	/** Controls whether the item is intended for user interaction, and styles it accordingly. */
-	export let disabled = false;
-	/** Sets an href value and converts the list element into an anchor. */
-	export let href = "";
-	/** Specifies an ARIA role for the item. */
-	export let role = "multiselectlistitem";
-	/**Specifies if item will have checkbox for multiselect*/
-	export let multiselect = false;
-	/** Specifies a custom class name for the item. */
-	let className = "";
-	export { className as class };
-	/** Obtains a bound DOM reference to the item's element. */
-	export let element: HTMLAnchorElement | HTMLLIElement = null;
-	const forwardEvents = createEventForwarder(get_current_component(), [
-		"select",
-		"unselect",
-	]);
-	const dispatch = createEventDispatcher();
-	$: if (selected) dispatch("select");
-	else dispatch("unselect");
-	function handleKeyDown({ key, target }) {
-		if (key === "Enter") target.click();
-	}
+  import { createEventDispatcher } from "svelte";
+  import { get_current_component } from "svelte/internal";
+  import { createEventForwarder } from "fluent-svelte/internal";
+  import { Checkbox, TextBlock } from "fluent-svelte";
+  /** @restProps {button | a} */
+  /** Controls whether the item is selected or not. */
+  export let selected = false;
+  /** Controls whether the item is intended for user interaction, and styles it accordingly. */
+  export let disabled = false;
+  /** Sets an href value and converts the list element into an anchor. */
+  export let href = "";
+  /** Specifies an ARIA role for the item. */
+  export let role = "multiselectlistitem";
+  /**Specifies if item will have checkbox for multiselect*/
+  export let multiselect = false;
+  /** Specifies a custom class name for the item. */
+  let className = "";
+  export { className as class };
+  /** Obtains a bound DOM reference to the item's element. */
+  export let element: HTMLAnchorElement | HTMLLIElement = null;
+  const forwardEvents = createEventForwarder(get_current_component(), [
+    "select",
+    "unselect",
+  ]);
+  const dispatch = createEventDispatcher();
+  $: if (selected) dispatch("select");
+  else dispatch("unselect");
+  function handleKeyDown({ key, target }) {
+    if (key === "Enter") target.click();
+  }
 </script>
 
 <!--
@@ -40,53 +40,53 @@ List Items display data stacked vertically in a single column. List Items work b
     ```
 -->
 {#if href && !disabled}
-	<a
-		use:forwardEvents
-		on:keydown={handleKeyDown}
-		bind:this={element}
-		tabindex={disabled ? -1 : 0}
-		aria-selected={multiselect ? false : selected}
-		class="multi-select-list-item {className}"
-		class:selected={multiselect ? false : selected}
-		class:multiselect
-		class:disabled
-		{href}
-		{role}
-		{...$$restProps}
-	>
-		{#if multiselect}
-			<Checkbox bind:checked={selected} /> &nbsp;&nbsp;&nbsp;
-		{/if}
-		<slot name="icon" />
-		<TextBlock>
-			<slot />
-		</TextBlock>
-	</a>
+  <a
+    use:forwardEvents
+    on:keydown={handleKeyDown}
+    bind:this={element}
+    tabindex={disabled ? -1 : 0}
+    aria-selected={multiselect ? false : selected}
+    class="multi-select-list-item {className}"
+    class:selected={multiselect ? false : selected}
+    class:multiselect
+    class:disabled
+    {href}
+    {role}
+    {...$$restProps}
+  >
+    <div class="item-content">
+      <Checkbox bind:checked={selected} disabled={!multiselect} />
+      <slot name="icon" />
+      <TextBlock>
+        <slot />
+      </TextBlock>
+    </div>
+  </a>
 {:else}
-	<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-	<li
-		use:forwardEvents
-		on:keydown={handleKeyDown}
-		bind:this={element}
-		tabindex={disabled ? -1 : 0}
-		aria-selected={multiselect ? false : selected}
-		class="multi-select-list-item {className}"
-		class:selected={multiselect ? false : selected}
-		class:disabled
-		class:multiselect
-		{role}
-		{...$$restProps}
-	>
-		{#if multiselect}
-			<Checkbox bind:checked={selected} />&nbsp;&nbsp;&nbsp;
-		{/if}
-		<slot name="icon" />
-		<TextBlock>
-			<slot />
-		</TextBlock>
-	</li>
+  <!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+  <li
+    use:forwardEvents
+    on:keydown={handleKeyDown}
+    bind:this={element}
+    tabindex={disabled ? -1 : 0}
+    aria-selected={multiselect ? false : selected}
+    class="multi-select-list-item {className}"
+    class:selected={multiselect ? false : selected}
+    class:disabled
+    class:multiselect
+    {role}
+    {...$$restProps}
+  >
+    <div class="item-content">
+      <Checkbox bind:checked={selected} disabled={!multiselect} />
+      <slot name="icon" />
+      <TextBlock>
+        <slot />
+      </TextBlock>
+    </div>
+  </li>
 {/if}
 
 <style lang="scss">
-	@use "./MultiSelectListItem.scss";
+  @use "./MultiSelectListItem.scss";
 </style>

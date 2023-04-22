@@ -90,5 +90,5 @@
   },
   "type-content": "Type content",
   "enter-title": "Enter title",
-  "groupclick-group-greater-than-group-title": "groupClick(group)} > {group.title}"
+  "no-item-in-group": "Click '+' button to create new item"
 }
