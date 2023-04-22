@@ -188,7 +188,7 @@ const _removeGroupFromItemOnly = (
   dontUpdateStores = false
 ) => {
   const _index: number = item.groups.findIndex((_g) => _g === groupId);
-  item.groups.splice(_index, 1);
+  if (_index != -1) item.groups.splice(_index, 1);
 };
 
 const _removeItemFromGroup = (
@@ -263,7 +263,7 @@ export const group: IGroupModel = {
     const _storage: Group[] = get(storage);
     const _group: Group = _storage[_groupIndex];
 
-    _defaultGroup.items.forEach((_item) => {
+    _group.items.forEach((_item) => {
       _removeGroupFromItemOnly(_item, _group.id);
       _loadedStorageAPI.item.update(_item);
     });

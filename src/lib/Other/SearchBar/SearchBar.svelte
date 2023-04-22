@@ -62,13 +62,13 @@
     >
         <svelte:fragment slot="flyout">
             <slot name="results" />
-            {#if results.length == 0 && inputValue != ""}
+            {#if results.length == 0}
                 <div class="search-bar-no-results">
                     {$_("nav.no_results")}
                 </div>
             {/if}
             {#if resultsTrimmed}
-                <Button class="search-bar-all-items" href="#" on:click={showAllResults}
+                <Button class="search-bar-all-items" href="#" on:click={showAllResults} style="margin-bottom:6px;"
                     >{$_("nav.show_all")} ({allResults.length})</Button
                 >
             {/if}

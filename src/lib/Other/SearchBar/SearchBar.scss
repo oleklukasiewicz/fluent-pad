@@ -10,7 +10,7 @@
     min-width: 100%;
     display: block;
     position: absolute;
-    padding: 0px 6px 6px !important;
+    padding: 0px 6px 0px !important;
     top:-14px;
     min-inline-size: 100% !important;
 }
@@ -24,6 +24,5 @@
 }
 .search-bar-no-results
 {
-    text-align: center;
-    margin: 8px 12px;
+    margin: 8px 12px ;
 }

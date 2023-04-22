@@ -7,7 +7,7 @@
   position: relative;
   box-sizing: border-box;
   flex: 0 0 auto;
-  margin: 3px 0px;
+  margin: 6px 0px;
   padding-inline: 12px;
   border-radius: var(--fds-control-corner-radius);
   outline: none;
@@ -79,13 +79,17 @@
     margin-inline-end: 16px;
   }
 }
-:global(.multi-select-list-item> .item-content > .text-block) {
+:global(.multi-select-list-item > .item-content > .text-block) {
   flex: 1;
 }
-:global(.multi-select-list-item> .item-content > .checkbox-container) {
-	margin-left: -40px;
-	transition: margin-left 0.3s;
-  }
-  :global(.multi-select-list-item.multiselect> .item-content > .checkbox-container) {
-	margin-left: 0px;
-  }
+:global(.multi-select-list-item > .item-content > .checkbox-container) {
+  margin-left: -38px;
+  opacity: 0;
+  transition: margin-left 0.3s, opacity 0.3s;
+}
+:global(
+    .multi-select-list-item.multiselect > .item-content > .checkbox-container
+  ) {
+  opacity: 1;
+  margin-left: 0px;
+}
