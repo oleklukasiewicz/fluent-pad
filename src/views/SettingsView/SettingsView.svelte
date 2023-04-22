@@ -5,10 +5,10 @@
     isItemsCompactMode,
   } from "$viewModel/SettingsViewModel";
 
-  import {_} from "svelte-i18n";
+  import { _ } from "svelte-i18n";
 
   import { Expander, TextBlock, ToggleSwitch } from "fluent-svelte";
-
+  import ItemsHeightIcon from "@fluentui/svg-icons/icons/arrow_autofit_height_20_regular.svg?raw";
 </script>
 
 <div id="settings-view">
@@ -16,11 +16,18 @@
     <TextBlock variant="subtitle">{$_("nav.settings")}</TextBlock>
   </div>
   <Expander expanded title>
-   {$_("settings.display")}
+    <svelte:fragment slot="icon">
+      {@html ItemsHeightIcon}
+    </svelte:fragment>
+    {$_("settings.display")}
     <svelte:fragment slot="content">
-      <ToggleSwitch bind:checked={$isGroupsCompactMode}>{$_("settings.compactGroups")}</ToggleSwitch>
+      <ToggleSwitch bind:checked={$isGroupsCompactMode}
+        >{$_("settings.compactGroups")}</ToggleSwitch
+      >
       <br />
-      <ToggleSwitch bind:checked={$isItemsCompactMode}>{$_("settings.compactItems")}</ToggleSwitch>
+      <ToggleSwitch bind:checked={$isItemsCompactMode}
+        >{$_("settings.compactItems")}</ToggleSwitch
+      >
     </svelte:fragment>
   </Expander>
 </div>
