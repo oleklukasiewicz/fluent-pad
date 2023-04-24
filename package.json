@@ -10,7 +10,7 @@
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^2.0.2",
+    "@sveltejs/vite-plugin-svelte": "^2.1.0",
     "@tsconfig/svelte": "^4.0.1",
     "@types/lodash": "^4.14.194",
     "svelte": "^3.55.1",
@@ -18,14 +18,14 @@
     "svelte-previous": "^2.1.3",
     "tslib": "^2.5.0",
     "typescript": "^5.0.4",
-    "vite": "^4.1.0"
+    "vite": "^4.3.1"
   },
   "dependencies": {
     "@fluentui/svg-icons": "^1.1.194",
     "@rollup/plugin-replace": "^5.0.2",
-    "@sveltejs/adapter-vercel": "^1.0.0-next.88",
+    "@sveltejs/adapter-vercel": "^2.4.2",
     "dotenv": "^16.0.3",
-    "firebase": "^9.17.1",
+    "firebase": "^9.20.0",
     "fluent-svelte": "^1.6.0",
     "lodash": "^4.17.21",
     "path": "^0.12.7",
