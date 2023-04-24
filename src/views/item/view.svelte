@@ -13,7 +13,7 @@
     isMobileView,
     relationsControl,
     needSave
-  } from "../../viewModel/ItemViewModel";
+  } from "./model";
 
   import { SelectionGroup } from "$type/data";
 
@@ -116,5 +116,5 @@
 </div>
 
 <style lang="scss">
-  @use "ItemView.scss";
+  @use "style.scss";
 </style>

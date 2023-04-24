@@ -10,7 +10,7 @@
     isListHidden,
     isMobileView,
     relationsControl,
-  } from "$viewModel/GroupViewModel";
+  } from "./model";
 
   import {
     derived,
@@ -30,7 +30,7 @@
 
   import MasterDetail from "$lib/Other/MasterDetail/MasterDetail.svelte";
 
-  import ItemView from "$view/ItemView/ItemView.svelte";
+  import ItemView from "$view/item/view.svelte";
 
   import ItemSortDialog from "$lib/Dialogs/ItemSortDialog/ItemSortDialog.svelte";
   import EditMultipleItemsGroupDialog from "$lib/Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
@@ -286,5 +286,5 @@
 </div>
 
 <style lang="scss">
-  @use "GroupView.scss";
+  @use "style.scss";
 </style>

@@ -3,7 +3,7 @@
     isMobileView,
     isGroupsCompactMode,
     isItemsCompactMode,
-  } from "$viewModel/SettingsViewModel";
+  } from "./model";
 
   import { _ } from "svelte-i18n";
 
@@ -33,5 +33,5 @@
 </div>
 
 <style lang="scss">
-  @use "SettingsView.scss";
+  @use "style.scss";
 </style>

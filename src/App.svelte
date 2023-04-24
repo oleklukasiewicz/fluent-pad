@@ -1,32 +1,32 @@
 <script lang="ts">
-	import Router from "svelte-spa-router";
-	import "./i18n/i18n.ts";
+  import Router from "svelte-spa-router";
+  import "./i18n/i18n.ts";
 
-	import { isLogged } from "./viewModel/AppViewModel";
+  import { isLogged } from "./model.js";
 
-	import "fluent-svelte/theme.css";
+  import "fluent-svelte/theme.css";
 
-	import NavView from "./views/NavView/NavView.svelte";
-	import Group from "./views/GroupView/GroupView.svelte";
-	import Settings from "./views/SettingsView/SettingsView.svelte";
-	import Login from "./views/LoginView/LoginView.svelte";
+  import NavView from "./views/navigation/view.svelte";
+  import Group from "./views/groups/view.svelte";
+  import Settings from "./views/settings/view.svelte";
+  import Login from "./views/login/view.svelte";
 
-	const routes = {
-		"/": Group,
-		"/settings": Settings,
-	};
+  const routes = {
+    "/": Group,
+    "/settings": Settings,
+  };
 </script>
 
 <main>
-	{#if !$isLogged}
-		<Login />
-	{:else}
-		<NavView>
-			<Router {routes} />
-		</NavView>
-	{/if}
+  {#if !$isLogged}
+    <Login />
+  {:else}
+    <NavView>
+      <Router {routes} />
+    </NavView>
+  {/if}
 </main>
 
 <style lang="scss" global>
-	@use "App.scss";
+  @use "App.scss";
 </style>

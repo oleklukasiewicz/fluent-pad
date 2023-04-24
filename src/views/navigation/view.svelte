@@ -11,7 +11,7 @@
     isMobileView,
     groupsLoaded,
     searchGroup,
-  } from "$viewModel/NavViewModel";
+  } from "./model";
 
   import { location } from "svelte-spa-router";
   import { _ } from "svelte-i18n";
@@ -148,5 +148,5 @@
 </div>
 
 <style lang="scss">
-  @use "NavView.scss";
+  @use "style.scss";
 </style>

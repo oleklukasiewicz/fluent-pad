@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { login } from "$viewModel/LoginViewModel";
+    import { login } from "./model";
 
     import { Button, TextBlock } from "fluent-svelte";
     import Card from "$lib/Other/Card/Card.svelte";
@@ -27,5 +27,5 @@
 </div>
 
 <style lang="scss">
-    @use "LoginView.scss";
+    @use "style.scss";
 </style>
