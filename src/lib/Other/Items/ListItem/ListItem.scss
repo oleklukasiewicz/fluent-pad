@@ -9,8 +9,9 @@
     margin: 8px 0px 8px 2px !important;
     box-sizing: border-box;
 }
-:global(.multi-select-list-item > *) {
+:global(.multi-select-list-item.compact  .text-block) {
     width: 100%;
+    padding: 6px !important;
 }
 :global(.multi-select-list-item .checkbox-container ) {
     max-width: fit-content;

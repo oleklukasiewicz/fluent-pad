@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from "svelte-i18n";
   import {
-    control,
+    itemControl as control,
     title,
     content,
     item,

@@ -85,8 +85,10 @@
   },
   "settings": {
     "display": "Display",
+    "startup": "Startup",
     "compactGroups": "Compact groups",
-    "compactItems": "Compact items"
+    "compactItems": "Compact items",
+    "startupPlaceholder": "After startup select"
   },
   "type-content": "Type content",
   "enter-title": "Enter title",

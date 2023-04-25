@@ -11,6 +11,7 @@
   display: grid;
   grid-template-rows: auto auto 1fr;
   padding: 8px 8px 0px;
+  box-sizing: border-box;
   max-height: 100vh;
 }
 
@@ -29,7 +30,7 @@
   margin-left: 38px;
 }
 .items-placeholder {
-  overflow: auto;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }

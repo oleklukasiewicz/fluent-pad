@@ -1,32 +1,45 @@
-import type { ISettings, ISettingsModel } from "$type/settings";
+import {
+  DEFAULT_SETTINGS,
+  type ISettings,
+  type ISettingsModel,
+} from "$type/settings";
+
 import { writable, get } from "svelte/store";
 import { firebaseSettingsAPI } from "$api/firebase";
-import { isUserLogged } from "./user";
 
 const settingsApi = firebaseSettingsAPI;
 
-let settingsLoaded = false;
+export const settingsLoaded = writable(false);
 
 export const isItemsCompact = writable(false);
 export const isGroupsCompact = writable(false);
-
+export const startupGroupId = writable("");
 
 isGroupsCompact.subscribe(async (isCompact) => {
-  if (!settingsLoaded) return;
+  if (!get(settingsLoaded)) return;
   await settingsApi.save({ isGroupsCompact: isCompact });
 });
 isItemsCompact.subscribe(async (isCompact) => {
-  if (!settingsLoaded) return;
+  if (!get(settingsLoaded)) return;
   await settingsApi.save({ isItemsCompact: isCompact });
 });
+startupGroupId.subscribe(async (groupId) => {
+  if (!get(settingsLoaded)) return;
+  await settingsApi.save({ startupGroupId: groupId });
+});
+
+const loadvariables = function (settings) {
+  isItemsCompact.set(settings.isItemsCompact);
+  isGroupsCompact.set(settings.isGroupsCompact);
+  startupGroupId.set(settings.startupGroupId);
+};
 
 export const settingsModel: ISettingsModel = {
   load: async function () {
     const settings = await settingsApi.load();
-    isItemsCompact.set(settings.isItemsCompact);
-    isGroupsCompact.set(settings.isGroupsCompact);
+    loadvariables(settings);
 
-    settingsLoaded = true;
+    settingsLoaded.set(true);
 
     return settings;
   },
@@ -36,11 +49,16 @@ export const settingsModel: ISettingsModel = {
       isGroupsCompact: get(isGroupsCompact),
     } as ISettings);
   },
+  loadDefault: async function () {
+    const settings = DEFAULT_SETTINGS;
+    settingsLoaded.set(false);
+    loadvariables(settings);
+
+    return settings;
+  },
+
   isGroupsCompact,
   isItemsCompact,
+  settingsLoaded,
+  startupGroupId,
 };
-isUserLogged.subscribe(async (isLogged) => {
-  if (isLogged) {
-    await settingsModel.load();
-  }
-});

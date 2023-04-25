@@ -1,10 +1,23 @@
+import writableDerived from "svelte-writable-derived";
+import { derived, writable } from "svelte/store";
+
 import { type IGroupMasterDetail } from "$src/types/data";
 import * as Storage from "$model/storage";
-import { writable } from "svelte/store";
 
 export let GroupMasterDetail: IGroupMasterDetail = {
-  group: writable(null),
-  item: writable(null),
+  group: writableDerived(
+    Storage.group.selectedGroup,
+    ($S) => $S,
+    ($S) => $S
+  ),
+  item: writableDerived(
+    Storage.item.selectedItem,
+    ($S) => $S,
+    ($s) => {
+      return $s;
+    }
+  ),
+  isItemExpanded: writable(false),
 
   select: function (item) {
     Storage.item.select(item);
@@ -15,4 +28,7 @@ export let GroupMasterDetail: IGroupMasterDetail = {
 
   itemControl: Storage.item,
   groupControl: Storage.group,
+  relationsControl: Storage.relations,
+
+  storage: derived(Storage.Storage.storage, ($S) => $S)
 };

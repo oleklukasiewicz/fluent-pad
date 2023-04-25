@@ -9,7 +9,6 @@ export type IGroupModel = {
   remove(groupId: string): Promise<void>;
 
   select(group: Group): void;
-  selectIndex(index: number): void;
   selectDefault(): void;
 
   sort(group: Group, method: any): Group;
@@ -18,10 +17,10 @@ export type IGroupModel = {
   getDefault(): Group;
   get(groupId: string): Group;
 
+  groups: Readable<Group[]>;
+
   selectedGroupIndex: Writable<number>;
   selectedGroup: Writable<Group>;
-  selectedGroupItems: Readable<Item[]>;
-  selectedGroupIsDefault: Readable<boolean>;
   groupsLoaded: Writable<boolean>;
 };
 
@@ -42,7 +41,6 @@ export type IItemModel = {
   selectedIndex: Writable<number>;
   selectedItem: Writable<Item>;
   itemsLoaded: Writable<boolean>;
-  currentItemNeedSave: Writable<boolean>;
 };
 
 export type IRelationsModel = {

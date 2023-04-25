@@ -243,7 +243,7 @@
               : $isMobileView
               ? "none"
               : "single"}
-            compact={$isItemsCompact}
+            compact={$group.flags.isReadOnly ? false : $isItemsCompact}
             items={$itemsWithSelection}
           />
         {:else}

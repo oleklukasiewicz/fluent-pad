@@ -1,5 +1,5 @@
-import type { Writable } from "svelte/store";
-import type { IGroupModel, IItemModel } from "./storage";
+import type { Readable, Writable } from "svelte/store";
+import type { IGroupModel, IItemModel, IRelationsModel } from "./storage";
 
 export class BaseItem {
   id: string;
@@ -62,9 +62,12 @@ export class Item extends BaseItem {
     content?: string,
     createDate?: Date,
     modifyDate?: Date,
-    groups?: string[]
+    groups?: string[],
+    flags: any = {
+      needSave: false,
+    }
   ) {
-    super(id, title || "", createDate, modifyDate);
+    super(id, title || "", createDate, modifyDate, flags);
     this.groupIndex = -1;
     this.type = "item";
     this.content = content || "";
@@ -93,10 +96,14 @@ export class SelectionGroup {
 export type IGroupMasterDetail = {
   group: Writable<Group>;
   item: Writable<Item>;
+  isItemExpanded: Writable<boolean>;
 
   select: (item: Item) => void;
   selectGroup: (group: Group) => void;
 
   itemControl: IItemModel;
   groupControl: IGroupModel;
+  relationsControl: IRelationsModel;
+
+  storage: Readable<Group[]>;
 };
