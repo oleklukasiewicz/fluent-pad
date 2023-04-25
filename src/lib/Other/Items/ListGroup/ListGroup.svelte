@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Group } from "$type/data";
-    import { DATE_FORMAT } from "../../../helpers";
+    import { DATE_FORMAT } from "$src/helpers";
 
     import { ListItem } from "fluent-svelte";
     import { _ } from "svelte-i18n";

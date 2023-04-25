@@ -39,7 +39,7 @@
   import RemoveGroupDialog from "$lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
   import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
-  import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+  import ItemListPlaceholder from "$lib/Other/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
 
   let isDetailViewOpened = false;
   let isMultipleSelectionEnabled = false;

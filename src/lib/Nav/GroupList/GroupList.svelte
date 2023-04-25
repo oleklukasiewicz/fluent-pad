@@ -4,12 +4,12 @@
   import { Button, ListItem } from "fluent-svelte";
   import Separator from "$lib/Other/Separator/Separator.svelte";
 
-  import ListGroup from "$lib/Other/ListGroup/ListGroup.svelte";
+  import ListGroup from "$lib/Other/Items/ListGroup/ListGroup.svelte";
 
   import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
 
   import { createEventDispatcher } from "svelte";
-  import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+  import ItemListPlaceholder from "$lib/Other/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
   const dispatch = createEventDispatcher();
 
   export let groups = [];

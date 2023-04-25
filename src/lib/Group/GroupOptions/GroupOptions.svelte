@@ -10,7 +10,7 @@
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import TextPlaceholder from "$lib/Other/TextPlaceholder/TextPlaceholder.svelte";
+    import TextPlaceholder from "$lib/Other/Placeholders/TextPlaceholder/TextPlaceholder.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;

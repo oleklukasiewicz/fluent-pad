@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Item } from "$type/data";
-    import { DATE_FORMAT } from "../../../helpers";
+    import { DATE_FORMAT } from "$src/helpers";
     
     import MultiSelectListItem from "../MultiSelectListItem/MultiSelectListItem.svelte";
 

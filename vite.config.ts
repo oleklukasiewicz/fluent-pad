@@ -28,6 +28,7 @@ export default defineConfig({
       $view: path.resolve('src/views'),
       $type: path.resolve('src/types'),
       $api: path.resolve('src/api'),
+      $src: path.resolve('src'),
     }
   }
 })

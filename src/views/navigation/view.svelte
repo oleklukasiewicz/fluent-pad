@@ -25,10 +25,10 @@
   import CreateGroupDialog from "$lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
 
   import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
-  import ItemListPlaceholder from "$lib/Other/ItemListPlaceholder/ItemListPlaceholder.svelte";
+  import ItemListPlaceholder from "$lib/Other/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
   import SearchBar from "$lib/Other/SearchBar/SearchBar.svelte";
   import { toUpper } from "lodash";
-  import ListItem from "$lib/Other/ListItem/ListItem.svelte";
+  import ListItem from "$lib/Other/Items/ListItem/ListItem.svelte";
   import { ListItem as BasicListItem } from "fluent-svelte";
 
   let isMenuOpened = false;
