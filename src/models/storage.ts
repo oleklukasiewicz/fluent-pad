@@ -16,8 +16,6 @@ import type {
 } from "$type/storage";
 import { Group, Item } from "$type/data";
 
-import { isUserLogged } from "./user";
-
 import { firebaseStorageAPI } from "$api/firebase";
 
 let _loadedStorageAPI = firebaseStorageAPI;
@@ -67,7 +65,7 @@ const groups: Readable<Group[]> = derived(storage, ($storage) =>
 const groupsLoaded: Writable<boolean> = writable(false);
 const itemsLoaded: Writable<boolean> = writable(false);
 
-const selectedGroupIndex: Writable<number> = writable(0);
+const selectedGroupIndex: Writable<number> = writable(-1);
 const selectedGroup: Writable<Group> = writableDerived(
   selectedGroupIndex,
   (s) => {
@@ -167,7 +165,7 @@ const selectedItem: Writable<Item> = writableDerived(
 
 //persevering selected item beetween groups
 selectedGroup.subscribe((group: Group) => {
-  if (!group.items || !group.id || !get(groupsLoaded)) return;
+  if (!group?.items || !group.id || !get(groupsLoaded)) return;
   if (group.items.length > 0) {
     const _selectedItem: Item = get(selectedItem);
     const index: number = _selectedItem.id
@@ -192,7 +190,7 @@ const _removeItemFromGroupOnly = (
 const _removeGroupFromItemOnly = (
   item: Item,
   groupId: string,
-  dontUpdateStores = false
+
 ) => {
   const _index: number = item.groups.findIndex((_g) => _g === groupId);
   if (_index != -1) item.groups.splice(_index, 1);
@@ -203,7 +201,7 @@ const _removeItemFromGroup = (
   item: Item,
   dontUpdateStores = false
 ) => {
-  _removeGroupFromItemOnly(item, group.id, dontUpdateStores);
+  _removeGroupFromItemOnly(item, group.id);
   _removeItemFromGroupOnly(group, item.id, dontUpdateStores);
 };
 const _addItemToGroup = (

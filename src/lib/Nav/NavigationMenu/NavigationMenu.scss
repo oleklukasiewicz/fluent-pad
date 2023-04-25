@@ -9,7 +9,7 @@
     min-width:200px;
     width: 25vw;
     max-width: 300px;
-    padding: 6px 8px 8px;
+    padding: 8px 2px;
     box-sizing: border-box;
 
     &.minimal {
@@ -35,9 +35,4 @@
     top: 8px;
     left: 8px;
     z-index: 6;
-}
-:global(.footer .list-item)
-{
-    margin: 6px 0px 0px !important;
-    inline-size: 100% !important;
 }

@@ -14,8 +14,8 @@
   import StartupIcon from "@fluentui/svg-icons/icons/dock_20_regular.svg?raw";
 </script>
 
-<div id="settings-view">
-  <div id="settings-title" class:mobile={$isMobileView}>
+<div id="settings-view" class:mobile={$isMobileView}>
+  <div id="settings-title">
     <TextBlock variant="subtitle">{$_("nav.settings")}</TextBlock>
   </div>
   <Expander expanded title>

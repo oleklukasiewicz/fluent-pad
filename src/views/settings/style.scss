@@ -1,12 +1,11 @@
 #settings-view {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    padding: 8px;
-    gap: 12px;
-    background-color: var(--fds-solid-background-base);
-}
-#settings-title.mobile
-{
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 8px;
+  gap: 12px;
+  background-color: var(--fds-solid-background-base);
+  &.mobile > #settings-title {
     margin-left: 42px;
+  }
 }

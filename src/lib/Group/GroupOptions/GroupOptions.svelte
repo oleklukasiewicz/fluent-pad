@@ -14,6 +14,7 @@
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;
+    export let loading: boolean = false;
     export let groupeditable: boolean = true;
     export let isreadonly: boolean = false;
 
@@ -27,7 +28,7 @@
 
 <CommandBar class="group-options">
     <svelte:fragment slot="right-options">
-        {#if group.id}
+        {#if !loading}
         <b class="group-title">{group.title}</b>
         {:else}
         <TextPlaceholder size="24px" class="group-title-placeholder"/>

@@ -3,7 +3,7 @@ div {
 }
 
 :global(#add-group-button) {
-    margin: 8px 0px;
+    margin: 8px 5px;
 }
 
 .group-list {
@@ -19,10 +19,6 @@ div {
     display: flex;
     max-height: calc(100vh - 220px);
     flex-direction: column;
-}
-:global(.group-list .list-item)
-{
-    inline-size: 100% !important;
-    margin-left: 0px !important;
-    margin-right: 0px !important;
+    padding: 0px 5px;
+    box-sizing: border-box;
 }

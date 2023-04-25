@@ -215,6 +215,7 @@
       <div id="item-list-grid">
         <GroupOptions
           group={$group}
+          loading={!$group.flags.itemsLoaded}
           groupeditable={$group.flags.isEditable}
           isreadonly={$group.flags.isReadOnly}
           on:editgroup={showEditGroupDialog}
