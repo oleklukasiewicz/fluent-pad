@@ -1,10 +1,12 @@
 import { initializeApp } from "firebase/app";
+
 import {
   getAuth,
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
 } from "firebase/auth";
+
 import {
   collection,
   deleteDoc,
@@ -19,7 +21,6 @@ import {
 } from "firebase/firestore";
 
 import { Group, Item } from "$type/data";
-
 import { User } from "$type/user";
 import {
   type IUserAPI,
@@ -70,6 +71,7 @@ const GroupConvertToFirebase = (group: Group) => {
   for (var i in fireGroup) if (group.hasOwnProperty(i)) fireGroup[i] = group[i];
   return { ...fireGroup };
 };
+
 const ItemConvertToApp = (item: any) => {
   let appItem = new Item("");
   Object.assign(appItem, item);

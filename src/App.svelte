@@ -1,15 +1,15 @@
 <script lang="ts">
-  import Router from "svelte-spa-router";
+  import "fluent-svelte/theme.css";
   import "./i18n/i18n.ts";
+
+  import Router from "svelte-spa-router";
 
   import { isLogged } from "./model.js";
 
-  import "fluent-svelte/theme.css";
-
-  import NavView from "./views/navigation/view.svelte";
-  import Group from "./views/groups/view.svelte";
-  import Settings from "./views/settings/view.svelte";
-  import Login from "./views/login/view.svelte";
+  import NavView from "$view/navigation/view.svelte";
+  import Group from "$view/groups/view.svelte";
+  import Settings from "$view/settings/view.svelte";
+  import Login from "$view/login/view.svelte";
 
   const routes = {
     "/": Group,

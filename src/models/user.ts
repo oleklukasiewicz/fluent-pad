@@ -1,6 +1,9 @@
 import { get, writable, type Writable } from "svelte/store";
+
 import { firebaseUserAPI } from "$api/firebase";
+
 import type { IUserModel, User } from "$type/user";
+
 import { group, clearStorage } from "./storage";
 import { settingsModel } from "./settings";
 

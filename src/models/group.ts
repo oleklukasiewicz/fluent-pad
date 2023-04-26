@@ -1,7 +1,8 @@
 import writableDerived from "svelte-writable-derived";
 import { derived, writable } from "svelte/store";
 
-import { type IGroupMasterDetail } from "$src/types/data";
+import { type IGroupMasterDetail } from "$type/data";
+
 import * as Storage from "$model/storage";
 
 export let GroupMasterDetail: IGroupMasterDetail = {

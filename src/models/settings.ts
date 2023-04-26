@@ -1,10 +1,11 @@
+import { writable, get } from "svelte/store";
+
 import {
   DEFAULT_SETTINGS,
   type ISettings,
   type ISettingsModel,
 } from "$type/settings";
 
-import { writable, get } from "svelte/store";
 import { firebaseSettingsAPI } from "$api/firebase";
 
 const settingsApi = firebaseSettingsAPI;

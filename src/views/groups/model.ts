@@ -15,7 +15,7 @@ export const relationsControl: IRelationsModel =
 
 export const groups: Readable<Group[]> = derived(
   GroupMasterDetail.storage,
-  ($groups: Group[]) => groupControl.getAll() || []
+  () => groupControl.getAll() || []
 );
 export const group: Writable<Group> = writableDerived(
   GroupMasterDetail.group,
