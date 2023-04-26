@@ -9,3 +9,11 @@
     margin-left: 42px;
   }
 }
+.setting {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  padding: 4px;
+}
+:global(.setting > .text-block) {
+  padding: 4px 0px !important;
+}

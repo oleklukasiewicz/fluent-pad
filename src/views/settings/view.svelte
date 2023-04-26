@@ -24,13 +24,12 @@
     </svelte:fragment>
     {$_("settings.display")}
     <svelte:fragment slot="content">
-      <ToggleSwitch bind:checked={$isGroupsCompactMode}
-        >{$_("settings.compactGroups")}</ToggleSwitch
-      >
-      <br />
-      <ToggleSwitch bind:checked={$isItemsCompactMode}
-        >{$_("settings.compactItems")}</ToggleSwitch
-      >
+      <div class="setting">
+        <TextBlock>{$_("settings.compactGroups")}</TextBlock>
+        <ToggleSwitch bind:checked={$isGroupsCompactMode} />
+        {$_("settings.compactItems")}
+        <ToggleSwitch bind:checked={$isItemsCompactMode} />
+      </div>
     </svelte:fragment>
   </Expander>
   <Expander title>
@@ -39,12 +38,10 @@
     </svelte:fragment>
     {$_("settings.startup")}
     <svelte:fragment slot="content">
-      {$_("settings.startupPlaceholder")}
-      <ComboBox bind:value={$startupGroupId} items={$groups} />
-      <br />
-      <br />
-      <br />
-      <br />
+      <div class="setting">
+        <TextBlock>{$_("settings.startupPlaceholder")}</TextBlock>
+        <ComboBox bind:value={$startupGroupId} items={$groups} />
+      </div>
     </svelte:fragment>
   </Expander>
 </div>
