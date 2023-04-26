@@ -180,7 +180,7 @@ export const firebaseStorageAPI: IStorageAPI = {
 
       await getDocs(q).then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
-          docs.push(doc.data());
+          docs.push(ItemConvertToApp(doc.data()) as Item);
         });
       });
       return docs;

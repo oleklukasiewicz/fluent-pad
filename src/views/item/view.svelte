@@ -25,6 +25,7 @@
   import RemoveItemDialog from "$lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
   import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
+  import ItemContentMenu from "$src/lib/Item/ItemContentMenu/ItemContentMenu.svelte";
 
   let groupList = [];
 
@@ -102,6 +103,7 @@
       bind:value={$content}
       placeholder="Type content"
     />
+    <ItemContentMenu />
   {:else}
     <Placeholder />
   {/if}

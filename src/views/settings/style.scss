@@ -17,3 +17,15 @@
 :global(.setting > .text-block) {
   padding: 4px 0px !important;
 }
+:global(.expander .expander-content)
+{
+  display: flex;
+  flex-direction: column;
+  gap:16px;
+}
+:global(.expander hr)
+{
+  border: 0px;
+  margin: 0px -16px;
+  border-top: 1px solid var(--fds-solid-background-base);
+}

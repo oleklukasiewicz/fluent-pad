@@ -86,9 +86,9 @@
   "settings": {
     "display": "Display",
     "startup": "Startup",
-    "compactGroups": "Compact groups",
-    "compactItems": "Compact items",
-    "startupPlaceholder": "After startup select"
+    "compactGroups": "Reduce height of groups items",
+    "compactItems": "Reduce height of notes items",
+    "startupPlaceholder": "After startup select group"
   },
   "type-content": "Type content",
   "enter-title": "Enter title",

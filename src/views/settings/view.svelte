@@ -27,7 +27,10 @@
       <div class="setting">
         <TextBlock>{$_("settings.compactGroups")}</TextBlock>
         <ToggleSwitch bind:checked={$isGroupsCompactMode} />
-        {$_("settings.compactItems")}
+      </div>
+      <hr/>
+      <div class="setting">
+        <TextBlock>{$_("settings.compactItems")}</TextBlock>
         <ToggleSwitch bind:checked={$isItemsCompactMode} />
       </div>
     </svelte:fragment>
