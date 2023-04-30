@@ -12,19 +12,19 @@
 
   import { ComboBox, Expander, TextBlock, ToggleSwitch } from "fluent-svelte";
   import ItemsHeightIcon from "@fluentui/svg-icons/icons/arrow_autofit_height_20_regular.svg?raw";
-  import SettingsCard from "$src/lib/SettingsCard/SettingsCard.svelte";
+  import SettingCard from "$src/lib/SettingCard/SettingCard.svelte";
 </script>
 
 <div id="settings-view" class:mobile={$isMobileView}>
   <div id="settings-title">
     <TextBlock variant="subtitle">{$_("nav.settings")}</TextBlock>
   </div>
-  <SettingsCard>
+  <SettingCard>
     <div class="setting">
       <TextBlock>{$_("settings.startupPlaceholder")}</TextBlock>
       <ComboBox bind:value={$startupGroupId} items={$groups} />
     </div>
-  </SettingsCard>
+  </SettingCard>
   <Expander expanded title>
     <svelte:fragment slot="icon">
       {@html ItemsHeightIcon}

@@ -3,5 +3,5 @@
 </div>
 
 <style lang="scss">
-  @use "SettingsCard.scss";
+  @use "SettingCard.scss";
 </style>
