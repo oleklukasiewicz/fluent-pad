@@ -1,0 +1,13 @@
+.settings-card {
+  border-radius: var(--fds-control-corner-radius);
+  padding: 16px 16px 12px 16px;
+  background-clip: padding-box;
+  background-color: var(--fds-card-background-secondary);
+  border: 1px solid var(--fds-card-stroke-default);
+  font-family: var(--fds-font-family-text);
+  font-size: var(--fds-body-font-size);
+  font-weight: 400;
+  line-height: 20px;
+  transition: var(--fds-control-fast-duration) cubic-bezier(1, 1, 0, 1)
+    transform;
+}

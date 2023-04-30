@@ -6,6 +6,7 @@ import { group } from "$model/storage";
 import {
   isGroupsCompact,
   isItemsCompact,
+  isItemGroupsCompact as itemGroups,
   startupGroupId as startupGroup,
 } from "$model/settings";
 
@@ -23,6 +24,11 @@ export const isItemsCompactMode = writableDerived(
 );
 export const startupGroupId = writableDerived(
   startupGroup,
+  ($S) => $S,
+  ($S) => $S
+);
+export const isItemGroupsCompact = writableDerived(
+  itemGroups,
   ($S) => $S,
   ($S) => $S
 );

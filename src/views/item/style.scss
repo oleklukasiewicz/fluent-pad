@@ -1,5 +1,5 @@
 #item-view {
-  padding: 8px 8px 8px 16px;
+  padding: 8px 8px 16px 16px;
   box-sizing: border-box;
   background-color: var(--fds-solid-background-tertiary);
   display: flex;
@@ -26,10 +26,11 @@ input {
   margin: 0;
 }
 #item-title {
-  font-size: var(--fds-title-large-font-size);
+  font-size: var(--fds-title-font-size);
 }
 #item-content {
   flex: 1;
+  margin-top: 4px;
   font-size: var(--fds-body-font-size);
 }
 #groups {

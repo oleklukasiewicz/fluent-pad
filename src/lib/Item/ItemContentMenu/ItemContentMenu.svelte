@@ -9,38 +9,53 @@
   import AlignRightIcon from "@fluentui/svg-icons/icons/text_align_right_20_regular.svg?raw";
   import AlignCenterIcon from "@fluentui/svg-icons/icons/text_align_center_20_regular.svg?raw";
   import JustifyIcon from "@fluentui/svg-icons/icons/text_align_justify_20_regular.svg?raw";
+  import AppsListIcon from "@fluentui/svg-icons/icons/apps_list_20_regular.svg?raw";
+  import MultiSelectIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";
+  import TabAddIcon from "@fluentui/svg-icons/icons/tab_add_20_regular.svg?raw";
 
   import Separator from "$src/lib/Other/Separator/Separator.svelte";
 </script>
-<Flyout class="item-content-menu">
-    <IconButton>
-        {@html EditIcon}
-    </IconButton>
-    <svelte:fragment slot="flyout">
+
+<div class="item-content-menu">
+  <div class="right">
     <IconButton>
         {@html BoldIcon}
-    </IconButton>
-    <IconButton>
+      </IconButton>
+      <IconButton>
         {@html ItalicIcon}
-    </IconButton>
-    <IconButton>
+      </IconButton>
+      <IconButton>
         {@html UnderlineIcon}
-    </IconButton>
-    <Separator/>
-    <IconButton>
+      </IconButton>
+      <Separator />
+      <IconButton>
         {@html AlignLeftIcon}
-    </IconButton>
-    <IconButton>
+      </IconButton>
+      <IconButton>
         {@html AlignCenterIcon}
-    </IconButton>
-    <IconButton>
+      </IconButton>
+      <IconButton>
         {@html AlignRightIcon}
-    </IconButton>
-    <IconButton>
+      </IconButton>
+      <IconButton>
         {@html JustifyIcon}
-    </IconButton>
-    </svelte:fragment>
-</Flyout>
+      </IconButton>
+      <Separator />
+      <!-- <IconButton>
+        {@html AppsListIcon}
+      </IconButton>
+      <IconButton>
+        {@html MultiSelectIcon}
+      </IconButton>
+      <Separator /> -->
+      <IconButton>
+        {@html TabAddIcon}
+      </IconButton>
+  </div>
+  <div class="left">
+  </div>
+</div>
+
 <style lang="scss">
-    @use "ItemContentMenu.scss";
+  @use "ItemContentMenu.scss";
 </style>

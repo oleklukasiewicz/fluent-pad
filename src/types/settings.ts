@@ -19,6 +19,7 @@ export type ISettingsModel = {
 
   isItemsCompact: Writable<boolean>;
   isGroupsCompact: Writable<boolean>;
+  isItemGroupsCompact: Writable<boolean>;
   startupGroupId: Writable<string>;
   settingsLoaded: Writable<boolean>;
 };

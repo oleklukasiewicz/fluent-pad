@@ -1,11 +1,12 @@
 import { writableDerived, propertyStore } from "svelte-writable-derived";
-import { derived, get, type Readable, type Writable } from "svelte/store";
+import { derived, get, writable, type Readable, type Writable } from "svelte/store";
 
 import type { Group, Item } from "$type/data";
 import type { IGroupModel, IItemModel, IRelationsModel } from "$type/storage";
 
 import { GroupMasterDetail } from "$model/group";
 import { isMobileView as isMobile } from "$model/ui";
+import { isItemGroupsCompact } from "$model/settings";
 
 export const itemControl: IItemModel = GroupMasterDetail.itemControl;
 export const groupControl: IGroupModel = GroupMasterDetail.groupControl;
@@ -45,3 +46,4 @@ export const isItemExpanded: Writable<boolean> = writableDerived(
 
 export const isMobileView = derived(isMobile, ($S) => $S);
 export const needSave = derived(item, (s) => s?.flags?.needSave || false);
+export const isCompactItemGroup = derived(isItemGroupsCompact, ($S) => $S);

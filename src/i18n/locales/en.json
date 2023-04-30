@@ -88,9 +88,11 @@
     "startup": "Startup",
     "compactGroups": "Reduce height of groups items",
     "compactItems": "Reduce height of notes items",
-    "startupPlaceholder": "After startup select group"
+    "startupPlaceholder": "After startup select group",
+    "compactItemGroups": "Reduce visibility of groups in item"
   },
   "type-content": "Type content",
   "enter-title": "Enter title",
-  "no-item-in-group": "Click '+' button to create new item"
+  "no-item-in-group": "Click '+' button to create new item",
+  "share": "Share"
 }

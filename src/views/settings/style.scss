@@ -13,9 +13,10 @@
   display: grid;
   grid-template-columns: 1fr auto;
   padding: 4px;
+  gap: 16px;
 }
 :global(.setting > .text-block) {
-  padding: 4px 0px !important;
+  padding: 6px 0px 0px!important;
 }
 :global(.expander .expander-content)
 {

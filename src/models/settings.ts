@@ -14,6 +14,7 @@ export const settingsLoaded = writable(false);
 
 export const isItemsCompact = writable(false);
 export const isGroupsCompact = writable(false);
+export const isItemGroupsCompact = writable(false);
 export const startupGroupId = writable("");
 
 isGroupsCompact.subscribe(async (isCompact) => {
@@ -28,11 +29,16 @@ startupGroupId.subscribe(async (groupId) => {
   if (!get(settingsLoaded)) return;
   await settingsApi.save({ startupGroupId: groupId });
 });
+isItemGroupsCompact.subscribe(async (isCompact) => {
+  if (!get(settingsLoaded)) return;
+  await settingsApi.save({ isItemGroupsCompact: isCompact });
+});
 
 const loadvariables = function (settings) {
   isItemsCompact.set(settings.isItemsCompact);
   isGroupsCompact.set(settings.isGroupsCompact);
   startupGroupId.set(settings.startupGroupId);
+  isItemGroupsCompact.set(settings.isItemGroupsCompact);
 };
 
 export const settingsModel: ISettingsModel = {
@@ -62,4 +68,5 @@ export const settingsModel: ISettingsModel = {
   isItemsCompact,
   settingsLoaded,
   startupGroupId,
+  isItemGroupsCompact
 };

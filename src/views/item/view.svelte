@@ -12,7 +12,8 @@
     groupControl,
     isMobileView,
     relationsControl,
-    needSave
+    needSave,
+    isCompactItemGroup,
   } from "./model";
 
   import { SelectionGroup } from "$type/data";
@@ -25,7 +26,10 @@
   import RemoveItemDialog from "$lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
 
   import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
+
   import ItemContentMenu from "$src/lib/Item/ItemContentMenu/ItemContentMenu.svelte";
+  import CommandBar from "$src/lib/Other/CommandBar/CommandBar.svelte";
+  import { IconButton } from "fluent-svelte";
 
   let groupList = [];
 
@@ -81,29 +85,36 @@
       needSave={$needSave}
       expandable={!$isMobileView}
       expanded={$isItemExpanded}
+      showGroups={$isCompactItemGroup}
+      groupsCount={$groups.length}
+      on:groups={showGroupsDialog}
       on:expandtoggle={expandToggle}
       on:remove={showRemoveDialog}
     />
-    <div id="groups">
-      {#each $groups as group}
-        <Bange
-          variant={$selectedGroup.id == group.id ? "accent" : "standard"}
-          on:click={() => groupClick(group)}
-        >
-          {group.title}
-        </Bange>
-      {/each}
-      <Bange variant="link" on:click={showGroupsDialog}
-        >{@html EditGroupsIcon} {$_("operations.set_groups")}
-      </Bange>
-    </div>
+    {#if !$isCompactItemGroup}
+      <CommandBar>
+        <svelte:fragment slot="right-options">
+          {#each $groups as group}
+            <Bange
+              variant={$selectedGroup.id == group.id ? "accent" : "standard"}
+              on:click={() => groupClick(group)}
+            >
+              {group.title}
+            </Bange>
+          {/each}
+          <Bange variant="link" on:click={showGroupsDialog}
+            >{@html EditGroupsIcon} {$_("operations.set_groups")}
+          </Bange>
+        </svelte:fragment>
+      </CommandBar>
+    {/if}
     <input id="item-title" placeholder="Enter title" bind:value={$title} />
     <textarea
       id="item-content"
       bind:value={$content}
       placeholder="Type content"
     />
-    <ItemContentMenu />
+    <!-- <ItemContentMenu /> -->
   {:else}
     <Placeholder />
   {/if}
