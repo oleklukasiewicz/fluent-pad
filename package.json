@@ -22,7 +22,7 @@
   "dependencies": {
     "@fluentui/svg-icons": "^1.1.194",
     "@rollup/plugin-replace": "^5.0.2",
-    "@sveltejs/adapter-vercel": "^2.4.2",
+    "@sveltejs/adapter-vercel": "^2.4.3",
     "dotenv": "^16.0.3",
     "firebase": "^9.20.0",
     "fluent-svelte": "^1.6.0",
