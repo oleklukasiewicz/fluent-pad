@@ -24,7 +24,7 @@
     "@rollup/plugin-replace": "^5.0.2",
     "@sveltejs/adapter-vercel": "^2.4.3",
     "dotenv": "^16.0.3",
-    "firebase": "^9.20.0",
+    "firebase": "^9.21.0",
     "fluent-svelte": "^1.6.0",
     "lodash": "^4.17.21",
     "path": "^0.12.7",
