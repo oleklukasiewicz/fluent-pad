@@ -13,7 +13,7 @@
   import MultiSelectIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";
   import TabAddIcon from "@fluentui/svg-icons/icons/tab_add_20_regular.svg?raw";
 
-  import Separator from "$src/lib/Other/Separator/Separator.svelte";
+  import Separator from "$shared/Separator/Separator.svelte";
 </script>
 
 <div class="item-content-menu">

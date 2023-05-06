@@ -2,9 +2,9 @@
   import { _ } from "svelte-i18n";
 
   import { Button, IconButton, InfoBadge, TextBlock } from "fluent-svelte";
-  import ToggleIconButton from "$lib/Other/ToggleIconButton/ToggleIconButton.svelte";
-  import CommandBar from "$lib/Other/CommandBar/CommandBar.svelte";
-  import Separator from "$lib/Other/Separator/Separator.svelte";
+  import ToggleIconButton from "$shared/ToggleIconButton/ToggleIconButton.svelte";
+  import CommandBar from "$shared/CommandBar/CommandBar.svelte";
+  import Separator from "$shared/Separator/Separator.svelte";
 
   import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
   import ExpandIcon from "@fluentui/svg-icons/icons/expand_up_left_20_regular.svg?raw";

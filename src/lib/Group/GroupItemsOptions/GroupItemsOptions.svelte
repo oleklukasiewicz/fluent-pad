@@ -4,7 +4,7 @@
     import type { Group,Item  } from "$type/data";
 
     import { IconButton, Button } from "fluent-svelte";
-    import ToggleIconButton from "$lib/Other/ToggleIconButton/ToggleIconButton.svelte";
+    import ToggleIconButton from "$shared/ToggleIconButton/ToggleIconButton.svelte";
 
     import AddIcon from "@fluentui/svg-icons/icons/add_16_regular.svg?raw";
     import SelectAllIcon from "@fluentui/svg-icons/icons/multiselect_ltr_20_regular.svg?raw";

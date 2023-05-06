@@ -10,7 +10,8 @@
     "paths": {
       "$src/*":["src/*"],
       "$lib/*": ["src/lib/*"],
-      "$viewModel/*": ["src/viewModel/*"],
+      "$dialog/*": ["src/lib/dialog/*"],
+      "$shared/*": ["src/lib/shared/*"],
       "$view/*": ["src/views/*"],
       "$model/*": ["src/models/*"],
       "$type/*": ["src/types/*"],
