@@ -2,8 +2,8 @@
     import type { Item } from "$type/data";
 
     import { IconButton, TextBlock } from "fluent-svelte";
-    import Separator from "$lib/Other/Separator/Separator.svelte";
-    import CommandBar from "$lib/Other/CommandBar/CommandBar.svelte";
+    import Separator from "$shared/Separator/Separator.svelte";
+    import CommandBar from "$shared/CommandBar/CommandBar.svelte";
 
     import SelectAllOn from "@fluentui/svg-icons/icons/select_all_on_20_regular.svg?raw";
     import EditGroups from "@fluentui/svg-icons/icons/channel_add_20_regular.svg?raw";

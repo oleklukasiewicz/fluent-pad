@@ -12,7 +12,7 @@
 
   import { ComboBox, Expander, TextBlock, ToggleSwitch } from "fluent-svelte";
   import ItemsHeightIcon from "@fluentui/svg-icons/icons/arrow_autofit_height_20_regular.svg?raw";
-  import SettingCard from "$src/lib/SettingCard/SettingCard.svelte";
+  import SettingCard from "$shared/SettingCard/SettingCard.svelte";
 </script>
 
 <div id="settings-view" class:mobile={$isMobileView}>

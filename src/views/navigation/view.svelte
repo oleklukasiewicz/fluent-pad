@@ -15,21 +15,22 @@
 
   import { location } from "svelte-spa-router";
   import { _ } from "svelte-i18n";
+  import { toUpper } from "lodash";
 
   import type { Group } from "$type/data";
 
-  import GroupList from "$lib/Nav/GroupList/GroupList.svelte";
-  import UserButton from "$lib/Nav/UserButton/UserButton.svelte";
-  import NavigationMenu from "$lib/Nav/NavigationMenu/NavigationMenu.svelte";
+  import { ListItem as BasicListItem } from "fluent-svelte";
 
-  import CreateGroupDialog from "$lib/Dialogs/CreateGroupDialog/CreateGroupDialog.svelte";
+  import GroupList from "$lib/navigation/GroupList/GroupList.svelte";
+  import UserButton from "$lib/navigation/UserButton/UserButton.svelte";
+  import NavigationMenu from "$lib/navigation/NavigationMenu/NavigationMenu.svelte";
+  import ItemListPlaceholder from "$shared/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
+  import SearchBar from "$shared/SearchBar/SearchBar.svelte";
+  import ListItem from "$shared/Items/ListItem/ListItem.svelte";
+
+  import CreateGroupDialog from "$dialog/CreateGroupDialog/CreateGroupDialog.svelte";
 
   import SettingsIcon from "@fluentui/svg-icons/icons/settings_20_regular.svg?raw";
-  import ItemListPlaceholder from "$lib/Other/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
-  import SearchBar from "$lib/Other/SearchBar/SearchBar.svelte";
-  import { toUpper } from "lodash";
-  import ListItem from "$lib/Other/Items/ListItem/ListItem.svelte";
-  import { ListItem as BasicListItem } from "fluent-svelte";
 
   let isMenuOpened = false;
   let isNewGroupDialogOpen = false;

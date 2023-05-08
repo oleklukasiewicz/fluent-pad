@@ -23,23 +23,21 @@
 
   import { IconButton } from "fluent-svelte";
 
-  import GroupItemsOptions from "$lib/Group/GroupItemsOptions/GroupItemsOptions.svelte";
-  import GroupOptions from "$lib/Group/GroupOptions/GroupOptions.svelte";
-
-  import GroupItemsCollection from "$lib/Group/GroupItemsCollection/GroupItemsCollection.svelte";
-
-  import MasterDetail from "$lib/Other/MasterDetail/MasterDetail.svelte";
-
   import ItemView from "$view/item/view.svelte";
 
-  import ItemSortDialog from "$lib/Dialogs/ItemSortDialog/ItemSortDialog.svelte";
-  import EditMultipleItemsGroupDialog from "$lib/Dialogs/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
-  import RemoveMultipleItemsDialog from "$lib/Dialogs/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
-  import EditGroupDialog from "$lib/Dialogs/EditGroupDialog/EditGroupDialog.svelte";
-  import RemoveGroupDialog from "$lib/Dialogs/RemoveGroupDialog/RemoveGroupDialog.svelte";
+  import GroupItemsOptions from "$lib/group/GroupItemsOptions/GroupItemsOptions.svelte";
+  import GroupOptions from "$lib/group/GroupOptions/GroupOptions.svelte";
+  import GroupItemsCollection from "$lib/group/GroupItemsCollection/GroupItemsCollection.svelte";
+  import MasterDetail from "$shared/MasterDetail/MasterDetail.svelte";
+
+  import ItemSortDialog from "$dialog/ItemSortDialog/ItemSortDialog.svelte";
+  import EditMultipleItemsGroupDialog from "$dialog/EditMultpleItemsGroupsDialog/EditMultipleItemsGroupDialog.svelte";
+  import RemoveMultipleItemsDialog from "$dialog/RemoveMultipleItemsDialog/RemoveMultipleItemsDialog.svelte";
+  import EditGroupDialog from "$dialog/EditGroupDialog/EditGroupDialog.svelte";
+  import RemoveGroupDialog from "$dialog/RemoveGroupDialog/RemoveGroupDialog.svelte";
 
   import ArrowLeft from "@fluentui/svg-icons/icons/arrow_left_20_regular.svg?raw";
-  import ItemListPlaceholder from "$lib/Other/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
+  import ItemListPlaceholder from "$shared/Placeholders/ItemListPlaceholder/ItemListPlaceholder.svelte";
 
   let isDetailViewOpened = false;
   let isMultipleSelectionEnabled = false;

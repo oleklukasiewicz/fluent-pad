@@ -18,18 +18,15 @@
 
   import { SelectionGroup } from "$type/data";
 
-  import ItemViewOptions from "$lib/Item/ItemViewOptions/ItemViewOptions.svelte";
-  import Placeholder from "$lib/Item/ItemPlaceholder/ItemPlaceholder.svelte";
-  import Bange from "$lib/Other/Bange/Bange.svelte";
+  import ItemViewOptions from "$lib/item/ItemViewOptions/ItemViewOptions.svelte";
+  import Placeholder from "$lib/item/ItemPlaceholder/ItemPlaceholder.svelte";
+  import Bange from "$shared/Bange/Bange.svelte";
+  import CommandBar from "$shared/CommandBar/CommandBar.svelte";
 
-  import EditItemGroupsDialog from "$lib/Dialogs/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
-  import RemoveItemDialog from "$lib/Dialogs/RemoveItemDialog/RemoveItemDialog.svelte";
+  import EditItemGroupsDialog from "$dialog/EditItemGroupsDialog/EditItemGroupsDialog.svelte";
+  import RemoveItemDialog from "$dialog/RemoveItemDialog/RemoveItemDialog.svelte";
 
   import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
-
-  import ItemContentMenu from "$src/lib/Item/ItemContentMenu/ItemContentMenu.svelte";
-  import CommandBar from "$src/lib/Other/CommandBar/CommandBar.svelte";
-  import { IconButton } from "fluent-svelte";
 
   let groupList = [];
 

@@ -2,7 +2,7 @@
     import { login } from "./model";
 
     import { Button, TextBlock } from "fluent-svelte";
-    import Card from "$lib/Other/Card/Card.svelte";
+    import Card from "$shared/Card/Card.svelte";
 </script>
 
 <div id="outer">

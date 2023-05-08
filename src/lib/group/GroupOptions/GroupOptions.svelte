@@ -4,13 +4,13 @@
     import type { Group } from "$type/data";
 
     import { IconButton } from "fluent-svelte";
-    import CommandBar from "$lib/Other/CommandBar/CommandBar.svelte";
+    import CommandBar from "$shared/CommandBar/CommandBar.svelte";
 
     import EditIcon from "@fluentui/svg-icons/icons/edit_20_regular.svg?raw";
     import DeleteIcon from "@fluentui/svg-icons/icons/delete_20_regular.svg?raw";
 
     import { createEventDispatcher } from "svelte";
-    import TextPlaceholder from "$lib/Other/Placeholders/TextPlaceholder/TextPlaceholder.svelte";
+    import TextPlaceholder from "$shared/Placeholders/TextPlaceholder/TextPlaceholder.svelte";
     const dispatch = createEventDispatcher();
 
     export let group: Group = {} as Group;

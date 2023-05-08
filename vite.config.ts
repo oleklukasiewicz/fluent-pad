@@ -23,7 +23,8 @@ export default defineConfig({
   resolve: {
     alias: {
       $lib: path.resolve('src/lib'),
-      $viewModel: path.resolve('src/viewModel'),
+      $dialog: path.resolve('src/lib/dialog'),
+      $shared: path.resolve('src/lib/shared'),
       $model: path.resolve('src/models'),
       $view: path.resolve('src/views'),
       $type: path.resolve('src/types'),
