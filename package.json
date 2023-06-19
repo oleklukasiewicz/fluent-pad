@@ -32,6 +32,6 @@
     "svelte-i18n": "^3.6.0",
     "svelte-preprocess": "^5.0.4",
     "svelte-spa-router": "^3.3.0",
-    "svelte-writable-derived": "^3.0.1"
+    "svelte-writable-derived": "^3.1.0"
   }
 }
