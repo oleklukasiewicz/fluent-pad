@@ -11,6 +11,7 @@
   import SaveItemIcon from "@fluentui/svg-icons/icons/save_edit_20_regular.svg?raw";
   import PersonAddIcon from "@fluentui/svg-icons/icons/person_add_16_regular.svg?raw";
   import EditGroupsIcon20 from "@fluentui/svg-icons/icons/channel_add_20_regular.svg?raw";
+  import HistoryIcon from "@fluentui/svg-icons/icons/history_20_regular.svg?raw";
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -78,6 +79,9 @@
   <Separator />
   <IconButton on:click={removeItem}>
     {@html DeleteIcon}
+  </IconButton>
+  <IconButton>
+   {@html HistoryIcon}
   </IconButton>
 </CommandBar>
 

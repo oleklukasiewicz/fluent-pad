@@ -16,19 +16,10 @@ export const user: IUserModel = {
     const _user: User = await firebaseUserAPI.login();
 
     if (_user.uid === null) return false;
-
-    isUserLogged.set(true);
-    userName.set(_user.displayName);
-    userPicture.set(_user.photoURL);
-
     return true;
   },
   logout: async function () {
     await firebaseUserAPI.logout();
-
-    isUserLogged.set(false);
-    userName.set(null);
-    userPicture.set(null);
 
     return true;
   },
@@ -38,14 +29,25 @@ isUserLogged.subscribe(async (isLogged: boolean) => {
   if (isLogged) {
     await settingsModel.load();
     await group.loadAll();
-    
+
     const startupGroup = group.get(get(settingsModel.startupGroupId));
 
     if (startupGroup?.id) group.select(startupGroup);
     else group.selectDefault();
-  
   } else {
     clearStorage();
     settingsModel.loadDefault();
+  }
+});
+
+firebaseUserAPI.user.subscribe((_user: User) => {
+  if (_user.uid) {
+    isUserLogged.set(true);
+    userName.set(_user.displayName);
+    userPicture.set(_user.photoURL);
+  } else {
+    isUserLogged.set(false);
+    userName.set(null);
+    userPicture.set(null);
   }
 });

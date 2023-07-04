@@ -1,3 +1,4 @@
+import type { Writable } from "svelte/store";
 import type { Group, Item } from "./data";
 import type { ISettings } from "./settings";
 import type { User } from "./user";
@@ -26,6 +27,7 @@ export type IStorageAPI = {
 export type IUserAPI = {
   login: () => Promise<User>;
   logout: () => Promise<boolean>;
+  user:Writable<User>;
 };
 export type ISettingsAPI = {
   load: () => Promise<ISettings>;

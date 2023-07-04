@@ -5,6 +5,9 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   signOut,
+  setPersistence,
+  onAuthStateChanged,
+  browserLocalPersistence,
 } from "firebase/auth";
 
 import {
@@ -31,6 +34,8 @@ import {
 } from "$type/api";
 import { DEFAULT_SETTINGS, type ISettings } from "$type/settings";
 
+import { writable } from "svelte/store";
+
 const firebaseConfig = {
   apiKey: process.env.API_KEY,
   authDomain: process.env.AUTH_DOMAIN,
@@ -49,6 +54,7 @@ const db = getFirestore(app);
 const provider = new GoogleAuthProvider();
 
 let userDB = "";
+const user = writable({} as User);
 
 const pathToUsers = "users/";
 const pathToItems = "items";
@@ -56,6 +62,20 @@ const pathToGroups = "groups";
 
 const pathToSettings = "settings";
 const settingsFileName = "settings";
+
+user.subscribe((storedUser) => {
+  userDB = storedUser.uid ? pathToUsers + storedUser.uid : "";
+});
+
+onAuthStateChanged(auth, (storedUser) => {
+  if (storedUser) {
+    user.set(storedUser);
+    // ...
+  } else {
+    // User is signed out
+    // ...
+  }
+});
 
 const ItemConvertToFirebase = (item: Item) => {
   const fireItem = new ApiItem("");
@@ -204,16 +224,28 @@ export const firebaseStorageAPI: IStorageAPI = {
 };
 export const firebaseUserAPI: IUserAPI = {
   login: async function (): Promise<User> {
-    const user: any = await (await signInWithPopup(auth, provider)).user;
-    if (user.uid) userDB = pathToUsers + user.uid;
+    let tUser;
+    if (user != null)
+      await setPersistence(auth, browserLocalPersistence)
+        .then(async () => {
+          tUser = await (await signInWithPopup(auth, provider)).user;
+        })
+        .catch((error) => {
+          // Handle Errors here.
+          const errorCode = error.code;
+          const errorMessage = error.message;
+        });
 
-    return new User(user.uid, user.displayName, user.photoURL) || ({} as User);
+    return (
+      new User(tUser.uid, tUser.displayName, tUser.photoURL) || ({} as User)
+    );
   },
   logout: async function () {
     return await signOut(auth)
       .then(() => {
         // Sign-out successful.
-        userDB = "";
+        console.log("Sign-out successful.");
+        user.set({} as User);
         return true;
       })
       .catch((error) => {
@@ -221,10 +253,11 @@ export const firebaseUserAPI: IUserAPI = {
         // An error happened.
       });
   },
+  user: user,
 };
 export const firebaseSettingsAPI: ISettingsAPI = {
   load: async function () {
-    const docRef = doc(db, userDB, pathToSettings,settingsFileName);
+    const docRef = doc(db, userDB, pathToSettings, settingsFileName);
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
       return docSnap.data() as ISettings;
@@ -233,6 +266,9 @@ export const firebaseSettingsAPI: ISettingsAPI = {
     }
   },
   save: async function (settings: any) {
-    await updateDoc(doc(db, userDB, pathToSettings,settingsFileName), settings);
+    await updateDoc(
+      doc(db, userDB, pathToSettings, settingsFileName),
+      settings
+    );
   },
 };
