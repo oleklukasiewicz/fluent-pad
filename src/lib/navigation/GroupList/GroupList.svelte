@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { _ } from "svelte-i18n";
+  import { _ } from "svelte-v4-i18n";
 
   import { Button, ListItem } from "fluent-svelte";
   import Separator from "$shared/Separator/Separator.svelte";

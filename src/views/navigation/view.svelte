@@ -14,7 +14,7 @@
   } from "./model";
 
   import { location } from "svelte-spa-router";
-  import { _ } from "svelte-i18n";
+  import { _ } from "svelte-v4-i18n";
   import { toUpper } from "lodash";
 
   import type { Group } from "$type/data";

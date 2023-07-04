@@ -1,4 +1,4 @@
-import { _ } from "svelte-i18n";
+import { _ } from "svelte-v4-i18n";
 import {
   get,
   writable,

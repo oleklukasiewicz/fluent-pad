@@ -3,7 +3,7 @@
     import { DATE_FORMAT } from "$src/helpers";
 
     import { ListItem } from "fluent-svelte";
-    import { _ } from "svelte-i18n";
+    import { _ } from "svelte-v4-i18n";
 
     export let group: Group = {} as Group;
     export let selected: boolean = false;

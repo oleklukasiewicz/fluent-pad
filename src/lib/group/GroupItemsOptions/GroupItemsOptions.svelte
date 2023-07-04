@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { _ } from "svelte-i18n";
+    import { _ } from "svelte-v4-i18n";
 
     import type { Group,Item  } from "$type/data";
 

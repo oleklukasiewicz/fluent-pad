@@ -8,7 +8,7 @@
     groups,
   } from "./model";
 
-  import { _ } from "svelte-i18n";
+  import { _ } from "svelte-v4-i18n";
 
   import { ComboBox, Expander, TextBlock, ToggleSwitch } from "fluent-svelte";
   import ItemsHeightIcon from "@fluentui/svg-icons/icons/arrow_autofit_height_20_regular.svg?raw";
