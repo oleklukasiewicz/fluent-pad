@@ -1,0 +1,27 @@
+span.added {
+  background-color: var(--fds-system-background-success);
+  padding: 2px 4px;
+  border-radius: 3px;
+  margin: 0px 2px;
+}
+span.removed {
+  background-color: var(--fds-system-background-critical);
+  padding: 2px 4px;
+  border-radius: 3px;
+  margin: 0px 2px;
+}
+.item-icon {
+  margin: 0px 5px 0px 0px;
+}
+.item-title {
+  margin: 0px;
+}
+.item-data {
+  display: flex;
+  flex-direction: row;
+  & > .item-title-data {
+    flex: 1;
+  }
+  & > .item-diff-data {
+  }
+}

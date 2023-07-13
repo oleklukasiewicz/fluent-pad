@@ -1,7 +1,7 @@
 <script lang="ts">
   import { _ } from "svelte-v4-i18n";
 
-  import { Button, IconButton, InfoBadge, TextBlock } from "fluent-svelte";
+  import { Button, Flyout, IconButton, InfoBadge, TextBlock } from "fluent-svelte";
   import ToggleIconButton from "$shared/ToggleIconButton/ToggleIconButton.svelte";
   import CommandBar from "$shared/CommandBar/CommandBar.svelte";
   import Separator from "$shared/Separator/Separator.svelte";
@@ -14,6 +14,8 @@
   import HistoryIcon from "@fluentui/svg-icons/icons/history_20_regular.svg?raw";
 
   import { createEventDispatcher } from "svelte";
+  import History from "$src/lib/shared/History/History.svelte";
+  import type { HistoryItem } from "$src/types/data";
   const dispatch = createEventDispatcher();
 
   export let expanded = false;
@@ -21,6 +23,7 @@
   export let needSave = false;
   export let groupsCount = 0;
   export let showGroups = true;
+  export let history: HistoryItem[] = [];
   let className;
   export { className as class };
 
@@ -80,9 +83,15 @@
   <IconButton on:click={removeItem}>
     {@html DeleteIcon}
   </IconButton>
+<Flyout alignment="end" placement="bottom">
   <IconButton>
-   {@html HistoryIcon}
-  </IconButton>
+    {@html HistoryIcon}
+   </IconButton>
+   <svelte:fragment slot="flyout">
+    <History {history} />
+   </svelte:fragment>
+</Flyout>
+  
 </CommandBar>
 
 <style lang="scss">

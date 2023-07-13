@@ -1,5 +1,6 @@
 <script lang="ts">
   import { _ } from "svelte-v4-i18n";
+  import * as Diff  from "diff";
   import {
     itemControl as control,
     title,
@@ -16,7 +17,7 @@
     isCompactItemGroup,
   } from "./model";
 
-  import { SelectionGroup } from "$type/data";
+  import { HistoryItem, SelectionGroup } from "$type/data";
 
   import ItemViewOptions from "$lib/item/ItemViewOptions/ItemViewOptions.svelte";
   import Placeholder from "$lib/item/ItemPlaceholder/ItemPlaceholder.svelte";
@@ -29,6 +30,15 @@
   import EditGroupsIcon from "@fluentui/svg-icons/icons/channel_add_16_regular.svg?raw";
 
   let groupList = [];
+
+  let history = [
+    new HistoryItem(
+      "Release 1.0",
+      new Date(),
+      new Diff.diffChars("olek128", "Hi olek Łukasiewicz"),
+      true
+    ),
+  ];
 
   let isRemoveDialogOpen = false;
   let isGroupsDialogOpen = false;
@@ -84,6 +94,7 @@
       expanded={$isItemExpanded}
       showGroups={$isCompactItemGroup}
       groupsCount={$groups.length}
+      history={history}
       on:groups={showGroupsDialog}
       on:expandtoggle={expandToggle}
       on:remove={showRemoveDialog}

@@ -107,3 +107,17 @@ export type IGroupMasterDetail = {
 
   storage: Readable<Group[]>;
 };
+export class HistoryItem
+{
+  id:string;
+  createdAt:Date;
+  isRelease:boolean;
+  diff : any;
+  constructor(id:string,createdAt:Date,diff:any,isRelease:boolean)
+  {
+    this.id = id;
+    this.createdAt = createdAt;
+    this.isRelease = isRelease;
+    this.diff = diff;
+  }
+}
