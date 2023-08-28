@@ -20,7 +20,7 @@
     "vite": "^4.4.9"
   },
   "dependencies": {
-    "@fluentui/svg-icons": "^1.1.198",
+    "@fluentui/svg-icons": "^1.1.212",
     "@rollup/plugin-replace": "^5.0.2",
     "dotenv": "^16.3.1",
     "firebase": "^10.2.0",
